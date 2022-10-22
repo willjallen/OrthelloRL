@@ -2,3 +2,5 @@
 *.dll
 *.exp
 *.lib
+
+build/
