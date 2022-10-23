@@ -67,23 +67,39 @@ extern "C" {
                 if(board[startingX + dx][startingY + dy] != otherPlayer) continue;
             }
 
-            int x = startingX;
-            int y = startingY;
-            int boardVal = board[x][y];
+            // Start at adjacent cell
+            int x = startingX + dx;
+            int y = startingY + dy;
+            
 
-            // Continue until we reach the end of the board or an empty cell
-            while(inBounds(x + dx, y + dy) && boardVal != EMPTY){
-                
-                x += dx;
-                y += dy;
-                boardVal = board[x][y];
+            // Continue until we reach the end of the board
+            while(inBounds(x + dx, y + dy)){
+                // Already legal
+                if(board[x][y] == LEGAL) goto beach;
+
 
                 // In the case that a line is already flanked on both sides by a chip (BWWB), we can not place a B chip like (BWWBB)
-                if(boardVal == player) goto beach;
+                if(board[x][y] == player){
+                    goto beach;
+                }
+
+                // Found legal move
+                if(board[x][y] == EMPTY){
+                    board[x][y] = LEGAL;
+                    goto beach;
+                }
+
+                // Keep searching
+                if(board[x][y] == otherPlayer){
+                    x += dx;
+                    y += dy;
+                }
+
+
 
             }
 
-            // If the last cell we reached is empty, set it to legal
+            // If we reached the end of the board, and the cell is empty, set it to legal
             if(board[x][y] == EMPTY){
                 board[x][y] = LEGAL;
             }
