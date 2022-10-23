@@ -1,9 +1,10 @@
+from distutils.log import info
 from tkinter import *
 from tkinter import ttk
 from cgi import test
 from ctypes import *
 from turtle import width
-
+import random
 
 # lib = WinDLL("C:\\Users\\WilliamAllen\\Desktop\\School\\thesis\\Othello\\othello.dll") # Not fine
 # print(lib)
@@ -95,7 +96,13 @@ class GUI():
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(0, weight=1)
 
-        ttk.Label(frame, text="feet").grid(column=1, row=0, sticky=N)
+        infoFrame = Frame(frame)
+        infoFrame.grid(row=0,column=1)
+        
+        ttk.Label(infoFrame, text="Current Player: 1 (Black)").grid(column=0, row=0, sticky=N)
+        ttk.Label(infoFrame, text="Black tiles: ?").grid(column=0, row=1, sticky=N)
+        ttk.Label(infoFrame, text="White tiles: ?").grid(column=0, row=2, sticky=N)
+
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)
         
@@ -152,7 +159,7 @@ class GUI():
         
         for row in range(0, 8):
             for col in range(0, 8):
-                gameCanvas.create_oval(drawX + tileHorizontalPadding, drawY + tileVerticalPadding, drawX + tileHorizontalPadding + tileWidth, drawY + tileVerticalPadding + tileHeight, fill="black")
+                gameCanvas.create_oval(drawX + tileHorizontalPadding, drawY + tileVerticalPadding, drawX + tileHorizontalPadding + tileWidth, drawY + tileVerticalPadding + tileHeight, fill=("white" if random.random() <= 0.5 else "black"))
                 drawX += widthInterval
             drawX = cellLinesWidth
             drawY += heightInterval
