@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from cgi import test
 from ctypes import *
+from turtle import width
 
 
 # lib = WinDLL("C:\\Users\\WilliamAllen\\Desktop\\School\\thesis\\Othello\\othello.dll") # Not fine
@@ -37,7 +38,6 @@ from ctypes import *
 #         print(j, end='')
 #     print('')
     
-
 
 class Othello():
     def __init__(self):
@@ -110,41 +110,52 @@ class GUI():
         # gameCanvas.pack(fill="both", expand=True)
 
         # gameCanvas.create_line(0, 0, 200, 100)
-        self.drawBoard(gameCanvas)
+        self.createBoard(gameCanvas)
 
         
     
     # Done once 
-    def drawBoard(self, gameCanvas):
+    def createBoard(self, gameCanvas):
             
         canvasWidth = gameCanvas.width
         canvasHeight = gameCanvas.height
         
-        cellLinesWidth = 2
-        borderLinesWidth = 4
-        
-        
-        # 10 lines total, 8 for grid and 2 for top and bottom
-        widthInterval = canvasWidth / 8
-        heightInterval = canvasHeight / 8
+        cellLinesWidth = 4
+                
+        # interval between 8 lines
+        widthInterval = ((canvasWidth - 2*cellLinesWidth) / 8)
+        heightInterval = ((canvasHeight - 2*cellLinesWidth) / 8)
+
+        drawX = drawY = cellLinesWidth
         
         # Draw 8x8 grid
-        
-
-        drawY = 1
-        
-        for row in range(0, 8):
+        for row in range(0, 9):
             gameCanvas.create_line(0, drawY, canvasWidth, drawY, width=cellLinesWidth)
             drawY += heightInterval
-            
         
-        drawX = 1 
-        
-        for col in range(0, 8):
+        for col in range(0, 9):
             gameCanvas.create_line(drawX, 0, drawX, canvasHeight, width=cellLinesWidth)
             drawX += widthInterval
             
         gameCanvas.addtag_all("all")
+
+        # Draw tiles
+
+        tileVerticalPadding = heightInterval / 4 
+        tileHorizontalPadding = widthInterval / 4 
+
+        tileWidth = widthInterval / 2
+        tileHeight = heightInterval / 2
+        tileScaleFactor = 1
+        
+        drawX = drawY = cellLinesWidth
+        
+        for row in range(0, 8):
+            for col in range(0, 8):
+                gameCanvas.create_oval(drawX + tileHorizontalPadding, drawY + tileVerticalPadding, drawX + tileHorizontalPadding + tileWidth, drawY + tileVerticalPadding + tileHeight, fill="black")
+                drawX += widthInterval
+            drawX = cellLinesWidth
+            drawY += heightInterval
 
                 
     
