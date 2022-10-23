@@ -3,52 +3,100 @@ from tkinter import *
 from tkinter import ttk
 from cgi import test
 from ctypes import *
+from tokenize import String
 from turtle import width
 import random
+import json
 
-# lib = WinDLL("C:\\Users\\WilliamAllen\\Desktop\\School\\thesis\\Othello\\othello.dll") # Not fine
-# print(lib)
-
-# testBoard = ((c_int * 8) * 8)()
-
-# # print(testBoard[9][0])
-
-# testBoard[3][3] = 1;
-# testBoard[4][3] = 2;
-# testBoard[3][4] = 2;
-# testBoard[4][4] = 1;
-
-# print('array ptr: ', byref(testBoard))
-
-# for i in testBoard:
-#     for j in i:
-#         print(j, end='')
-#     print('')
-    
-
-# player = c_int(1)
-
-# # https://stackoverflow.com/questions/58610333/c-function-called-from-python-via-ctypes-returns-incorrect-value/58611011#58611011
-# lib.calculateLegalMoves.argtypes = (((c_int * 8) * 8), c_int)
-# lib.calculateLegalMoves(testBoard, player);
-
-# print()
-
-# for i in testBoard:
-#     for j in i:
-#         print(j, end='')
-#     print('')
-    
+def printBoard(othello):
+    for row in range(0, 8):
+        for col in range(0, 8):
+            print(str(othello._board[row][col]) + ' ', end='')
+        print()
 
 class Othello():
     def __init__(self):
+        # Load library
+        self._lib = WinDLL("C:\\Users\\WilliamAllen\\Desktop\\School\\thesis\\Othello\\othello.dll") # Not fine
+        
         # Create the game state
         self._board = ((c_int * 8) * 8)()
         
-        self._current_player = c_int(1)
+        self._currentPlayer = c_int(1)
         
-    def getTile(self, x, y):
-        return self._board[x][y]
+    def player_at(self, row, col):
+        return self._board[row][col]
+
+    def set_currentPlayer(self, player):
+        if(player != 1 and player != 2):
+            raise Exception('Player must have value 1 or 2')
+        self._currentPlayer = c_int(player)
+
+
+    def set_board_from_string(self, boardStr):
+        if len(boardStr) != 64:
+            raise Exception('Length of string is not 64')
+
+        for x in range(0, 8):
+            for y in range(0, 8):
+                self._board[x][y] = c_int(int(boardStr[(8*x)+y]))
+
+    def get_board_as_string(self):
+        boardStr = ''
+        for x in range(0, 8):
+            for y in range(0, 8):
+                boardStr += str(self._board[x][y])
+                
+        return boardStr
+        
+
+    def calculate_legal_moves(self):
+        # https://stackoverflow.com/questions/58610333/c-function-called-from-python-via-ctypes-returns-incorrect-value/58611011#58611011
+        self._lib.calculateLegalMoves.argtypes = (((c_int * 8) * 8), c_int)
+        self._lib.calculateLegalMoves(self._board, self._currentPlayer)
+        
+        
+            
+def test():
+
+    othello = Othello()
+
+    with open('test_cases.json') as file:
+        contents = file.read()    
+        test_cases_json = json.loads(contents)
+    
+    print("Running test cases...")
+    
+    for test_case in test_cases_json['test_cases']:
+        print("Test Case: " + str(test_case['num']))
+        
+        othello.set_board_from_string(test_case['board_state'])
+        print("Board state: " + test_case['board_state'])
+        
+        legal_moves_black = test_case['legal_moves_black']
+        legal_moves_white = test_case['legal_moves_white']
+        
+        if(len(legal_moves_black) > 0):
+            othello.set_currentPlayer(1)
+            othello.calculateLegalMoves()
+            engine_legal_moves_black = othello.get_board_as_string()
+
+            print("Black legal moves engine: " + engine_legal_moves_black)
+            print("Black legal moves test: " + legal_moves_black)
+
+            
+            assert legal_moves_black == engine_legal_moves_black
+            
+        if(len(legal_moves_white) > 0):
+            othello.set_currentPlayer(2)
+            othello.calculateLegalMoves()
+            engine_legal_moves_white = othello.get_board_as_string()
+
+            print("White legal moves engine: " + engine_legal_moves_white)
+            print("White legal moves test: " + legal_moves_white)
+
+            
+            assert legal_moves_white == engine_legal_moves_white
 
 
 
@@ -75,6 +123,62 @@ class ResizingCanvas(Canvas):
         self.scale("all",0,0,wscale,hscale)
 
 
+class GUITile():
+    def __init__(self, gui, canvas, row, col, player, val):
+        self._gui = gui
+        self._canvas = canvas
+        self._id = None
+        self._row = row
+        self._col = col
+        self._player = player
+        self._val = val
+    
+    def draw(self, drawX1, drawY1, drawX2, drawY2, fill, state, outline):
+        id = self._canvas.create_oval(
+                drawX1,
+                drawY1,
+                drawX2,
+                drawY2, 
+                fill=fill,
+                state=state,
+                outline=outline
+            )
+        self._id = id
+        self._canvas.tag_bind(id, "<Button-1>", self.on_click)
+    
+    def on_click(self, event):
+        tile = event.widget.find_closest(event.x, event.y)
+        print(tile)
+        self._gui.play_tile(self._row, self._col)
+
+        
+    def update(self, val):
+        if(val != self._val):
+            self._val = val
+            if(val == 0):
+                fill = 'black'
+                state = 'hidden'
+                outline = ''
+            elif(val == 1):
+                fill = 'black'
+                state = 'normal'
+                outline = ''
+            elif(val == 2):
+                fill = 'white'
+                state = 'normal'
+                outline = ''
+            elif(val == 8):
+                state = 'normal'
+                fill = ''
+                
+                if(self._gui._othello._currentPlayer == 1):
+                    outline = 'black'
+                else:
+                    outline = 'white'
+            self._canvas.itemconfigure(self._id, fill=fill, state=state, outline=outline)
+        
+
+
 class GUI():
     def __init__(self, root, othello):
         
@@ -91,8 +195,8 @@ class GUI():
         
         
         
-        gameCanvas = ResizingCanvas(frame, width=400, height=400, bg="green")
-        gameCanvas.grid(column=0, row=0, sticky=(N,E,S,W))
+        self.gameCanvas = ResizingCanvas(frame, width=400, height=400, bg="green")
+        self.gameCanvas.grid(column=0, row=0, sticky=(N,E,S,W))
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(0, weight=1)
 
@@ -108,24 +212,34 @@ class GUI():
         
 
 
-        # gameCanvas.pack(fill=BOTH, expand=YES)
-
-        
-        # gameCanvas = Canvas(root, width=400,height=400)
-
-        # gameCanvas.grid(row=0, column=0, sticky=N+S+E+W)
-        # gameCanvas.pack(fill="both", expand=True)
-
-        # gameCanvas.create_line(0, 0, 200, 100)
-        self.createBoard(gameCanvas)
-
-        
+        self.guiTiles = []
+        self.createBoard()
     
-    # Done once 
-    def createBoard(self, gameCanvas):
+    
+    
+    def play_tile(self, row, col):
+        if(self._othello._board[row][col] == 8):
+            self._othello._board[row][col] = c_int(1) if self._othello._currentPlayer == 1 else c_int(2)
+            printBoard(self._othello)
+            self.next_turn()
+   
+    def next_turn(self):
+        self._othello._currentPlayer = c_int(1) if self._othello._currentPlayer == 2 else c_int(2)
+        self._othello.calculate_legal_moves()
+        printBoard(self._othello)
+        self.updateBoard()
+        
             
-        canvasWidth = gameCanvas.width
-        canvasHeight = gameCanvas.height
+    def updateBoard(self):
+        for row in range(0, 8):
+            for col in range(0, 8):
+                    self.guiTiles[8*row + col].update(self._othello._board[row][col])
+            
+    # Done once 
+    def createBoard(self, ):
+            
+        canvasWidth = self.gameCanvas.width
+        canvasHeight = self.gameCanvas.height
         
         cellLinesWidth = 4
                 
@@ -137,70 +251,89 @@ class GUI():
         
         # Draw 8x8 grid
         for row in range(0, 9):
-            gameCanvas.create_line(0, drawY, canvasWidth, drawY, width=cellLinesWidth)
+            self.gameCanvas.create_line(0, drawY, canvasWidth, drawY, width=cellLinesWidth)
             drawY += heightInterval
         
         for col in range(0, 9):
-            gameCanvas.create_line(drawX, 0, drawX, canvasHeight, width=cellLinesWidth)
+            self.gameCanvas.create_line(drawX, 0, drawX, canvasHeight, width=cellLinesWidth)
             drawX += widthInterval
             
-        gameCanvas.addtag_all("all")
+
 
         # Draw tiles
 
-        tileVerticalPadding = heightInterval / 4 
-        tileHorizontalPadding = widthInterval / 4 
+        guiTileVerticalPadding = heightInterval / 4 
+        guiTileHorizontalPadding = widthInterval / 4 
 
-        tileWidth = widthInterval / 2
-        tileHeight = heightInterval / 2
-        tileScaleFactor = 1
+        guiTileWidth = widthInterval / 2
+        guiTileHeight = heightInterval / 2
+        guiTileScaleFactor = 1
         
         drawX = drawY = cellLinesWidth
-        
+
         for row in range(0, 8):
             for col in range(0, 8):
-                gameCanvas.create_oval(drawX + tileHorizontalPadding, drawY + tileVerticalPadding, drawX + tileHorizontalPadding + tileWidth, drawY + tileVerticalPadding + tileHeight, fill=("white" if random.random() <= 0.5 else "black"))
+
+                
+                currOthelloTile = self._othello._board[row][col]
+                guiTile = GUITile(gui=self, canvas=self.gameCanvas, row=row, col=col, player=self._othello._currentPlayer, val=currOthelloTile)
+                self.guiTiles.append(guiTile)
+                
+                if(currOthelloTile == 0):
+                    fill = 'black'
+                    state = 'hidden'
+                    outline = None
+                elif(currOthelloTile == 1):
+                    fill = 'black'
+                    state = 'normal'
+                    outline = None
+                elif(currOthelloTile == 2):
+                    fill = 'white'
+                    state = 'normal'
+                    outline = None
+                elif(currOthelloTile == 8):
+                    state = 'normal'
+                    fill = None
+                    
+                    if(self._othello._currentPlayer == 1):
+                        outline = 'black'
+                    else:
+                        outline = 'white'
+                        
+                        
+
+                guiTile.draw(
+                        drawX + guiTileHorizontalPadding,
+                        drawY + guiTileVerticalPadding,
+                        drawX + guiTileHorizontalPadding + guiTileWidth,
+                        drawY + guiTileVerticalPadding + guiTileHeight,
+                        fill,
+                        state,
+                        outline
+                    )
                 drawX += widthInterval
             drawX = cellLinesWidth
             drawY += heightInterval
 
+        self.gameCanvas.addtag_all("all")
+
                 
-    
-    def drawTiles(self):
-        pass
 
+othello = Othello()
 
-       
-        # self.feet = StringVar()
-        # feet_entry = ttk.Entry(mainframe, width=7, textvariable=self.feet)
-        # feet_entry.grid(column=2, row=1, sticky=(W, E))
-        # self.meters = StringVar()
+opening_board = "0000000000000000000000000001200000021000000000000000000000000000"
+othello.set_board_from_string(opening_board)
+printBoard(othello)
+othello.calculate_legal_moves()
+print()
+printBoard(othello)
 
-        # ttk.Label(mainframe, textvariable=self.meters).grid(column=2, row=2, sticky=(W, E))
-        # ttk.Button(mainframe, text="Calculate", command=self.calculate).grid(column=3, row=3, sticky=W)
-
-        # ttk.Label(mainframe, text="feet").grid(column=3, row=1, sticky=W)
-        # ttk.Label(mainframe, text="is equivalent to").grid(column=1, row=2, sticky=E)
-        # ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
-
-        # for child in mainframe.winfo_children(): 
-        #     child.grid_configure(padx=5, pady=5)
-
-        # feet_entry.focus()
-        # root.bind("<Return>", self.calculate)
-
-    def calculate(self, *args):
-        try:
-            value = float(self.feet.get())
-            self.meters.set(int(0.3048 * value * 10000.0 + 0.5)/10000.0)
-        except ValueError:
-            pass
-
-
-
+# for x in range(0, 8):
+#     for y in range(0, 8):
+#         print(othello._board[x][y])
 
 root = Tk()
-GUI(root, Othello())
+GUI(root, othello)
 root.mainloop()
 
 
