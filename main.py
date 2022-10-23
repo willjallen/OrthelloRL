@@ -9,20 +9,22 @@ import random
 import json
 
 def printBoard(othello):
+    print('Player: ', othello._currentPlayer)
     for row in range(0, 8):
         for col in range(0, 8):
             print(str(othello._board[row][col]) + ' ', end='')
         print()
+    print()
 
 class Othello():
     def __init__(self):
         # Load library
-        self._lib = WinDLL("C:\\Users\\WilliamAllen\\Desktop\\School\\thesis\\Othello\\othello.dll") # Not fine
+        self._lib = WinDLL("C:\\Users\\WilliamAllen\\Desktop\\School\\thesis\\Othello\\build\\Debug\\othello.dll") # Not fine
         
         # Create the game state
         self._board = ((c_int * 8) * 8)()
         
-        self._currentPlayer = c_int(1)
+        self._currentPlayer = 1
         
     def player_at(self, row, col):
         return self._board[row][col]
@@ -53,8 +55,11 @@ class Othello():
     def calculate_legal_moves(self):
         # https://stackoverflow.com/questions/58610333/c-function-called-from-python-via-ctypes-returns-incorrect-value/58611011#58611011
         self._lib.calculateLegalMoves.argtypes = (((c_int * 8) * 8), c_int)
-        self._lib.calculateLegalMoves(self._board, self._currentPlayer)
+        self._lib.calculateLegalMoves(self._board, c_int(self._currentPlayer))
         
+    def play_move(self, row, col):
+        self._lib.playMove.argtypes = (((c_int * 8) * 8), c_int, c_int, c_int)
+        self._lib.playMove(self._board, c_int(row), c_int(col), c_int(self._currentPlayer))
         
             
 def test():
@@ -153,30 +158,29 @@ class GUITile():
 
         
     def update(self, val):
-        if(val != self._val):
-            self._val = val
-            if(val == 0):
-                fill = 'black'
-                state = 'hidden'
-                outline = ''
-            elif(val == 1):
-                fill = 'black'
-                state = 'normal'
-                outline = ''
-            elif(val == 2):
-                fill = 'white'
-                state = 'normal'
-                outline = ''
-            elif(val == 8):
-                state = 'normal'
-                fill = ''
-                
-                if(self._gui._othello._currentPlayer == 1):
-                    outline = 'black'
-                else:
-                    outline = 'white'
-            self._canvas.itemconfigure(self._id, fill=fill, state=state, outline=outline)
-        
+        self._val = val
+        if(val == 0):
+            fill = 'black'
+            state = 'hidden'
+            outline = ''
+        elif(val == 1):
+            fill = 'black'
+            state = 'normal'
+            outline = ''
+        elif(val == 2):
+            fill = 'white'
+            state = 'normal'
+            outline = ''
+        elif(val == 8):
+            state = 'normal'
+            fill = ''
+            
+            if(self._gui._othello._currentPlayer == 1):
+                outline = 'black'
+            else:
+                outline = 'white'
+        self._canvas.itemconfigure(self._id, fill=fill, state=state, outline=outline)
+    
 
 
 class GUI():
@@ -219,13 +223,16 @@ class GUI():
     
     def play_tile(self, row, col):
         if(self._othello._board[row][col] == 8):
-            self._othello._board[row][col] = c_int(1) if self._othello._currentPlayer == 1 else c_int(2)
+            self._othello.play_move(row, col)
+            print('Played move')
             printBoard(self._othello)
             self.next_turn()
    
     def next_turn(self):
-        self._othello._currentPlayer = c_int(1) if self._othello._currentPlayer == 2 else c_int(2)
+        self._othello._currentPlayer = 1 if self._othello._currentPlayer == 2 else 2
+        print('Next player')
         self._othello.calculate_legal_moves()
+        print('Legal moves')
         printBoard(self._othello)
         self.updateBoard()
         
@@ -274,7 +281,6 @@ class GUI():
         for row in range(0, 8):
             for col in range(0, 8):
 
-                
                 currOthelloTile = self._othello._board[row][col]
                 guiTile = GUITile(gui=self, canvas=self.gameCanvas, row=row, col=col, player=self._othello._currentPlayer, val=currOthelloTile)
                 self.guiTiles.append(guiTile)
@@ -282,24 +288,22 @@ class GUI():
                 if(currOthelloTile == 0):
                     fill = 'black'
                     state = 'hidden'
-                    outline = None
+                    outline = ''
                 elif(currOthelloTile == 1):
                     fill = 'black'
                     state = 'normal'
-                    outline = None
+                    outline = ''
                 elif(currOthelloTile == 2):
                     fill = 'white'
                     state = 'normal'
-                    outline = None
+                    outline = ''
                 elif(currOthelloTile == 8):
                     state = 'normal'
-                    fill = None
-                    
+                    fill = ''
                     if(self._othello._currentPlayer == 1):
                         outline = 'black'
                     else:
                         outline = 'white'
-                        
                         
 
                 guiTile.draw(

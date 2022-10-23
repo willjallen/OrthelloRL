@@ -97,7 +97,7 @@ extern "C" {
 
     }
 
-
+// Basically, i gotta memoize the legal moves as they are calculated, then use a simple lookup table to apply them
 
     /**
      * @brief Calculates and returns and 8x8 array of legal positions   
@@ -122,6 +122,14 @@ extern "C" {
         // 5 = checked player 2
         // 6 = legal move
         
+        // Clear previous legal moves
+        for(int x = 0; x < 8; x++){
+            for(int y = 0; y < 8; y++){
+                if(board[x][y] == LEGAL) board[x][y] = EMPTY;
+            }
+        }
+
+
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < 8; y++){
                 int boardVal = board[x][y];
@@ -139,7 +147,72 @@ extern "C" {
         // return board;
     }
 
+    __declspec(dllexport)
+    void playMove(int board[8][8], int row, int col, int player){
+       
+        int otherPlayer = -1;
+        if(player == 1){
+            otherPlayer = 2;
+        }else{
+            otherPlayer = 1;
+        }
 
+        // Set current tile
+        board[row][col] = player;
+
+        
+        int* flipArr[64];
+        for(int i = 0; i < 64; i++){
+            flipArr[i] = 0;
+        }
+        bool flip[8];
+
+        // For all 8 cardinal directions
+        for(int direction = 0; direction < 8; direction++){
+
+            int dx = DIRECTION_COMPONENTS[direction][0];
+            int dy = DIRECTION_COMPONENTS[direction][1];
+
+            int x = row;
+            int y = col;
+
+
+            // Continue until we reach the end of the board or an empty cell
+            int idx = 8*direction;
+            flip[direction] = false;
+            while(inBounds(x + dx, y + dy)){
+                x += dx;
+                y += dy;
+
+                if(board[x][y] == EMPTY || board[x][y] == LEGAL){
+                    flip[direction] = false;
+                    break;
+                }
+                
+                if(board[x][y] == player){
+                    flip[direction] = true;
+                    break;
+                }
+
+                flipArr[idx] = &(board[x][y]);
+                idx++;
+
+            }
+
+
+
+        }
+
+        // Flip tiles
+        for(int i = 0; i < 8; i++){
+            if(flip[i]){
+                for(int j = i*8; j < (i*8)+8; j++){
+                    if(flipArr[j] == 0) return;
+                    *(flipArr[j]) = player;
+                }
+            }
+        }
+    }
 
 
 }
