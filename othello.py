@@ -19,6 +19,8 @@ class Othello():
             raise Exception('Player must have value 1 or 2')
         self.currentPlayer = player
 
+    def switch_player(self):
+        self.currentPlayer = 1 if self.currentPlayer == 2 else 2
 
     def set_board_from_string(self, boardStr):
         if len(boardStr) != 64:

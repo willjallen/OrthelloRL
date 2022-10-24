@@ -1,7 +1,9 @@
-from main import Othello
+import random
 from tkinter import *
 from cgi import test
 from ctypes import *
+from othello import Othello
+from ui.gui import GUI
 import json
 
 def print_board(othello):
@@ -58,11 +60,51 @@ def test_cases():
             
             assert legal_moves_white == engine_legal_moves_white
 
-def test_play_random():
-    othello = Othello()
+
+def get_random_move(board):
+    potential_moves = []
+    for row in range(0, 8):
+        for col in range(0, 8):
+            if(board[row][col] == 8):
+                potential_moves.append((row, col))
     
-    default_board = "0000000000000000000000000001200000021000000000000000000000000000"
-    othello.get_board_as_string(default_board)
+    return random.choice(potential_moves)
     
 
-test()
+
+def test_play_random(GUI_ENABLE=True):
+    othello = Othello()
+    
+    gui = None
+    if(GUI_ENABLE):
+        root = Tk()
+        gui = GUI(root, othello)
+        default_board = "0000000000000000000000000001200000021000000000000000000000000000"
+        othello.set_board_from_string(default_board)
+        othello.set_current_player(1)
+        randomPlayerContainer = RandomPlayContainer(gui, othello)
+        root.after(0, randomPlayerContainer.random_play)
+        root.mainloop()
+
+
+
+    
+    
+class RandomPlayContainer():
+    def __init__(self, gui, othello):
+        self.gui = gui
+        self.othello = othello    
+
+    def random_play(self):
+        self.othello.calculate_legal_moves()
+
+        if(self.gui):
+            self.gui.board.update_board()
+   
+        move_choice = get_random_move(self.othello.board)
+        self.othello.play_move(move_choice[0], move_choice[1])    
+        self.othello.switch_player()
+
+        self.gui.root.after(200, self.random_play)
+
+test_play_random()

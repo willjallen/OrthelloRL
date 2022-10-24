@@ -10,6 +10,7 @@ class GUI():
     def __init__(self, root, othello):
         
         self.othello = othello
+        self.root = root
         
         root.title("Othello")
         
@@ -38,7 +39,7 @@ class GUI():
         frame.columnconfigure(1, weight=1)
         
 
-        self.GUIBoard = Board(self)
+        self.board = Board(self)
         
-        self.GUIBoard.create_board()
+        self.board.create_board()
 

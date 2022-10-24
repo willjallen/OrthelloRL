@@ -16,9 +16,9 @@ def print_board(othello):
 
 othello = Othello()
 
-default_borad = "0000000000000000000000000001200000021000000000000000000000000000"
+default_board = "0000000000000000000000000001200000021000000000000000000000000000"
 # opening_board = "0000000000000000000010000001100000012222001221000101000000000000"
-othello.set_board_from_string(default_borad)
+othello.set_board_from_string(default_board)
 othello.set_current_player(1)
 print_board(othello)
 othello.calculate_legal_moves()
