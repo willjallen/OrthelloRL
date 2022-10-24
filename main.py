@@ -20,7 +20,7 @@ def print_board(othello):
 class Othello():
     def __init__(self):
         # Load library
-        self._lib = WinDLL("C:\\Users\\WilliamAllen\\Desktop\\School\\thesis\\Othello\\build\\Debug\\othello.dll") # Not fine
+        self._lib = WinDLL("./build/Debug/othello.dll") # Not fine
         
         # Create the game state
         self.board = ((c_int * 8) * 8)()

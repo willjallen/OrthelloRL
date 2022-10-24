@@ -1,6 +1,6 @@
 // Build command cl /D_USRDLL /D_WINDLL test.cpp /MT /link /DLL /OUT:testDLL.dll
 
-
+// If i were to **hypothetically** rewrite this, I would have multiple 64xint arrays and do the legal moves and flipping tiles all in one go
 
 extern "C" {
 
@@ -114,7 +114,6 @@ extern "C" {
 
     }
 
-// Basically, i gotta memoize the legal moves as they are calculated, then use a simple lookup table to apply them
 
     /**
      * @brief Calculates and returns and 8x8 array of legal positions   
