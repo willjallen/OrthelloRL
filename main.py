@@ -105,7 +105,8 @@ class GUITile():
                 drawY2, 
                 fill=fill,
                 state=state,
-                outline=outline
+                outline=outline,
+                width=4
             )
         self._id = id
 
@@ -152,7 +153,7 @@ class GUI():
         
         
         
-        self.gameCanvas = ResizingCanvas(frame, width=400, height=400, bg="green")
+        self.gameCanvas = ResizingCanvas(frame, width=800, height=800, bg="green")
         self.gameCanvas.grid(column=0, row=0, sticky=(N,E,S,W))
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(0, weight=1)
@@ -161,8 +162,8 @@ class GUI():
         infoFrame.grid(row=0,column=1)
         
         ttk.Label(infoFrame, text="Current Player: 1 (Black)").grid(column=0, row=0, sticky=N)
-        ttk.Label(infoFrame, text="Black tiles: ?").grid(column=0, row=1, sticky=N)
-        ttk.Label(infoFrame, text="White tiles: ?").grid(column=0, row=2, sticky=N)
+        # ttk.Label(infoFrame, text="Black tiles: ?").grid(column=0, row=1, sticky=N)
+        # ttk.Label(infoFrame, text="White tiles: ?").grid(column=0, row=2, sticky=N)
 
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)
