@@ -3,5 +3,7 @@
 *.exp
 *.lib
 
+generate_tests.py
+
 build/
 __pycache__/

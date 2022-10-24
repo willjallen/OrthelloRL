@@ -105,7 +105,7 @@ class Board():
         self.play_tile(row, col)
 
        
-    def update_board(self):
+    def update(self):
         for row in range(0, 8):
             for col in range(0, 8):
                     self.guiTiles[8*row + col].update(self.othello.board[row][col])

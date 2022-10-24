@@ -43,3 +43,5 @@ class GUI():
         
         self.board.create_board()
 
+    def update(self):
+        self.board.update()

@@ -1,15 +1,25 @@
+from os import curdir
 from tkinter import *
 from ctypes import *
 
 class Othello():
     def __init__(self):
         # Load library
-        self._lib = WinDLL("./build/Debug/othello.dll") # Not fine
+        self._lib = WinDLL("./build/Debug/othello.dll")
         
         # Create the game state
         self.board = ((c_int * 8) * 8)()
         
         self.currentPlayer = 1
+
+        self.playerOneTiles = 2
+        self.playerTwoTiles = 2
+        
+    def increment_tile_count(self):
+        if self.currentPlayer == 1:
+            self.playerOneTiles += 1
+        else:
+            self.playerTwoTiles += 1
         
     def player_at(self, row, col):
         return self.board[row][col]
@@ -46,4 +56,5 @@ class Othello():
     def play_move(self, row, col):
         self._lib.playMove.argtypes = (((c_int * 8) * 8), c_int, c_int, c_int)
         self._lib.playMove(self.board, c_int(row), c_int(col), c_int(self.currentPlayer))
+        self.increment_tile_count()
         
