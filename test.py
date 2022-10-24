@@ -1,13 +1,7 @@
 from main import Othello
-import math
-from distutils.log import info
 from tkinter import *
-from tkinter import ttk
 from cgi import test
 from ctypes import *
-from tokenize import String
-from turtle import width
-import random
 import json
 
 def print_board(othello):
@@ -18,7 +12,7 @@ def print_board(othello):
         print()
     print()
 
-def test():
+def test_cases():
 
     othello = Othello()
 
@@ -63,5 +57,12 @@ def test():
 
             
             assert legal_moves_white == engine_legal_moves_white
+
+def test_play_random():
+    othello = Othello()
+    
+    default_board = "0000000000000000000000000001200000021000000000000000000000000000"
+    othello.get_board_as_string(default_board)
+    
 
 test()
