@@ -1,53 +1,67 @@
+from main import Othello
+import math
+from distutils.log import info
 from tkinter import *
 from tkinter import ttk
-root = Tk()
+from cgi import test
+from ctypes import *
+from tokenize import String
+from turtle import width
+import random
+import json
 
-h = ttk.Scrollbar(root, orient=HORIZONTAL)
-v = ttk.Scrollbar(root, orient=VERTICAL)
-canvas = Canvas(root, scrollregion=(0, 0, 1000, 1000), yscrollcommand=v.set, xscrollcommand=h.set)
-h['command'] = canvas.xview
-v['command'] = canvas.yview
+def print_board(othello):
+    print('Player: ', othello.currentPlayer)
+    for row in range(0, 8):
+        for col in range(0, 8):
+            print(str(othello.board[row][col]) + ' ', end='')
+        print()
+    print()
 
-canvas.grid(column=0, row=0, sticky=(N,W,E,S))
-h.grid(column=0, row=1, sticky=(W,E))
-v.grid(column=1, row=0, sticky=(N,S))
-root.grid_columnconfigure(0, weight=1)
-root.grid_rowconfigure(0, weight=1)
+def test():
 
-lastx, lasty = 0, 0
+    othello = Othello()
 
-def xy(event):
-    global lastx, lasty
-    lastx, lasty = canvas.canvasx(event.x), canvas.canvasy(event.y)
-
-def setColor(newcolor):
-    global color
-    color = newcolor
-    canvas.dtag('all', 'paletteSelected')
-    canvas.itemconfigure('palette', outline='white')
-    canvas.addtag('paletteSelected', 'withtag', 'palette%s' % color)
-    canvas.itemconfigure('paletteSelected', outline='#999999')
-
-def addLine(event):
-    global lastx, lasty
-    x, y = canvas.canvasx(event.x), canvas.canvasy(event.y)
-    canvas.create_line((lastx, lasty, x, y), fill=color, width=5, tags='currentline')
-    lastx, lasty = x, y
-
-def doneStroke(event):
-    canvas.itemconfigure('currentline', width=1)        
+    with open('test_cases.json') as file:
+        contents = file.read()    
+        test_cases_json = json.loads(contents)
+    
+    print("Running test cases...")
+    
+    for test_case in test_cases_json['test_cases']:
+        print("Test Case: " + str(test_case['num']))
         
-canvas.bind("<Button-1>", xy)
-canvas.bind("<B1-Motion>", addLine)
-canvas.bind("<B1-ButtonRelease>", doneStroke)
+        othello.set_board_from_string(test_case['board_state'])
+        print("Board state: " + test_case['board_state'])
+        
+        legal_moves_black = test_case['legal_moves_black']
+        legal_moves_white = test_case['legal_moves_white']
+        
+        if(len(legal_moves_black) > 0):
+            othello.set_current_player(2)
+            othello.calculate_legal_moves()
+            engine_legal_moves_black = othello.get_board_as_string()
 
-id = canvas.create_rectangle((10, 10, 30, 30), fill="red", tags=('palette', 'palettered'))
-canvas.tag_bind(id, "<Button-1>", lambda x: setColor("red"))
-id = canvas.create_rectangle((10, 35, 30, 55), fill="blue", tags=('palette', 'paletteblue'))
-canvas.tag_bind(id, "<Button-1>", lambda x: setColor("blue"))
-id = canvas.create_rectangle((10, 60, 30, 80), fill="black", tags=('palette', 'paletteblack', 'paletteSelected'))
-canvas.tag_bind(id, "<Button-1>", lambda x: setColor("black"))
+            print("Black legal moves engine: ")
+            print_board(othello)
+            print("Black legal moves test: ")
+            for row in range(0, 8):
+                for col in range(0, 8):
+                    print(legal_moves_black[8*row + col], end=' ')
+                print()
 
-setColor('black')
-canvas.itemconfigure('palette', width=5)
-root.mainloop()
+            
+            assert legal_moves_black == engine_legal_moves_black
+            
+        if(len(legal_moves_white) > 0):
+            othello.set_current_player(2)
+            othello.calculate_legal_moves()
+            engine_legal_moves_white = othello.get_board_as_string()
+
+            print("White legal moves engine: " + engine_legal_moves_white)
+            print("White legal moves test: " + legal_moves_white)
+
+            
+            assert legal_moves_white == engine_legal_moves_white
+
+test()

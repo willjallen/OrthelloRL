@@ -62,26 +62,27 @@ extern "C" {
             int dx = DIRECTION_COMPONENTS[direction][0];
             int dy = DIRECTION_COMPONENTS[direction][1];
 
-            // Check if the first cell is the other player
+            // Check if the first adjacent cell is in bounds, and if it is whether it is the other player
             if(inBounds(startingX + dx, startingY + dy)){
                 if(board[startingX + dx][startingY + dy] != otherPlayer) continue;
+            }else{
+                continue;
             }
 
-            // Start at adjacent cell
+            // Start at the adjacent cell
             int x = startingX + dx;
             int y = startingY + dy;
             
 
             // Continue until we reach the end of the board
             while(inBounds(x + dx, y + dy)){
+
                 // Already legal
                 if(board[x][y] == LEGAL) goto beach;
 
 
                 // In the case that a line is already flanked on both sides by a chip (BWWB), we can not place a B chip like (BWWBB)
-                if(board[x][y] == player){
-                    goto beach;
-                }
+                if(board[x][y] == player) goto beach;
 
                 // Found legal move
                 if(board[x][y] == EMPTY){
@@ -179,51 +180,50 @@ extern "C" {
         
         int* flipArr[64];
         for(int i = 0; i < 64; i++){
-            flipArr[i] = 0;
+            flipArr[i] = nullptr;
         }
         bool flip[8];
+        for(int i = 0; i < 8; i++){
+            flip[i] = false;
+        }
 
         // For all 8 cardinal directions
         for(int direction = 0; direction < 8; direction++){
 
-            int dx = DIRECTION_COMPONENTS[direction][0];
-            int dy = DIRECTION_COMPONENTS[direction][1];
-
             int x = row;
             int y = col;
 
+            int dx = DIRECTION_COMPONENTS[direction][0];
+            int dy = DIRECTION_COMPONENTS[direction][1];            
 
             // Continue until we reach the end of the board or an empty cell
             int idx = 8*direction;
-            flip[direction] = false;
             while(inBounds(x + dx, y + dy)){
                 x += dx;
                 y += dy;
 
                 if(board[x][y] == EMPTY || board[x][y] == LEGAL){
                     flip[direction] = false;
-                    break;
+                    goto beach;
                 }
                 
-                if(board[x][y] == player){
-                    flip[direction] = true;
-                    break;
-                }
-
                 flipArr[idx] = &(board[x][y]);
                 idx++;
 
+                if(board[x][y] == player){
+                    flip[direction] = true;
+                    goto beach;
+                }
             }
 
-
-
+            beach: continue;
         }
 
         // Flip tiles
         for(int i = 0; i < 8; i++){
             if(flip[i]){
                 for(int j = i*8; j < (i*8)+8; j++){
-                    if(flipArr[j] == 0) return;
+                    if(flipArr[j] == nullptr) break;
                     *(flipArr[j]) = player;
                 }
             }
