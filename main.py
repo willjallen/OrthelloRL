@@ -13,6 +13,13 @@ def print_board(othello):
         print()
     print()
 
+def print_legal_board(othello):
+    print('Player: ', othello.currentPlayer)
+    for row in range(0, 8):
+        for col in range(0, 8):
+            print(str(othello.legal_moves[row][col]) + ' ', end='')
+        print()
+    print()
 
 othello = Othello()
 
@@ -23,7 +30,7 @@ othello.set_current_player(1)
 print_board(othello)
 othello.calculate_legal_moves()
 print()
-print_board(othello)
+print_legal_board(othello)
 
 # for x in range(0, 8):
 #     for y in range(0, 8):

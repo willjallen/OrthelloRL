@@ -29,12 +29,9 @@ class Board():
         self.guiTileHeight = self.heightInterval / 2
         self.guiTileScaleFactor = 1
     
-    
     # Done once 
     def create_board(self):
             
-        
-
         drawX = drawY = self.cellLinesWidth
         
         # Draw 8x8 grid
@@ -46,22 +43,25 @@ class Board():
             self.gameCanvas.create_line(drawX, 0, drawX, self.canvasHeight, width=self.cellLinesWidth)
             drawX += self.widthInterval
             
-
-
         # Draw tiles
 
-      
-        
         drawX = drawY = self.cellLinesWidth
 
         for row in range(0, 8):
             for col in range(0, 8):
 
                 currOthelloTile = self.othello.board[row][col]
-                guiTile = BoardTile(gui=self, canvas=self.gameCanvas, row=row, col=col, player=self.othello.currentPlayer, val=currOthelloTile)
+                currLegalTile = self.othello.legal_moves[row][col]
+                guiTile = BoardTile(gui=self, canvas=self.gameCanvas, othello=self.othello)
                 self.guiTiles.append(guiTile)
-                
-                if(currOthelloTile == 0):
+                if(currLegalTile == 8):
+                    state = 'normal'
+                    fill = ''
+                    if(self.othello.currentPlayer == 1):
+                        outline = 'black'
+                    else:
+                        outline = 'white'
+                elif(currOthelloTile == 0):
                     fill = 'black'
                     state = 'hidden'
                     outline = ''
@@ -73,13 +73,7 @@ class Board():
                     fill = 'white'
                     state = 'normal'
                     outline = ''
-                elif(currOthelloTile == 8):
-                    state = 'normal'
-                    fill = ''
-                    if(self.othello.currentPlayer == 1):
-                        outline = 'black'
-                    else:
-                        outline = 'white'
+
                         
 
                 guiTile.draw(
@@ -108,11 +102,11 @@ class Board():
     def update(self):
         for row in range(0, 8):
             for col in range(0, 8):
-                    self.guiTiles[8*row + col].update(self.othello.board[row][col])
+                    self.guiTiles[8*row + col].update(self.othello.board[row][col], self.othello.legal_moves[row][col])
 
                         
     def play_tile(self, row, col):
-        if(self.othello.board[row][col] == 8):
+        if(self.othello.legal_moves[row][col] == 8):
             self.othello.play_move(row, col)
             print('Played move')
             # print_board(self.othello)

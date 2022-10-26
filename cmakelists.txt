@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
-project(othello VERSION 0.1 LANGUAGES C CXX)
+project(othello_lib VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17) # or whatever yu desire
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 add_library(${PROJECT_NAME} SHARED
- othello.cpp
+ othello_lib.cpp
 )

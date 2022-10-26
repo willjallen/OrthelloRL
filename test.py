@@ -31,19 +31,31 @@ def test_cases():
         
         othello.set_board_from_string(test_case['board_state'])
 
+
+        newStr = ''
+
+        for c in range(0, len(test_case['legal_moves_black'])):
+            if test_case['legal_moves_black'][c] == '8':
+                newStr += '8'
+            else:
+                newStr += '0'
+        test_legal_moves_black = newStr
         
-        legal_moves_black = test_case['legal_moves_black']
-        legal_moves_white = test_case['legal_moves_white']
-        
-        if(len(legal_moves_black) > 0):
+        if(len(test_legal_moves_black) > 0):
             othello.set_current_player(2)
             othello.calculate_legal_moves()
-            engine_legal_moves_black = othello.get_board_as_string()
-
+            
+            engine_legal_moves_black = othello.get_legal_moves_as_string()
+            # for i in range(0, 8):
+            #     for j in range(0, 8):
+            #         print(othello.legal_moves[i][j], ' ', end='')
+            #     print()
+            # print(engine_legal_moves_black)
+            # exit()
 
 
             
-            if(legal_moves_black != engine_legal_moves_black):
+            if(test_legal_moves_black != engine_legal_moves_black):
                 print('Test case failed')
                 print("Board state: " + test_case['board_state'])
                 print("Black legal moves engine: ")
@@ -51,7 +63,7 @@ def test_cases():
                 print("Black legal moves test: ")
                 for row in range(0, 8):
                     for col in range(0, 8):
-                        print(legal_moves_black[8*row + col], end=' ')
+                        print(test_legal_moves_black[8*row + col], end=' ')
                     print()
             else:
                 print('Passed')
@@ -95,7 +107,8 @@ def test_performance():
     
 class RandomPlayContainer():
     def __init__(self, gui, othello):
-        self.othello = othello    
+        self.othello = othello
+        self.gui = gui
 
     def random_play(self):
         self.othello.calculate_legal_moves()
@@ -104,7 +117,7 @@ class RandomPlayContainer():
             self.gui.update()
 
         if(self.othello.legal_move_present()):
-            move_choice = get_random_move(self.othello.board)
+            move_choice = get_random_move(self.othello.legal_moves)
             self.othello.play_move(move_choice[0], move_choice[1])    
         self.othello.switch_player()
 
@@ -138,5 +151,5 @@ class PerformanceTestContainer():
 
 
 # test_cases()
-# test_play_random()
-test_performance()
+test_play_random()
+# test_performance()

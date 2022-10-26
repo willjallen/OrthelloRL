@@ -2,14 +2,14 @@
 
 // If i were to **hypothetically** rewrite this, I would have multiple 64xint arrays and do the legal moves and flipping tiles all in one go
 
+
 extern "C" {
 
-    const int EMPTY = 0;
-    const int PLAYER_1 = 1;
-    const int PLAYER_2 = 2;
-    // const int PLAYER_1_CHECKED = 3;
-    // const int PLAYER_2_CHECKED = 4;
-    const int LEGAL = 8;
+    const unsigned int EMPTY = 0;
+    const unsigned int BLACK = 1;
+    const unsigned int WHITE = 2;
+
+    const unsigned int LEGAL = 8;
 
 
     const int NORTH = 0;
@@ -22,6 +22,8 @@ extern "C" {
     const int NORTHWEST = 7;
 
     const int DIRECTIONS[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
+    const int DIRECTIONS_COMPLEMENT[8] = {SOUTH, SOUTHWEST, WEST, NORTHWEST, NORTH, NORTHEAST, EAST, SOUTHEAST};
+
 
     const int DIRECTION_COMPONENTS[8][2] = {
             {0, 1}, // N = (x+0, y+1)
@@ -34,21 +36,55 @@ extern "C" {
             {-1, 1}, // NW = (x-1, y+1)
         };
 
-    __declspec(dllexport)
-    struct MoveLine {
-        unsigned int row;
-        unsigned int col;
+    /**
+     * @brief Checks whether given coordinates are within the board
+     * 
+     * @param x 
+     * @param y 
+     * @return true 
+     * @return false 
+     */
+    bool inBounds(int x, int y){
+        if(0 <= x && x < 8 && 0 <= y && y < 8 ){
+            return true;
+        }else{
+            return false;
+        }
+    } 
 
-        unsigned int direction;
+    unsigned int getOtherPlayer(unsigned int player){
+        return player == 1 ? 2 : 1;
+    }
+
+
+
+    /**
+     * @brief A structure containing a single possible line of play for a given coordinate
+     * 
+     */
+    struct Line {
+        unsigned int assignedTurnNumber;
+        bool valid;
         unsigned int length;
     };
+
+    /**
+     * @brief A structure containing all possible lines of play for a given coordinate
+     * 
+     */
+    struct MoveLines {
+        Line lines[8];
+    };
+    
 
     /**
      * @brief A structure containing all relevant game information for a particular state
      * 
      */
-    __declspec(dllexport)    
+    // __declspec(dllexport)    
     struct GameState {
+        unsigned int turnNumber;
+
         unsigned int numBlackTiles;
         unsigned int numWhiteTiles;
 
@@ -58,35 +94,37 @@ extern "C" {
         unsigned int board[8][8];
         unsigned int legalMoves[8][8];
 
-        MoveLine* moveLines;
+        MoveLines moveLines[8][8];
 
     };
     
     __declspec(dllexport)
-    // void initGame() {
+    void init(GameState* gameState) {
 
-    // }
+        gameState->turnNumber = 0;
 
+        gameState->numBlackLegalMoves = 0;
+        gameState->numWhiteLegalMoves = 0;
 
-    /**
-     * @brief Checks whether given coordinates are within the board
-     * 
-     * @param i 
-     * @param j 
-     * @return true 
-     * @return false 
-     */
-    __declspec(dllexport)
-    bool inBounds(int x, int y){
-        if(0 <= x && x < 8 && 0 <= y && y < 8 ){
-            return true;
-        }else{
-            return false;
+        unsigned int numBlackTiles = 0;
+        unsigned int numWhiteTiles = 0;
+
+        for(int x = 0; x < 8; x++){
+            for(int y = 0; y < 8; y++){
+                
+                gameState->legalMoves[x][y] = 0;
+                
+                for(int l = 0; l < 8; l++){
+                    Line currLine = gameState->moveLines[x][y].lines[l];
+                    currLine.valid = false;
+                    currLine.length = 0;
+                }
+            }
         }
-    } 
+    }
+ __declspec(dllexport)
+    void findLegalMove(GameState* gameState, int startingX, int startingY, unsigned int player, unsigned int otherPlayer){
 
-    __declspec(dllexport)
-    void setLegalMove(int board[8][8], int startingX, int startingY, int player, int otherPlayer){
         
         // For all 8 cardinal directions
         for(int direction = 0; direction < 8; direction++){
@@ -96,7 +134,7 @@ extern "C" {
 
             // Check if the first adjacent cell is in bounds, and if it is whether it is the other player
             if(inBounds(startingX + dx, startingY + dy)){
-                if(board[startingX + dx][startingY + dy] != otherPlayer) continue;
+                if(gameState->board[startingX + dx][startingY + dy] != otherPlayer) continue;
             }else{
                 continue;
             }
@@ -106,46 +144,53 @@ extern "C" {
             int y = startingY + dy;
             
 
+            // Track distance traveled
+            unsigned int distance = 1;
+
+
             // Continue until we reach the end of the board
             while(inBounds(x + dx, y + dy)){
 
-                // Already legal
-                if(board[x][y] == LEGAL) goto beach;
-
 
                 // In the case that a line is already flanked on both sides by a chip (BWWB), we can not place a B chip like (BWWBB)
-                if(board[x][y] == player) goto beach;
+                if(gameState->board[x][y] == player) goto beach;
 
                 // Found legal move
-                if(board[x][y] == EMPTY){
-                    board[x][y] = LEGAL;
+                if(gameState->board[x][y] == EMPTY || gameState->board[x][y] == LEGAL){
+                    gameState->legalMoves[x][y] = LEGAL;
+
+                    // Get Line at coordinate and complement direction (we are moving towards the legal move, and if the legal move is played we flip tiles from the reverse direction)
+                    Line* line = &gameState->moveLines[x][y].lines[DIRECTIONS_COMPLEMENT[direction]];
+                    line->valid = true;
+                    line->length = distance;
+                    line->assignedTurnNumber = gameState->turnNumber;
+
                     goto beach;
                 }
 
                 // Keep searching
-                if(board[x][y] == otherPlayer){
+                if(gameState->board[x][y] == otherPlayer){
                     x += dx;
                     y += dy;
+                    distance++;
                 }
-
-
-
             }
 
             // If we reached the end of the board, and the cell is empty, set it to legal
-            if(board[x][y] == EMPTY){
-                board[x][y] = LEGAL;
+            if(gameState->board[x][y] == EMPTY || gameState->board[x][y] == LEGAL){
+                gameState->legalMoves[x][y] = LEGAL;
+                // Get Line at coordinate and complement direction (we are moving towards the legal move, and if the legal move is played we flip tiles from the reverse direction)
+                Line* line = &gameState->moveLines[x][y].lines[DIRECTIONS_COMPLEMENT[direction]];
+                line->valid = true;
+                line->length = distance;
+                line->assignedTurnNumber = gameState->turnNumber;
             }
         
             beach: continue;
 
         }
 
-        
-
-
     }
-
 
     /**
      * @brief Calculates and returns and 8x8 array of legal positions   
@@ -155,104 +200,68 @@ extern "C" {
      * @return int** 
      */
     __declspec(dllexport)
-    void calculateLegalMoves(int board[8][8], int player){
-
-        int otherPlayer = 0;
-        if(player == 1){
-            otherPlayer = 2;
-        }else{
-            otherPlayer = 1;
-        }
+    void calculateLegalMoves(GameState* gameState, unsigned int player){
+        unsigned int otherPlayer = getOtherPlayer(player);
         
         // Clear previous legal moves
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < 8; y++){
-                if(board[x][y] == LEGAL) board[x][y] = EMPTY;
+                if(gameState->legalMoves[x][y] == LEGAL) gameState->legalMoves[x][y] = EMPTY;
             }
         }
-
 
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < 8; y++){
-                int boardVal = board[x][y];
 
-                if(boardVal == EMPTY) continue;
+                if(gameState->board[x][y] == EMPTY) continue;
 
-                if(boardVal == player){
+                if(gameState->board[x][y] == player){
                     // Check the 8 cardinal directions, do not wrap around the board
-                    setLegalMove(board, x, y, player, otherPlayer);
+                    findLegalMove(gameState, x, y, player, otherPlayer);
                 }
 
             }
         }
-
-        // return board;
     }
 
+   
+
+
     __declspec(dllexport)
-    void playMove(int board[8][8], int row, int col, int player){
+    void playMove(GameState* gameState, int startingX, int startingY, unsigned int player){
        
-        int otherPlayer = -1;
-        if(player == 1){
-            otherPlayer = 2;
-        }else{
-            otherPlayer = 1;
-        }
 
-        // Set current tile
-        board[row][col] = player;
+        // unsigned int otherPlayer = getOtherPlayer(player);
 
-        
-        int* flipArr[64];
-        for(int i = 0; i < 64; i++){
-            flipArr[i] = nullptr;
-        }
-        bool flip[8];
-        for(int i = 0; i < 8; i++){
-            flip[i] = false;
-        }
+        // Get all lines at the coordinate
+        MoveLines moveLines = gameState->moveLines[startingX][startingY];
 
-        // For all 8 cardinal directions
+        // For each direction, check if a valid line exists
         for(int direction = 0; direction < 8; direction++){
+            
+            // Get our particular line
+            Line line = moveLines.lines[direction];
 
-            int x = row;
-            int y = col;
+            if(line.valid && line.assignedTurnNumber == gameState->turnNumber){
 
-            int dx = DIRECTION_COMPONENTS[direction][0];
-            int dy = DIRECTION_COMPONENTS[direction][1];            
+                // Flip the tiles on the line
 
-            // Continue until we reach the end of the board or an empty cell
-            int idx = 8*direction;
-            while(inBounds(x + dx, y + dy)){
-                x += dx;
-                y += dy;
+                int x = startingX;
+                int y = startingY;
 
-                if(board[x][y] == EMPTY || board[x][y] == LEGAL){
-                    flip[direction] = false;
-                    goto beach;
-                }
-                
-                flipArr[idx] = &(board[x][y]);
-                idx++;
+                int dx = DIRECTION_COMPONENTS[direction][0];
+                int dy = DIRECTION_COMPONENTS[direction][1];
 
-                if(board[x][y] == player){
-                    flip[direction] = true;
-                    goto beach;
-                }
-            }
+                for(int i = 0; i < line.length; i++){
+                    gameState->board[x][y] = player;
 
-            beach: continue;
-        }
-
-        // Flip tiles
-        for(int i = 0; i < 8; i++){
-            if(flip[i]){
-                for(int j = i*8; j < (i*8)+8; j++){
-                    if(flipArr[j] == nullptr) break;
-                    *(flipArr[j]) = player;
+                    x += dx;
+                    y += dy;
                 }
             }
         }
+
+        gameState->turnNumber++;
     }
 
 
