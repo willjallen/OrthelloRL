@@ -5,6 +5,8 @@ from ctypes import *
 from othello import Othello
 from ui.gui import GUI
 import json
+import cProfile, pstats, io
+from pstats import SortKey
 
 def print_board(othello):
     print('Player: ', othello.currentPlayer)
@@ -53,18 +55,6 @@ def test_cases():
                     print()
             else:
                 print('Passed')
-                
-        # if(len(legal_moves_white) > 0):
-        #     othello.set_current_player(2)
-        #     othello.calculate_legal_moves()
-        #     engine_legal_moves_white = othello.get_board_as_string()
-
-        #     print("White legal moves engine: " + engine_legal_moves_white)
-        #     print("White legal moves test: " + legal_moves_white)
-
-            
-        #     assert legal_moves_white == engine_legal_moves_white
-
 
 def get_random_move(board):
     potential_moves = []
@@ -75,8 +65,6 @@ def get_random_move(board):
     
     return random.choice(potential_moves)
     
-
-
 def test_play_random(GUI_ENABLE=True):
     othello = Othello()
     
@@ -87,17 +75,26 @@ def test_play_random(GUI_ENABLE=True):
         default_board = "0000000000000000000000000001200000021000000000000000000000000000"
         othello.set_board_from_string(default_board)
         othello.set_current_player(1)
-        randomPlayerContainer = RandomPlayContainer(gui, othello)
-        root.after(0, randomPlayerContainer.random_play)
+        random_player_container = RandomPlayContainer(gui, othello)
+        root.after(0, random_player_container.random_play)
         root.mainloop()
-
-
-
     
+def test_performance():
+    othello = Othello()
+    performance_test_container = PerformanceTestContainer(othello)
+    
+    pr = cProfile.Profile()
+    pr.enable()
+    performance_test_container.random_play(100000)
+    pr.disable()
+    s = io.StringIO()
+    sortby = SortKey.CUMULATIVE
+    ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+    ps.print_stats()
+    print(s.getvalue())
     
 class RandomPlayContainer():
     def __init__(self, gui, othello):
-        self.gui = gui
         self.othello = othello    
 
     def random_play(self):
@@ -113,6 +110,33 @@ class RandomPlayContainer():
 
         self.gui.root.after(200, self.random_play)
 
-test_cases()
+class PerformanceTestContainer():
+    def __init__(self, othello):
+        self.othello = othello    
 
+    def random_play(self, num_games):
+        
+        for i in range(0, num_games):
+            no_move = 0
+            game_over = False        
+            
+            while(not game_over):
+                self.othello.calculate_legal_moves()
+                if(self.othello.legal_move_present()):
+                    move_choice = get_random_move(self.othello.board)
+                    self.othello.play_move(move_choice[0], move_choice[1])
+                    no_move = 0
+                else:
+                    no_move += 1
+                self.othello.switch_player()
+                
+                if(no_move == 2):
+                    game_over = True
+
+
+
+
+
+# test_cases()
 # test_play_random()
+test_performance()

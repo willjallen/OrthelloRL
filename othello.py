@@ -40,6 +40,12 @@ class Othello():
             for y in range(0, 8):
                 self.board[x][y] = c_int(int(boardStr[(8*x)+y]))
 
+    def legal_move_present(self):
+        for x in range(0, 8):
+            for y in range(0, 8):
+                if(self.board[x][y] == 8): return True
+        return False
+
     def get_board_as_string(self):
         boardStr = ''
         for x in range(0, 8):

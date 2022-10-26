@@ -34,6 +34,38 @@ extern "C" {
             {-1, 1}, // NW = (x-1, y+1)
         };
 
+    __declspec(dllexport)
+    struct MoveLine {
+        unsigned int row;
+        unsigned int col;
+
+        unsigned int direction;
+        unsigned int length;
+    };
+
+    /**
+     * @brief A structure containing all relevant game information for a particular state
+     * 
+     */
+    __declspec(dllexport)    
+    struct GameState {
+        unsigned int numBlackTiles;
+        unsigned int numWhiteTiles;
+
+        unsigned int numBlackLegalMoves;
+        unsigned int numWhiteLegalMoves;
+
+        unsigned int board[8][8];
+        unsigned int legalMoves[8][8];
+
+        MoveLine* moveLines;
+
+    };
+    
+    __declspec(dllexport)
+    // void initGame() {
+
+    // }
 
 
     /**
@@ -131,12 +163,6 @@ extern "C" {
         }else{
             otherPlayer = 1;
         }
-
-        // Internal to function:
-        // 3 = checked empty
-        // 4 = checked player 1
-        // 5 = checked player 2
-        // 6 = legal move
         
         // Clear previous legal moves
         for(int x = 0; x < 8; x++){

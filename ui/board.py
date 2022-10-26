@@ -124,7 +124,7 @@ class Board():
         self.othello.calculate_legal_moves()
         print('Legal moves')
         # print_board(self.othello)
-        self.update_board() 
+        self.update() 
 
     def findTile(self, canvasX, canvasY):
         return math.floor(canvasY / self.heightInterval), math.floor(canvasX / self.widthInterval)
