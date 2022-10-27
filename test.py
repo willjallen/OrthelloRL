@@ -197,4 +197,4 @@ class PerformanceTestContainer():
 
 # test_cases()
 # test_play_random()
-test_performance(1000000)
+test_performance(100000)

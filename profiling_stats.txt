@@ -1,34 +1,18 @@
-commit 6b36e83fb7477e218919c4f88e181d63a54e174b
-Date:   Wed Oct 26 10:59:27 2022 -0500
+commit: 2cd9ef18abb2c6f352510e84f8271d0fbb0a6ed4
+date: Wed Oct 26 20:04:54 2022
 100000 games
-   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-        1    0.126    0.126    2.058    2.058 \Othello\test.py:117(random_play)      
-   200000    1.681    0.000    1.681    0.000 \Othello\othello.py:43(legal_move_present)
-   200000    0.226    0.000    0.226    0.000 \Othello\othello.py:57(calculate_legal_moves)
-   200000    0.025    0.000    0.025    0.000 \Othello\othello.py:32(switch_player)  
-        1    0.000    0.000    0.000    0.000 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\lib\ctypes\__init__.py:384(__getattr__)
-        1    0.000    0.000    0.000    0.000 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\lib\ctypes\__init__.py:391(__getitem__)
-        1    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
-        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
-        1    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
-        1    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
-
-commit
-date
-100000 games
-24353 function calls in 0.038 seconds
+24305017 function calls in 32.233 seconds
 Ordered by: cumulative time
-   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-        1    0.007    0.007    0.038    0.038 \Othello\test.py:155(random_play)
-     6034    0.020    0.000    0.020    0.000 \Othello\othello.py:70(calculate_legal_moves)
-     5978    0.010    0.000    0.010    0.000 \Othello\othello.py:79(play_random_move)
-    12168    0.001    0.000    0.001    0.000 {built-in method _ctypes.POINTER}
-      100    0.000    0.000    0.000    0.000 \Othello\othello.py:87(init)
-       56    0.000    0.000    0.000    0.000 \Othello\othello.py:83(switch_players)
-        3    0.000    0.000    0.000    0.000 \Local\Programs\Python\Python311\Lib\ctypes\__init__.py:386(__getattr__)
-        3    0.000    0.000    0.000    0.000 \Local\Programs\Python\Python311\Lib\ctypes\__init__.py:393(__getitem__)
-        3    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
-        3    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
-        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
-        3    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
-
+     ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+          1    4.687    4.687   32.233   32.233 \Othello\test.py:155(random_play)
+     6026250   18.191    0.000   18.664    0.000 \Othello\othello.py:70(calculate_legal_moves)
+     5966406    8.117    0.000    8.583    0.000 \Othello\othello.py:79(play_random_move)
+     12152500    0.951    0.000    0.951    0.000 {built-in method _ctypes.POINTER}
+     100000    0.237    0.000    0.245    0.000 \Othello\othello.py:87(init)
+     59844    0.049    0.000    0.054    0.000 \Othello\othello.py:83(switch_players)
+          3    0.000    0.000    0.000    0.000 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\lib\ctypes\__init__.py:384(__getattr__)
+          3    0.000    0.000    0.000    0.000 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\lib\ctypes\__init__.py:391(__getitem__)
+          3    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+          3    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
+          3    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+          1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
