@@ -31,7 +31,7 @@ class BoardTile():
         if(legalTile == 8):
             state = 'normal'
             fill = ''
-            if(self.othello.currentPlayer == 1):
+            if(self.othello.gameState.currentPlayer == 1):
                 outline = 'black'
             else:
                 outline = 'white'

@@ -12,7 +12,8 @@ class MOVELINES(Structure):
     _fields_ = [("lines", LINE*8)] 
 
 class GAMESTATE(Structure):
-    _fields_ = [("turnNumber", c_uint),
+    _fields_ = [  ("currentPlayer", c_uint),
+                  ("turnNumber", c_uint),
                   ("numBlackTiles", c_uint),
                   ("numWhiteTiles", c_uint),
                   ("numBlackLegalMoves", c_uint),
@@ -21,17 +22,16 @@ class GAMESTATE(Structure):
                   ("legalMoves", (c_uint * 8) * 8),
                   ("moveLines", (MOVELINES * 8) * 8)]
 
+DEFAULT_BOARD = "0000000000000000000000000001200000021000000000000000000000000000"
+
 
 class Othello():
     def __init__(self):
         # Load library
         self._lib = WinDLL("./build/Debug/othello_lib.dll")
-        
-        # Create the game state
-        # self.board = ((c_int * 8) * 8)()
 
-        
         self.gameState = GAMESTATE()
+        self.gameState_ptr = pointer(self.gameState)
         
         
         self._lib.init.argtypes = [POINTER(GAMESTATE)]
@@ -40,28 +40,6 @@ class Othello():
         self.board = self.gameState.board
         self.legal_moves = self.gameState.legalMoves
         
-        
-        self.currentPlayer = 1
-
-        self.playerOneTiles = 2
-        self.playerTwoTiles = 2
-        
-    def increment_tile_count(self):
-        if self.currentPlayer == 1:
-            self.playerOneTiles += 1
-        else:
-            self.playerTwoTiles += 1
-        
-    def player_at(self, row, col):
-        return self.board[row][col]
-
-    def set_current_player(self, player):
-        if(player != 1 and player != 2):
-            raise Exception('Player must have value 1 or 2')
-        self.currentPlayer = player
-
-    def switch_player(self):
-        self.currentPlayer = 1 if self.currentPlayer == 2 else 2
 
     def set_board_from_string(self, boardStr):
         if len(boardStr) != 64:
@@ -71,11 +49,6 @@ class Othello():
             for y in range(0, 8):
                 self.board[x][y] = c_uint(int(boardStr[(8*x)+y]))
 
-    def legal_move_present(self):
-        for x in range(0, 8):
-            for y in range(0, 8):
-                if(self.legal_moves[x][y] == 8): return True
-        return False
 
     def get_board_as_string(self):
         boardStr = ''
@@ -96,11 +69,21 @@ class Othello():
         
     def calculate_legal_moves(self):
         # https://stackoverflow.com/questions/58610333/c-function-called-from-python-via-ctypes-returns-incorrect-value/58611011#58611011
-        self._lib.calculateLegalMoves.argtypes = (POINTER(GAMESTATE), c_uint)
-        self._lib.calculateLegalMoves(pointer(self.gameState), c_uint(self.currentPlayer))
+        self._lib.calculateLegalMoves.argtypes = [POINTER(GAMESTATE)]
+        self._lib.calculateLegalMoves(self.gameState_ptr)
         
     def play_move(self, row, col):
-        self._lib.playMove.argtypes = (POINTER(GAMESTATE), c_int, c_int, c_uint)
-        self._lib.playMove(pointer(self.gameState), c_int(row), c_int(col), c_uint(self.currentPlayer))
-        self.increment_tile_count()
+        self._lib.playMove.argtypes = (POINTER(GAMESTATE), c_int, c_int)
+        self._lib.playMove(self.gameState_ptr, c_int(row), c_int(col))
         
+    def play_random_move(self):
+        self._lib.playRandomMove.argtypes = [POINTER(GAMESTATE)]
+        self._lib.playRandomMove(self.gameState_ptr)
+
+    def switch_players(self):
+        self._lib.switchPlayers.argtypes = [POINTER(GAMESTATE)]
+        self._lib.switchPlayers(self.gameState_ptr)
+
+    def init(self):
+        self._lib.init.argtypes = [POINTER(GAMESTATE)]
+        self._lib.init(self.gameState_ptr)

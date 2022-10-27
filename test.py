@@ -84,20 +84,17 @@ def test_play_random(GUI_ENABLE=True):
     if(GUI_ENABLE):
         root = Tk()
         gui = GUI(root, othello)
-        default_board = "0000000000000000000000000001200000021000000000000000000000000000"
-        othello.set_board_from_string(default_board)
-        othello.set_current_player(1)
         random_player_container = RandomPlayContainer(gui, othello)
         root.after(0, random_player_container.random_play)
         root.mainloop()
     
-def test_performance():
+def test_performance(num_games):
     othello = Othello()
     performance_test_container = PerformanceTestContainer(othello)
     
     pr = cProfile.Profile()
     pr.enable()
-    performance_test_container.random_play(100000)
+    performance_test_container.random_play(num_games)
     pr.disable()
     s = io.StringIO()
     sortby = SortKey.CUMULATIVE
@@ -109,47 +106,95 @@ class RandomPlayContainer():
     def __init__(self, gui, othello):
         self.othello = othello
         self.gui = gui
+        
+        self.game_over = False
 
     def random_play(self):
-        self.othello.calculate_legal_moves()
+        if(self.othello.gameState.numBlackTiles + self.othello.gameState.numWhiteTiles == 64):
+            self.game_over = True
+        
+        print('--')
+        print(self.othello.gameState.numBlackTiles)
+        print(self.othello.gameState.numWhiteTiles)
 
-        if(self.gui):
-            self.gui.update()
+        print(self.othello.gameState.numBlackLegalMoves)
+        print(self.othello.gameState.numWhiteLegalMoves)
+        print('--')
 
-        if(self.othello.legal_move_present()):
-            move_choice = get_random_move(self.othello.legal_moves)
-            self.othello.play_move(move_choice[0], move_choice[1])    
-        self.othello.switch_player()
 
-        self.gui.root.after(200, self.random_play)
+                        
+        if(self.game_over):
+            self.othello.init()
+            self.game_over = False
+            self.gui.root.after(200, self.random_play)
+            # print("RENINIT")
+        else:    
+            self.othello.calculate_legal_moves()
+
+            if(self.gui):
+                self.gui.update()
+
+            if(self.othello.gameState.currentPlayer == 1):
+                if(self.othello.gameState.numBlackLegalMoves > 0):
+                    self.othello.play_random_move()
+                    
+                else:
+                    self.othello.switch_players()
+            else:
+                if(self.othello.gameState.numWhiteLegalMoves > 0):
+                    self.othello.play_random_move()
+                else:
+                    self.othello.switch_players()
+                    
+        self.gui.root.after(20, self.random_play)
 
 class PerformanceTestContainer():
     def __init__(self, othello):
         self.othello = othello    
 
     def random_play(self, num_games):
-        
         for i in range(0, num_games):
-            no_move = 0
-            game_over = False        
             
-            while(not game_over):
-                self.othello.calculate_legal_moves()
-                if(self.othello.legal_move_present()):
-                    move_choice = get_random_move(self.othello.board)
-                    self.othello.play_move(move_choice[0], move_choice[1])
-                    no_move = 0
-                else:
-                    no_move += 1
-                self.othello.switch_player()
-                
-                if(no_move == 2):
-                    game_over = True
+            self.game_over = False
+            consecutive_no_play_turns = 0
+            
+            while(not self.game_over):
+                # print('--')
+                # print(self.othello.gameState.numBlackTiles)
+                # print(self.othello.gameState.numWhiteTiles)
 
+                # print(self.othello.gameState.numBlackLegalMoves)
+                # print(self.othello.gameState.numWhiteLegalMoves)
+                # print('--')
+                                                
+                self.othello.calculate_legal_moves()
+
+                if(self.othello.gameState.currentPlayer == 1):
+                    if(self.othello.gameState.numBlackLegalMoves > 0):
+                        self.othello.play_random_move()
+                        consecutive_no_play_turns = 0
+                        
+                    else:
+                        self.othello.switch_players()
+                        consecutive_no_play_turns += 1
+                else:
+                    if(self.othello.gameState.numWhiteLegalMoves > 0):
+                        self.othello.play_random_move()
+                        consecutive_no_play_turns = 0
+                    else:
+                        self.othello.switch_players()
+                        consecutive_no_play_turns += 1
+                        
+                if(self.othello.gameState.numBlackTiles + self.othello.gameState.numWhiteTiles == 64
+                   or consecutive_no_play_turns == 2):
+                    self.game_over = True     
+                    
+            self.othello.init()
+            self.game_over = False
 
 
 
 
 # test_cases()
-test_play_random()
-# test_performance()
+# test_play_random()
+test_performance(1000000)

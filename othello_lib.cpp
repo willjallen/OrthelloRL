@@ -2,8 +2,21 @@
 
 // If i were to **hypothetically** rewrite this, I would have multiple 64xint arrays and do the legal moves and flipping tiles all in one go
 
+#include <stdlib.h>
 
 extern "C" {
+
+
+    const unsigned int DEFAULT_BOARD[8][8] = {
+                                                    {0,0,0,0,0,0,0,0},
+                                                    {0,0,0,0,0,0,0,0}, 
+                                                    {0,0,0,0,0,0,0,0}, 
+                                                    {0,0,0,1,2,0,0,0}, 
+                                                    {0,0,0,2,1,0,0,0}, 
+                                                    {0,0,0,0,0,0,0,0}, 
+                                                    {0,0,0,0,0,0,0,0}, 
+                                                    {0,0,0,0,0,0,0,0,}
+                                                };
 
     const unsigned int EMPTY = 0;
     const unsigned int BLACK = 1;
@@ -83,10 +96,13 @@ extern "C" {
      */
     // __declspec(dllexport)    
     struct GameState {
+
+        unsigned int currentPlayer;
+
         unsigned int turnNumber;
 
-        unsigned int numBlackTiles;
-        unsigned int numWhiteTiles;
+        int numBlackTiles;
+        int numWhiteTiles;
 
         unsigned int numBlackLegalMoves;
         unsigned int numWhiteLegalMoves;
@@ -98,16 +114,29 @@ extern "C" {
 
     };
     
+
+    __declspec(dllexport)
+    void switchPlayers(GameState* gameState){
+        gameState->currentPlayer = getOtherPlayer(gameState->currentPlayer);
+    }
+
     __declspec(dllexport)
     void init(GameState* gameState) {
 
+        gameState->currentPlayer = 1;
         gameState->turnNumber = 0;
 
-        gameState->numBlackLegalMoves = 0;
-        gameState->numWhiteLegalMoves = 0;
+        gameState->numBlackLegalMoves = 2;
+        gameState->numWhiteLegalMoves = 2;
 
-        unsigned int numBlackTiles = 0;
-        unsigned int numWhiteTiles = 0;
+        gameState->numBlackTiles = 2;
+        gameState->numWhiteTiles = 2;
+
+        for(int x = 0; x < 8; x++){
+            for(int y = 0; y < 8; y++){
+                gameState->board[x][y] = DEFAULT_BOARD[x][y];
+            }
+        }
 
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < 8; y++){
@@ -115,13 +144,15 @@ extern "C" {
                 gameState->legalMoves[x][y] = 0;
                 
                 for(int l = 0; l < 8; l++){
-                    Line currLine = gameState->moveLines[x][y].lines[l];
-                    currLine.valid = false;
-                    currLine.length = 0;
+                    Line* currLine = &gameState->moveLines[x][y].lines[l];
+                    currLine->valid = false;
+                    currLine->length = 0;
+                    currLine->assignedTurnNumber = 0;
                 }
             }
         }
     }
+
  __declspec(dllexport)
     void findLegalMove(GameState* gameState, int startingX, int startingY, unsigned int player, unsigned int otherPlayer){
 
@@ -157,6 +188,15 @@ extern "C" {
 
                 // Found legal move
                 if(gameState->board[x][y] == EMPTY || gameState->board[x][y] == LEGAL){
+
+                    if(gameState->board[x][y] != LEGAL){
+                        if(player == 1){
+                            gameState->numBlackLegalMoves++;
+                        }else{
+                            gameState->numWhiteLegalMoves++;
+                        }
+                    }
+                    
                     gameState->legalMoves[x][y] = LEGAL;
 
                     // Get Line at coordinate and complement direction (we are moving towards the legal move, and if the legal move is played we flip tiles from the reverse direction)
@@ -178,7 +218,17 @@ extern "C" {
 
             // If we reached the end of the board, and the cell is empty, set it to legal
             if(gameState->board[x][y] == EMPTY || gameState->board[x][y] == LEGAL){
+                
+                if(gameState->board[x][y] != LEGAL){
+                    if(player == 1){
+                        gameState->numBlackLegalMoves++;
+                    }else{
+                        gameState->numWhiteLegalMoves++;
+                    }
+                }
+                
                 gameState->legalMoves[x][y] = LEGAL;
+                
                 // Get Line at coordinate and complement direction (we are moving towards the legal move, and if the legal move is played we flip tiles from the reverse direction)
                 Line* line = &gameState->moveLines[x][y].lines[DIRECTIONS_COMPLEMENT[direction]];
                 line->valid = true;
@@ -200,8 +250,8 @@ extern "C" {
      * @return int** 
      */
     __declspec(dllexport)
-    void calculateLegalMoves(GameState* gameState, unsigned int player){
-        unsigned int otherPlayer = getOtherPlayer(player);
+    void calculateLegalMoves(GameState* gameState){
+        unsigned int otherPlayer = getOtherPlayer(gameState->currentPlayer);
         
         // Clear previous legal moves
         for(int x = 0; x < 8; x++){
@@ -210,14 +260,18 @@ extern "C" {
             }
         }
 
+        gameState->numBlackLegalMoves = 0;
+        gameState->numWhiteLegalMoves = 0;
+
+
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < 8; y++){
 
                 if(gameState->board[x][y] == EMPTY) continue;
 
-                if(gameState->board[x][y] == player){
+                if(gameState->board[x][y] == gameState->currentPlayer){
                     // Check the 8 cardinal directions, do not wrap around the board
-                    findLegalMove(gameState, x, y, player, otherPlayer);
+                    findLegalMove(gameState, x, y, gameState->currentPlayer, otherPlayer);
                 }
 
             }
@@ -228,10 +282,15 @@ extern "C" {
 
 
     __declspec(dllexport)
-    void playMove(GameState* gameState, int startingX, int startingY, unsigned int player){
+    void playMove(GameState* gameState, int startingX, int startingY){
        
 
-        // unsigned int otherPlayer = getOtherPlayer(player);
+       
+        if(gameState->currentPlayer == 1){
+            gameState->numBlackTiles++;
+        }else{
+            gameState->numWhiteTiles++;
+        }
 
         // Get all lines at the coordinate
         MoveLines moveLines = gameState->moveLines[startingX][startingY];
@@ -253,7 +312,24 @@ extern "C" {
                 int dy = DIRECTION_COMPONENTS[direction][1];
 
                 for(int i = 0; i < line.length; i++){
-                    gameState->board[x][y] = player;
+                    gameState->board[x][y] = gameState->currentPlayer;
+
+                    if(gameState->currentPlayer == 1){
+                        gameState->numBlackTiles++;
+                        gameState->numWhiteTiles--;
+                    }else{
+                        gameState->numWhiteTiles++;
+                        gameState->numBlackTiles--;
+                    }
+
+                    if(gameState->numBlackTiles < 0){
+                        gameState->numBlackTiles = 0;
+                    }
+
+                    if(gameState->numWhiteTiles < 0){
+                        gameState->numWhiteTiles = 0;
+                    }
+
 
                     x += dx;
                     y += dy;
@@ -262,7 +338,48 @@ extern "C" {
         }
 
         gameState->turnNumber++;
+
+        switchPlayers(gameState);
+        
     }
 
+
+    struct Coordinate {
+        bool occupied = false;
+        unsigned int x;
+        unsigned int y;
+    };
+
+    __declspec(dllexport)
+    void playRandomMove(GameState* gameState){
+        Coordinate potentialCoordinates[64];
+        int idx = 0;
+        // Collect all valid lines
+        for(int x = 0; x < 8; x++){
+            for(int y = 0; y < 8; y++){
+                // Find at least one line on this tile
+                if(gameState->legalMoves[x][y] == LEGAL){
+                    
+                    // Save it
+                    potentialCoordinates[idx].occupied = true;
+                    potentialCoordinates[idx].x = x;
+                    potentialCoordinates[idx].y = y;
+
+                    idx++;
+
+                    break;
+                        
+                }
+            }
+        }
+
+        // We now have idx number of lines to choose from
+        unsigned int choice = rand() % idx;
+        unsigned int randomX = potentialCoordinates[choice].x;
+        unsigned int randomY = potentialCoordinates[choice].y;
+
+        playMove(gameState, randomX, randomY);
+
+    }
 
 }

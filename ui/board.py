@@ -57,7 +57,7 @@ class Board():
                 if(currLegalTile == 8):
                     state = 'normal'
                     fill = ''
-                    if(self.othello.currentPlayer == 1):
+                    if(self.othello.gameState.currentPlayer == 1):
                         outline = 'black'
                     else:
                         outline = 'white'
@@ -95,7 +95,7 @@ class Board():
     
     def on_click(self, event):
         row, col = self.findTile(event.x, event.y)
-        print(row, col)
+        # print(row, col)
         self.play_tile(row, col)
 
        
@@ -108,17 +108,8 @@ class Board():
     def play_tile(self, row, col):
         if(self.othello.legal_moves[row][col] == 8):
             self.othello.play_move(row, col)
-            print('Played move')
-            # print_board(self.othello)
-            self.next_turn()
-   
-    def next_turn(self):
-        self.othello.currentPlayer = 1 if self.othello.currentPlayer == 2 else 2
-        print('Next player')
-        self.othello.calculate_legal_moves()
-        print('Legal moves')
-        # print_board(self.othello)
-        self.update() 
+            self.othello.calculate_legal_moves()
+            self.update() 
 
     def findTile(self, canvasX, canvasY):
         return math.floor(canvasY / self.heightInterval), math.floor(canvasX / self.widthInterval)
