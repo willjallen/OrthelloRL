@@ -31,10 +31,10 @@ class GUI():
         infoFrame = Frame(frame)
         infoFrame.grid(row=0,column=1)
         
-        ttk.Label(infoFrame, text="Current Player: 1 (Black)").grid(column=0, row=0, sticky=N)
+        self.player_label = ttk.Label(infoFrame, text="Current Player: 1 (Black)")
+        self.player_label.grid(column=0, row=0, sticky=N)
         # ttk.Label(infoFrame, text="Black tiles: ?").grid(column=0, row=1, sticky=N)
         # ttk.Label(infoFrame, text="White tiles: ?").grid(column=0, row=2, sticky=N)
-
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)
         
@@ -45,3 +45,10 @@ class GUI():
 
     def update(self):
         self.board.update()
+
+        self.player_label.configure(text= 
+                                    "Current Player: 1 (Black)"
+                                    if self.othello.gameState.currentPlayer == 1 else
+                                    "Current Player: 2 (White)"                                    
+                                    )
+# itemconfigure(self._id, fill=fill, state=state, outline=

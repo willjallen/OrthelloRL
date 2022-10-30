@@ -153,6 +153,10 @@ class PerformanceTestContainer():
         self.othello = othello    
 
     def random_play(self, num_games):
+        
+        black_won = 0
+        white_won = 0
+        
         for i in range(0, num_games):
             
             self.game_over = False
@@ -189,8 +193,15 @@ class PerformanceTestContainer():
                    or consecutive_no_play_turns == 2):
                     self.game_over = True     
                     
+            if(self.othello.gameState.numBlackTiles > self.othello.gameState.numWhiteTiles):
+                black_won += 1
+            else:
+                white_won += 1
+                    
             self.othello.init()
             self.game_over = False
+            
+        print(black_won, white_won)
 
 
 

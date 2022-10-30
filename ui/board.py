@@ -109,7 +109,7 @@ class Board():
         if(self.othello.legal_moves[row][col] == 8):
             self.othello.play_move(row, col)
             self.othello.calculate_legal_moves()
-            self.update() 
+            self.gui.update() 
 
     def findTile(self, canvasX, canvasY):
         return math.floor(canvasY / self.heightInterval), math.floor(canvasX / self.widthInterval)

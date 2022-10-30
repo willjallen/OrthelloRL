@@ -153,7 +153,7 @@ extern "C" {
         }
     }
 
- __declspec(dllexport)
+    __declspec(dllexport)
     void findLegalMove(GameState* gameState, int startingX, int startingY, unsigned int player, unsigned int otherPlayer){
 
         
@@ -262,7 +262,6 @@ extern "C" {
 
         gameState->numBlackLegalMoves = 0;
         gameState->numWhiteLegalMoves = 0;
-
 
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < 8; y++){
