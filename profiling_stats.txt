@@ -16,3 +16,20 @@ Ordered by: cumulative time
           3    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
           3    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
           1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+         12152387 function calls in 30.648 seconds
+
+commit: 
+date: 
+100000 games
+24305017 function calls in 32.233 seconds
+Ordered by: cumulative time
+ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1    6.278    6.278   30.648   30.648 C:\Users\WilliamAllen\Desktop\School\thesis\Othello\test.py:155(random_play)
+6026192   17.066    0.000   17.066    0.000 C:\Users\WilliamAllen\Desktop\School\thesis\Othello\othello.py:76(calculate_legal_moves)
+
+5966346    7.063    0.000    7.063    0.000 C:\Users\WilliamAllen\Desktop\School\thesis\Othello\othello.py:83(play_random_move)     
+100000    0.204    0.000    0.204    0.000 C:\Users\WilliamAllen\Desktop\School\thesis\Othello\othello.py:89(init)
+59846    0.037    0.000    0.037    0.000 C:\Users\WilliamAllen\Desktop\School\thesis\Othello\othello.py:86(switch_players)       
+     1    0.000    0.000    0.000    0.000 {built-in method builtins.print}
+     1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}

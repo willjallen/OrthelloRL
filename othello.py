@@ -33,8 +33,14 @@ class Othello():
         self.gameState = GAMESTATE()
         self.gameState_ptr = pointer(self.gameState)
         
-        
+
         self._lib.init.argtypes = [POINTER(GAMESTATE)]
+        self._lib.calculateLegalMoves.argtypes = [POINTER(GAMESTATE)]
+        self._lib.playMove.argtypes = (POINTER(GAMESTATE), c_int, c_int)
+        self._lib.playRandomMove.argtypes = [POINTER(GAMESTATE)]
+        self._lib.switchPlayers.argtypes = [POINTER(GAMESTATE)]
+
+        
         self._lib.init(self.gameState)
         
         self.board = self.gameState.board
@@ -69,21 +75,16 @@ class Othello():
         
     def calculate_legal_moves(self):
         # https://stackoverflow.com/questions/58610333/c-function-called-from-python-via-ctypes-returns-incorrect-value/58611011#58611011
-        self._lib.calculateLegalMoves.argtypes = [POINTER(GAMESTATE)]
         self._lib.calculateLegalMoves(self.gameState_ptr)
         
     def play_move(self, row, col):
-        self._lib.playMove.argtypes = (POINTER(GAMESTATE), c_int, c_int)
         self._lib.playMove(self.gameState_ptr, c_int(row), c_int(col))
         
     def play_random_move(self):
-        self._lib.playRandomMove.argtypes = [POINTER(GAMESTATE)]
         self._lib.playRandomMove(self.gameState_ptr)
 
     def switch_players(self):
-        self._lib.switchPlayers.argtypes = [POINTER(GAMESTATE)]
         self._lib.switchPlayers(self.gameState_ptr)
 
     def init(self):
-        self._lib.init.argtypes = [POINTER(GAMESTATE)]
         self._lib.init(self.gameState_ptr)
