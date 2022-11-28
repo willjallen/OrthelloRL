@@ -28,7 +28,7 @@ DEFAULT_BOARD = "000000000000000000000000000120000002100000000000000000000000000
 class Othello():
     def __init__(self):
         # Load library
-        self._lib = WinDLL("./build/Debug/othello_lib.dll")
+        self._lib = WinDLL("./build/Release/othello_lib.dll")
 
         self.gameState = GAMESTATE()
         self.gameState_ptr = pointer(self.gameState)

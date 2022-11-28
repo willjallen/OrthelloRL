@@ -19,8 +19,8 @@ Ordered by: cumulative time
 
          12152387 function calls in 30.648 seconds
 
-commit: 
-date: 
+commit: df20159da810705ea42ac33124b91b012cf8ed54
+date: Fri Nov 4 18:20:28 2022
 100000 games
 24305017 function calls in 32.233 seconds
 Ordered by: cumulative time
