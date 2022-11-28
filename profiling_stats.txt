@@ -25,11 +25,24 @@ date: Fri Nov 4 18:20:28 2022
 24305017 function calls in 32.233 seconds
 Ordered by: cumulative time
 ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-     1    6.278    6.278   30.648   30.648 C:\Users\WilliamAllen\Desktop\School\thesis\Othello\test.py:155(random_play)
-6026192   17.066    0.000   17.066    0.000 C:\Users\WilliamAllen\Desktop\School\thesis\Othello\othello.py:76(calculate_legal_moves)
+     1    6.278    6.278   30.648   30.648 \Othello\test.py:155(random_play)
+6026192   17.066    0.000   17.066    0.000 \Othello\othello.py:76(calculate_legal_moves)
 
-5966346    7.063    0.000    7.063    0.000 C:\Users\WilliamAllen\Desktop\School\thesis\Othello\othello.py:83(play_random_move)     
-100000    0.204    0.000    0.204    0.000 C:\Users\WilliamAllen\Desktop\School\thesis\Othello\othello.py:89(init)
-59846    0.037    0.000    0.037    0.000 C:\Users\WilliamAllen\Desktop\School\thesis\Othello\othello.py:86(switch_players)       
+5966346    7.063    0.000    7.063    0.000 \Othello\othello.py:83(play_random_move)     
+100000    0.204    0.000    0.204    0.000 \Othello\othello.py:89(init)
+59846    0.037    0.000    0.037    0.000 \Othello\othello.py:86(switch_players)       
+     1    0.000    0.000    0.000    0.000 {built-in method builtins.print}
+     1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+commit: 31da5a71c0f6e7872f3ab227bd10d22f773471b3
+date: Sun Nov 27 18:55:09 2022
+100000 games
+12152503 function calls in 21.262 seconds
+ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1    6.304    6.304   21.262   21.262 \Othello\test.py:155(random_play)
+6026250   10.281    0.000   10.281    0.000 \Othello\othello.py:76(calculate_legal_moves)
+5966406    4.523    0.000    4.523    0.000 \Othello\othello.py:83(play_random_move)
+100000    0.118    0.000    0.118    0.000 \Othello\othello.py:89(init)
+59844    0.037    0.000    0.037    0.000 \Othello\othello.py:86(switch_players)
      1    0.000    0.000    0.000    0.000 {built-in method builtins.print}
      1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
