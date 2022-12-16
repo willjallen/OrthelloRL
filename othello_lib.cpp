@@ -129,8 +129,8 @@ extern "C" {
         gameState->numBlackLegalMoves = 2;
         gameState->numWhiteLegalMoves = 2;
 
-        gameState->numBlackTiles = 2;
-        gameState->numWhiteTiles = 2;
+        gameState->numBlackTiles = 0;
+        gameState->numWhiteTiles = 0;
 
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < 8; y++){
@@ -263,10 +263,16 @@ extern "C" {
         gameState->numBlackLegalMoves = 0;
         gameState->numWhiteLegalMoves = 0;
 
+        gameState->numBlackTiles = 0;
+        gameState->numWhiteTiles = 0;
+
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < 8; y++){
 
                 if(gameState->board[x][y] == EMPTY) continue;
+
+                if(gameState->board[x][y] == BLACK) gameState->numBlackTiles +=1;
+                if(gameState->board[x][y] == WHITE) gameState->numWhiteTiles +=1;
 
                 if(gameState->board[x][y] == gameState->currentPlayer){
                     // Check the 8 cardinal directions, do not wrap around the board
