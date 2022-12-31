@@ -260,8 +260,8 @@ extern "C" {
         unsigned int otherPlayer = getOtherPlayer(gameState->currentPlayer);
         
         // Clear previous legal moves
-        for(int x = 0; x < 8; x++){
-            for(int y = 0; y < 8; y++){
+        for(unsigned int x = 0; x < 8; x++){
+            for(unsigned int y = 0; y < 8; y++){
                 if(gameState->legalMoves[x][y] == LEGAL) gameState->legalMoves[x][y] = EMPTY;
             }
         }
@@ -272,8 +272,8 @@ extern "C" {
         gameState->numBlackTiles = 0;
         gameState->numWhiteTiles = 0;
 
-        for(int x = 0; x < 8; x++){
-            for(int y = 0; y < 8; y++){
+        for(unsigned int x = 0; x < 8; x++){
+            for(unsigned int y = 0; y < 8; y++){
 
                 if(gameState->board[x][y] == EMPTY) continue;
 
@@ -322,7 +322,7 @@ extern "C" {
                 int dx = DIRECTION_COMPONENTS[direction][0];
                 int dy = DIRECTION_COMPONENTS[direction][1];
 
-                for(int i = 0; i < line.length; i++){
+                for(unsigned int i = 0; i < line.length; i++){
                     gameState->board[x][y] = gameState->currentPlayer;
 
                     if(gameState->currentPlayer == 1){

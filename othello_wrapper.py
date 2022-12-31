@@ -36,9 +36,9 @@ class Othello():
         print(platform.system())
         # Load library
         if(platform.system() == "Linux"):
-            self._lib = CDLL("./build/libothello_lib.so")
+            self._lib = CDLL("./cpp/build/libothello_lib.so")
         elif(platform.system() == "Windows"):
-            self._lib = WinDLL("./build/Release/othello_lib.dll")
+            self._lib = WinDLL("./cpp/build/Release/othello.dll")
 
         self.gameState = GAMESTATE()
         self.gameState_ptr = pointer(self.gameState)
