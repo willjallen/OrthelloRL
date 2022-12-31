@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from ctypes import *
 
-from othello import Othello
+from othello_wrapper import Othello
 from ui.board_tile import BoardTile
 
 

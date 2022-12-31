@@ -2,7 +2,7 @@ import math
 from tkinter import *
 from tkinter import ttk
 from ctypes import *
-from othello import Othello
+from othello_wrapper import Othello
 from ui.gui import GUI
 
 # def print_board(othello):
