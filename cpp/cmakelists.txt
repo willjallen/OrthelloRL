@@ -1,0 +1,21 @@
+# cmake --build my_build_dir --config Release --target clean
+cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
+project(othello_lib VERSION 0.1 LANGUAGES C CXX)
+
+set(CMAKE_CXX_STANDARD 17) 
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_CXX_CLANG_TIDY clang-tidy -checks=*)
+
+if(WIN32)
+  add_compile_options(/O2)
+endif()
+
+if(UNIX)
+  add_compile_options(-O2 -g -fPIC -Wall -Werror -Wextra -pedantic)
+endif()
+
+add_library(${PROJECT_NAME} SHARED
+  othello.cpp
+  mcts.cpp
+)
