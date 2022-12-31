@@ -13,6 +13,7 @@ from ui.gui import GUI
 #         print()
 #     print()
 
+
 def print_legal_board(othello):
     print('Player: ', othello.currentPlayer)
     for row in range(0, 8):
@@ -20,6 +21,7 @@ def print_legal_board(othello):
             print(str(othello.legal_moves[row][col]) + ' ', end='')
         print()
     print()
+
 
 othello = Othello()
 
@@ -39,8 +41,3 @@ othello.calculate_legal_moves()
 root = Tk()
 GUI(root, othello)
 root.mainloop()
-
-
-
-    
-    
