@@ -12,21 +12,19 @@ class BoardTile():
         self._id = None
         self.othello = othello
 
-    
     def draw(self, drawX1, drawY1, drawX2, drawY2, fill, state, outline):
         id = self._canvas.create_oval(
-                drawX1,
-                drawY1,
-                drawX2,
-                drawY2, 
-                fill=fill,
-                state=state,
-                outline=outline,
-                width=4
-            )
+            drawX1,
+            drawY1,
+            drawX2,
+            drawY2,
+            fill=fill,
+            state=state,
+            outline=outline,
+            width=4
+        )
         self._id = id
 
-        
     def update(self, playerTile, legalTile):
         if(legalTile == 8):
             state = 'normal'
@@ -47,4 +45,5 @@ class BoardTile():
             fill = 'white'
             state = 'normal'
             outline = ''
-        self._canvas.itemconfigure(self._id, fill=fill, state=state, outline=outline)
+        self._canvas.itemconfigure(
+            self._id, fill=fill, state=state, outline=outline)
