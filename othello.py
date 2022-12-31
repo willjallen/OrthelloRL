@@ -1,3 +1,4 @@
+import platform
 from os import curdir
 from tkinter import *
 from ctypes import *
@@ -27,8 +28,14 @@ DEFAULT_BOARD = "000000000000000000000000000120000002100000000000000000000000000
 
 class Othello():
     def __init__(self):
+        
+        # Detect OS
+        print(platform.system())
         # Load library
-        self._lib = WinDLL("./build/Release/othello_lib.dll")
+        if(platform.system() == "Linux"):
+            self._lib = CDLL("./build/libothello_lib.so")
+        elif(platform.system() == "Windows"):
+            self._lib = WinDLL("./build/Release/othello_lib.dll")
 
         self.gameState = GAMESTATE()
         self.gameState_ptr = pointer(self.gameState)

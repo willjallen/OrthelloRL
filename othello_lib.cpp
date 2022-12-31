@@ -4,6 +4,12 @@
 
 #include <stdlib.h>
 
+// Linux fix
+#ifdef __linux__
+#define __declspec(v)
+#endif
+
+
 extern "C" {
 
 
