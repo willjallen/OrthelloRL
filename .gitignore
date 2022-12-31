@@ -2,6 +2,7 @@
 *.dll
 *.exp
 *.lib
+*.so
 
 generate_tests.py
 
