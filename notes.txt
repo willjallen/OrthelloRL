@@ -7,3 +7,13 @@ Tree parallelization, i.e. parallel building of the same game tree, protecting d
 https://arxiv.org/abs/2003.13741
 https://deepai.org/publication/parallelization-of-monte-carlo-tree-search-in-continuous-domains
 Fig 8 - Leaf max paralleization has best performance
+
+https://www.deepmind.com/blog/alphago-zero-starting-from-scratch
+The neural network should observe the state space, then pick the (legal) location of play
+
+
+Neural network parameters (theta)
+-> Run MCTS using (theta) as selection (maximum action value)
+-> Generate from the MCTS a policy (PI_t) at each step t
+-> Upon a terminal state, update all (PI_t) with who won (z in {-1, 0, 1})
+-> Optimize network to minimize difference in (z) and maximize similarity between (theta) and (pi)

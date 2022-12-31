@@ -100,8 +100,8 @@ extern "C" {
      * @brief A structure containing all relevant game information for a particular state
      * 
      */
-    // __declspec(dllexport)    
-    struct GameState {
+    __declspec(dllexport)    
+    typedef struct GameState {
 
         unsigned int currentPlayer;
 
@@ -118,7 +118,7 @@ extern "C" {
 
         MoveLines moveLines[8][8];
 
-    };
+    } GameState;
     
 
     __declspec(dllexport)
