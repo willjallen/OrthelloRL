@@ -17,3 +17,16 @@ Neural network parameters (theta)
 -> Generate from the MCTS a policy (PI_t) at each step t
 -> Upon a terminal state, update all (PI_t) with who won (z in {-1, 0, 1})
 -> Optimize network to minimize difference in (z) and maximize similarity between (theta) and (pi)
+
+Input:
+- 8x8 vector OHE black tiles
+- 8x8 vector OHE white tiles
+- 8x8 vector legal moves
+
+Output:
+- 8x8 vector action probability distribution
+- scalar value prediction (-1, 1) [How likely this position is a winning position]
+
+
+
+
