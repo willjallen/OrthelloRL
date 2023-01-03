@@ -18,10 +18,27 @@ Neural network parameters (theta)
 -> Upon a terminal state, update all (PI_t) with who won (z in {-1, 0, 1})
 -> Optimize network to minimize difference in (z) and maximize similarity between (theta) and (pi)
 
+
+**Neural network architecture(in alphaZero paper)**
+
 Input:
-- 8x8 vector OHE black tiles
-- 8x8 vector OHE white tiles
-- 8x8 vector legal moves
+(Not including temporal dimension or an 8x8 constant "who's playing" feature)
+- 8x8 binary encoded player tiles
+  - 0 if empty or other player
+  - 1 if player
+
+
+- 8x8 binary encoded enemy tiles
+  - 0 if empty or other player
+  - 1 if player
+
+
+- 8x8 binary encoded legal moves
+  - 0 if illegal
+  - 1 if legal
+
+
+**Bold** dd
 
 Output:
 - 8x8 vector action probability distribution

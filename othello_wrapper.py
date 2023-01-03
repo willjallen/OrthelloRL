@@ -93,3 +93,5 @@ class Othello():
 
     def init(self):
         self._lib.init(self.gameState_ptr)
+
+
