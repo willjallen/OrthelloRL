@@ -2,7 +2,7 @@ import random
 from tkinter import *
 from cgi import test
 from ctypes import *
-from othello_wrapper import Othello
+from othello.othello_wrapper import Othello
 from ui.gui import GUI
 import json
 import cProfile

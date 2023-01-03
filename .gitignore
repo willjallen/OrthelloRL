@@ -8,3 +8,5 @@ generate_tests.py
 
 build/
 __pycache__/
+
+othello/lib/build.sh

@@ -2,7 +2,7 @@ import math
 from tkinter import *
 from tkinter import ttk
 from ctypes import *
-from othello_wrapper import Othello
+from othello.othello_wrapper import Othello
 
 
 class BoardTile():

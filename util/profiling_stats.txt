@@ -46,3 +46,32 @@ ncalls  tottime  percall  cumtime  percall filename:lineno(function)
 59844    0.037    0.000    0.037    0.000 \Othello\othello.py:86(switch_players)
      1    0.000    0.000    0.000    0.000 {built-in method builtins.print}
      1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+   WSL with -O2
+   49686 50314
+   12204625 function calls in 38.326 seconds
+   Ordered by: cumulative time
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1   14.082   14.082   38.326   38.326 /OthelloRL/test.py:159(random_play)
+  6052311   15.854    0.000   15.854    0.000 /OthelloRL/othello/othello_wrapper.py:81(calculate_legal_moves)
+  5992801    8.132    0.000    8.132    0.000 /OthelloRL/othello/othello_wrapper.py:88(play_random_move)
+   100000    0.185    0.000    0.185    0.000 /OthelloRL/othello/othello_wrapper.py:94(init)
+    59510    0.073    0.000    0.073    0.000 /OthelloRL/othello/othello_wrapper.py:91(switch_players)
+        1    0.000    0.000    0.000    0.000 
+        1    0.000    0.000    0.000    0.000 }
+
+
+    WSL without -02
+    49686 50314
+    12204625 function calls in 45.990 seconds
+   Ordered by: cumulative time
+   ncalls  tottime  percall  cumtime  percall 
+        1   14.349   14.349   45.990   45.990 /OthelloRL/test.py:159(random_play)
+  6052311   21.672    0.000   21.672    0.000 /OthelloRL/othello/othello_wrapper.py:81(calculate_legal_moves)
+  5992801    9.587    0.000    9.587    0.000 /OthelloRL/othello/othello_wrapper.py:88(play_random_move)
+   100000    0.307    0.000    0.307    0.000 /OthelloRL/othello/othello_wrapper.py:94(init)
+    59510    0.075    0.000    0.075    0.000 /OthelloRL/othello/othello_wrapper.py:91(switch_players)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.print}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}

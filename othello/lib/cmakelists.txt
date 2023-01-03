@@ -16,7 +16,8 @@ if(WIN32)
 endif()
 
 if(UNIX)
-  add_compile_options(-O2 -g -fPIC -Wall -Werror -Wextra -pedantic)
+  # add_compile_options(-O2 -g -fPIC -Wall -Werror -Wextra -pedantic)
+  add_compile_options(-g -fPIC -Wall -Werror -Wextra -pedantic)
 endif()
 
 add_library(${PROJECT_NAME} SHARED
