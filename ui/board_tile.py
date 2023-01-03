@@ -26,22 +26,22 @@ class BoardTile():
         self._id = id
 
     def update(self, playerTile, legalTile):
-        if(legalTile == 8):
+        if (legalTile == 8):
             state = 'normal'
             fill = ''
-            if(self.othello.gameState.currentPlayer == 1):
+            if (self.othello.gameState.currentPlayer == 1):
                 outline = 'black'
             else:
                 outline = 'white'
-        elif(playerTile == 0):
+        elif (playerTile == 0):
             fill = 'black'
             state = 'hidden'
             outline = ''
-        elif(playerTile == 1):
+        elif (playerTile == 1):
             fill = 'black'
             state = 'normal'
             outline = ''
-        elif(playerTile == 2):
+        elif (playerTile == 2):
             fill = 'white'
             state = 'normal'
             outline = ''

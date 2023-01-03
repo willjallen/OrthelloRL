@@ -61,22 +61,22 @@ class Board():
                     canvas=self.gameCanvas,
                     othello=self.othello)
                 self.guiTiles.append(guiTile)
-                if(currLegalTile == 8):
+                if (currLegalTile == 8):
                     state = 'normal'
                     fill = ''
-                    if(self.othello.gameState.currentPlayer == 1):
+                    if (self.othello.gameState.currentPlayer == 1):
                         outline = 'black'
                     else:
                         outline = 'white'
-                elif(currOthelloTile == 0):
+                elif (currOthelloTile == 0):
                     fill = 'black'
                     state = 'hidden'
                     outline = ''
-                elif(currOthelloTile == 1):
+                elif (currOthelloTile == 1):
                     fill = 'black'
                     state = 'normal'
                     outline = ''
-                elif(currOthelloTile == 2):
+                elif (currOthelloTile == 2):
                     fill = 'white'
                     state = 'normal'
                     outline = ''
@@ -110,7 +110,7 @@ class Board():
                     self.othello.board[row][col], self.othello.legal_moves[row][col])
 
     def play_tile(self, row, col):
-        if(self.othello.legal_moves[row][col] == 8):
+        if (self.othello.legal_moves[row][col] == 8):
             self.othello.play_move(row, col)
             self.othello.calculate_legal_moves()
             self.gui.update()

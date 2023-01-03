@@ -35,9 +35,9 @@ class Othello():
         # Detect OS
         print(platform.system())
         # Load library
-        if(platform.system() == "Linux"):
+        if (platform.system() == "Linux"):
             self._lib = CDLL("./othello/lib/build/libothello.so")
-        elif(platform.system() == "Windows"):
+        elif (platform.system() == "Windows"):
             self._lib = WinDLL("./othello/lib/build/Release/othello.dll")
 
         self.gameState = GAMESTATE()
@@ -93,5 +93,3 @@ class Othello():
 
     def init(self):
         self._lib.init(self.gameState_ptr)
-
-

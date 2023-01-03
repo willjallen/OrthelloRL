@@ -49,10 +49,10 @@ class GUI():
     def update(self):
         self.board.update()
 
-        self.player_label.configure(text="Current Player: 1 (Black)"
-                                    if self.othello.gameState.currentPlayer == 1 else
-                                    "Current Player: 2 (White)"
-                                    )
+        self.player_label.configure(
+            text="Current Player: 1 (Black)"
+            if self.othello.gameState.currentPlayer == 1 else
+            "Current Player: 2 (White)")
         self.black_tiles_label.configure(
             text="Black tiles: " + str(self.othello.gameState.numBlackTiles))
         self.white_tiles_label.configure(
