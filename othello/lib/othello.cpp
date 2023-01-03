@@ -293,7 +293,7 @@ extern "C" {
 
 
     __declspec(dllexport)
-    void playMove(GameState* gameState, int startingX, int startingY){
+    void playMove(GameState* gameState, unsigned int startingX, unsigned int startingY){
        
 
        
@@ -307,7 +307,7 @@ extern "C" {
         MoveLines moveLines = gameState->moveLines[startingX][startingY];
 
         // For each direction, check if a valid line exists
-        for(int direction = 0; direction < 8; direction++){
+        for(unsigned int direction = 0; direction < 8; direction++){
             
             // Get our particular line
             Line line = moveLines.lines[direction];
@@ -316,11 +316,11 @@ extern "C" {
 
                 // Flip the tiles on the line
 
-                int x = startingX;
-                int y = startingY;
+                unsigned int x = startingX;
+                unsigned int y = startingY;
 
-                int dx = DIRECTION_COMPONENTS[direction][0];
-                int dy = DIRECTION_COMPONENTS[direction][1];
+                unsigned int dx = DIRECTION_COMPONENTS[direction][0];
+                unsigned int dy = DIRECTION_COMPONENTS[direction][1];
 
                 for(unsigned int i = 0; i < line.length; i++){
                     gameState->board[x][y] = gameState->currentPlayer;
@@ -361,6 +361,8 @@ extern "C" {
         unsigned int y;
     };
 
+    
+    // Uniformly sample the legal action space
     __declspec(dllexport)
     void playRandomMove(GameState* gameState){
         Coordinate potentialCoordinates[64];
@@ -393,7 +395,7 @@ extern "C" {
 
     }
 
-  // 
-
+   
 
 }
+

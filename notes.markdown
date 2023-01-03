@@ -44,6 +44,39 @@ Output:
 - 8x8 vector action probability distribution
 - scalar value prediction (-1, 1) [How likely this position is a winning position]
 
+===========================================================================
+
+The neural architecture search thing is too hard. Will never get done.
+Instead, maybe build incremently more complicated RL models.
+
+There is a finite observation space for Othello
+You have:
+-> The board state (3 channels)
+-> The temporal domain (s_{t-1})
+
+The question is: what function mappings are ideal?
+(On the abstract end, think picture of othello state with many time channels,
+with an arbitrary graph connecting input state to output state)
+
+((Dream coder might be a good paper to reference here))
+
+In the dream coder paper, they constructed small functional programs that could
+make big functional programs
+
+Maybe one could do the same with NN archs
+
+====
 
 
+-- The trivial network --
+
+In the case of our simple network we have a fully connected multi-layer-perceptetron,
+with sparse reward The output will have an 8x8 probability distribution for the board
+(illegal moves masked out) and a scalar value that tells us how good our current state is.
+
+We will self play for n games to completion, saving the game state as we go. Then we will 
+sample from these game states, optimizing for LSE of the predicted value and the actual game 
+result (1, 0, -1)
+
+This is ~sort~ of like a 1D monte carlo tree search?
 

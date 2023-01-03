@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-
+from networks.simple import simple 
 
 def getOtherPlayer(currentPlayer):
     return 1 if currentPlayer == 2 else 2
@@ -34,6 +34,11 @@ def getEncodedState(othello):
 
     data = [player_tiles, enemy_tiles, legal_moves]
     return torch.tensor(data)
+
+
+def trainSimple(othello):
+   model =  
+
 
 
 
