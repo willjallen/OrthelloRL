@@ -1,9 +1,4 @@
 import math
-from tkinter import *
-from tkinter import ttk
-from ctypes import *
-
-from othello.othello_wrapper import Othello
 from ui.board_tile import BoardTile
 
 
@@ -21,8 +16,8 @@ class Board():
 
         # interval between 8 lines
         self.widthInterval = ((self.canvasWidth - 2 * self.cellLinesWidth) / 8)
-        self.heightInterval = (
-            (self.canvasHeight - 2 * self.cellLinesWidth) / 8)
+        self.heightInterval = ((self.canvasHeight - 2 * self.cellLinesWidth) /
+                               8)
 
         self.guiTileVerticalPadding = self.heightInterval / 4
         self.guiTileHorizontalPadding = self.widthInterval / 4
@@ -38,13 +33,19 @@ class Board():
 
         # Draw 8x8 grid
         for row in range(0, 9):
-            self.gameCanvas.create_line(
-                0, drawY, self.canvasWidth, drawY, width=self.cellLinesWidth)
+            self.gameCanvas.create_line(0,
+                                        drawY,
+                                        self.canvasWidth,
+                                        drawY,
+                                        width=self.cellLinesWidth)
             drawY += self.heightInterval
 
         for col in range(0, 9):
-            self.gameCanvas.create_line(
-                drawX, 0, drawX, self.canvasHeight, width=self.cellLinesWidth)
+            self.gameCanvas.create_line(drawX,
+                                        0,
+                                        drawX,
+                                        self.canvasHeight,
+                                        width=self.cellLinesWidth)
             drawX += self.widthInterval
 
         # Draw tiles
@@ -56,10 +57,9 @@ class Board():
 
                 currOthelloTile = self.othello.board[row][col]
                 currLegalTile = self.othello.legal_moves[row][col]
-                guiTile = BoardTile(
-                    gui=self,
-                    canvas=self.gameCanvas,
-                    othello=self.othello)
+                guiTile = BoardTile(gui=self,
+                                    canvas=self.gameCanvas,
+                                    othello=self.othello)
                 self.guiTiles.append(guiTile)
                 if (currLegalTile == 8):
                     state = 'normal'
@@ -86,10 +86,7 @@ class Board():
                     drawY + self.guiTileVerticalPadding,
                     drawX + self.guiTileHorizontalPadding + self.guiTileWidth,
                     drawY + self.guiTileVerticalPadding + self.guiTileHeight,
-                    fill,
-                    state,
-                    outline
-                )
+                    fill, state, outline)
                 drawX += self.widthInterval
 
             drawX = self.cellLinesWidth
@@ -107,7 +104,8 @@ class Board():
         for row in range(0, 8):
             for col in range(0, 8):
                 self.guiTiles[8 * row + col].update(
-                    self.othello.board[row][col], self.othello.legal_moves[row][col])
+                    self.othello.board[row][col],
+                    self.othello.legal_moves[row][col])
 
     def play_tile(self, row, col):
         if (self.othello.legal_moves[row][col] == 8):
@@ -116,6 +114,5 @@ class Board():
             self.gui.update()
 
     def findTile(self, canvasX, canvasY):
-        return math.floor(canvasY /
-                          self.heightInterval), math.floor(canvasX /
-                                                           self.widthInterval)
+        return math.floor(canvasY / self.heightInterval), math.floor(
+            canvasX / self.widthInterval)

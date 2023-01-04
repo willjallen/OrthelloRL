@@ -5,8 +5,7 @@ from ctypes import *
 
 
 class LINE(Structure):
-    _fields_ = [("assignedTurnNumber", c_uint),
-                ("valid", c_bool),
+    _fields_ = [("assignedTurnNumber", c_uint), ("valid", c_bool),
                 ("langth", c_uint)]
 
 
@@ -15,14 +14,10 @@ class MOVELINES(Structure):
 
 
 class GAMESTATE(Structure):
-    _fields_ = [("currentPlayer", c_uint),
-                ("turnNumber", c_uint),
-                ("numBlackTiles", c_uint),
-                ("numWhiteTiles", c_uint),
-                ("numBlackLegalMoves", c_uint),
-                ("numWhiteLegalMoves", c_uint),
-                ("board", (c_uint * 8) * 8),
-                ("legalMoves", (c_uint * 8) * 8),
+    _fields_ = [("currentPlayer", c_uint), ("turnNumber", c_uint),
+                ("numBlackTiles", c_uint), ("numWhiteTiles", c_uint),
+                ("numBlackLegalMoves", c_uint), ("numWhiteLegalMoves", c_uint),
+                ("board", (c_uint * 8) * 8), ("legalMoves", (c_uint * 8) * 8),
                 ("moveLines", (MOVELINES * 8) * 8)]
 
 

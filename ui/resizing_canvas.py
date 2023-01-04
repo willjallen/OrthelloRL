@@ -1,5 +1,4 @@
-from tkinter import *
-from ctypes import *
+from tkinter import Canvas
 
 
 class ResizingCanvas(Canvas):

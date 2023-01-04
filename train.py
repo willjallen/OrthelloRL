@@ -27,8 +27,8 @@ def getEncodedState(othello):
         for j in range(0, 8):
             position = gameState.board[i][j]
             player_tiles_tmp.append(1 if position == currentPlayer else 0)
-            enemy_tiles_tmp.append(
-                1 if position == getOtherPlayer(currentPlayer) else 0)
+            enemy_tiles_tmp.append(1 if position ==
+                                   getOtherPlayer(currentPlayer) else 0)
             legal_moves_tmp.append(1 if position == othello.legal else 0)
 
         player_tiles.append(player_tiles_tmp)

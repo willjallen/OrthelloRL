@@ -1,7 +1,4 @@
-import math
-from tkinter import *
-from tkinter import ttk
-from ctypes import *
+from tkinter import Tk
 from othello.othello_wrapper import Othello
 from ui.gui import GUI
 

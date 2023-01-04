@@ -1,5 +1,4 @@
-import math
-from tkinter import *
+from tkinter import ttk, Frame, N, E, S, W
 from tkinter import ttk
 from ctypes import *
 from othello.othello_wrapper import Othello
@@ -21,8 +20,10 @@ class GUI():
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
 
-        self.gameCanvas = ResizingCanvas(
-            frame, width=800, height=800, bg="green")
+        self.gameCanvas = ResizingCanvas(frame,
+                                         width=800,
+                                         height=800,
+                                         bg="green")
         self.gameCanvas.grid(column=0, row=0, sticky=(N, E, S, W))
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(0, weight=1)
@@ -30,8 +31,8 @@ class GUI():
         infoFrame = Frame(frame)
         infoFrame.grid(row=0, column=1)
 
-        self.player_label = ttk.Label(
-            infoFrame, text="Current Player: 1 (Black)")
+        self.player_label = ttk.Label(infoFrame,
+                                      text="Current Player: 1 (Black)")
         self.player_label.grid(column=0, row=0, sticky=N)
 
         self.black_tiles_label = ttk.Label(infoFrame, text="Black tiles: 2")
@@ -50,12 +51,12 @@ class GUI():
         self.board.update()
 
         self.player_label.configure(
-            text="Current Player: 1 (Black)"
-            if self.othello.gameState.currentPlayer == 1 else
-            "Current Player: 2 (White)")
+            text="Current Player: 1 (Black)" if self.othello.gameState.
+            currentPlayer == 1 else "Current Player: 2 (White)")
         self.black_tiles_label.configure(
             text="Black tiles: " + str(self.othello.gameState.numBlackTiles))
         self.white_tiles_label.configure(
             text="White tiles: " + str(self.othello.gameState.numWhiteTiles))
+
 
 # itemconfigure(self._id, fill=fill, state=state, outline=
