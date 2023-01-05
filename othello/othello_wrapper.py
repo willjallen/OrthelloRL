@@ -46,7 +46,7 @@ class Othello():
         self._lib.playMove.argtypes = (POINTER(GAMESTATE), c_int, c_int)
         self._lib.playRandomMove.argtypes = [POINTER(GAMESTATE)]
         self._lib.switchPlayers.argtypes = [POINTER(GAMESTATE)]
-
+        self._lib.shouldPass.argtypes = [POINTER(GAMESTATE)]
         self._lib.init(self.gameState)
 
         self.board = self.gameState.board
@@ -88,6 +88,9 @@ class Othello():
 
     def switch_players(self):
         self._lib.switchPlayers(self.gameState_ptr)
+
+    def should_pass(self):
+        return self._lib.shouldPass(self.gameState_ptr)
 
     def init(self):
         self._lib.init(self.gameState_ptr)

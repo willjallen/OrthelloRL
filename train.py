@@ -45,20 +45,33 @@ def trainSimple(othello, net):
         # Simple game loop
         # If player has no legal moves, pass
         # If both players have no legal moves consecutively, game is over
-
+        
+        game_state = othello.gameState
         othello.init()
 
-        gameOver = False
-        while(not gameOver):
-            
+        game_over = False
+
+        while(not game_over):
+            # If there are no legal moves, pass
+            # If there are two consecutive passes, game is over
+            if game_state.should_pass() == 1:
+                pass += 1
+                if(pass == 2):
+                    game_over = True
+                    return
+                continue
+            else:
+                pass = 0
+
             # Get the encoded game state
-            encodedGameState = getEncodedState(othello)
+            encoded_game_state = getEncodedState(othello)
             
             # Evaluate our position
-            evlauation = net(encodedGameState)
+            evlauation = net(encoded_game_state)
             
             # Play tile with highest probability
-
+            
+            # 
      
 
     

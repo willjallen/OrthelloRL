@@ -44,7 +44,7 @@ Output:
 - 8x8 vector action probability distribution
 - scalar value prediction (-1, 1) [How likely this position is a winning position]
 
-===========================================================================
+================================================================================
 
 The neural architecture search thing is too hard. Will never get done.
 Instead, maybe build incremently more complicated RL models.
@@ -79,4 +79,37 @@ sample from these game states, optimizing for LSE of the predicted value and the
 result (1, 0, -1)
 
 This is ~sort~ of like a 1D monte carlo tree search?
+
+
+================================================================================
+
+Multithreading :(
+
+I don't want to do all the inference in stuff in c++ bc kinda defeats the point
+
+https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html
+
+This should do the trick. We can run inference asynchronously, and work in our MCTS/whatever C parallelism no
+problem. Sounds too good to be true.
+
+Need to write some callbacks in python for the c prog.
+
+[] = async
+
+  => [1] (async w/ pytorch)
+  -> Game has state
+  -> NN consumes state, gives prediction (inference)  
+  -> Write this data to a buffer [a] (async w/ c prog)
+  -> Run some algo on the prediction (best pred, MCTS, etc.)
+  -> Generate the next game state
+
+
+
+
+
+
+
+
+
+
 
