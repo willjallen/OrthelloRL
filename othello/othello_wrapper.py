@@ -7,6 +7,7 @@ if (platform.system() == "Linux"):
 elif (platform.system() == "Windows"):
     from ctypes import WINDLL
 
+
 class LINE(Structure):
     _fields_ = [("assignedTurnNumber", c_uint), ("valid", c_bool),
                 ("langth", c_uint)]
