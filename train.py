@@ -39,5 +39,11 @@ def getEncodedState(othello):
     return torch.tensor(data)
 
 
-def trainSimple(othello):
-    pass
+def trainSimple(othello, net):
+    # Play a bunch of games
+    for i in range(0, 100):
+        pass
+     
+
+    
+    

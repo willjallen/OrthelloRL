@@ -1,8 +1,12 @@
 import platform
-from os import curdir
-from tkinter import *
-from ctypes import *
+from ctypes import Structure, c_uint, c_int, c_bool, pointer, POINTER
 
+# Platform specific
+
+if (platform.system() == "Linux"):
+    from ctypes import CDLL
+elif (platform.system() == "Windows"):
+    from ctypes import WINDLL
 
 class LINE(Structure):
     _fields_ = [("assignedTurnNumber", c_uint), ("valid", c_bool),
@@ -28,7 +32,7 @@ class Othello():
     def __init__(self):
 
         # Detect OS
-        print(platform.system())
+        # print(platform.system())
         # Load library
         if (platform.system() == "Linux"):
             self._lib = CDLL("./othello/lib/build/libothello.so")
