@@ -1,7 +1,4 @@
 from tkinter import ttk, Frame, N, E, S, W
-from tkinter import ttk
-from ctypes import *
-from othello.othello_wrapper import Othello
 from ui.resizing_canvas import ResizingCanvas
 from ui.board import Board
 

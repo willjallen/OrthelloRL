@@ -2,7 +2,6 @@ import platform
 from ctypes import Structure, c_uint, c_int, c_bool, pointer, POINTER
 
 # Platform specific
-
 if (platform.system() == "Linux"):
     from ctypes import CDLL
 elif (platform.system() == "Windows"):

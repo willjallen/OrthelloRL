@@ -42,7 +42,23 @@ def getEncodedState(othello):
 def trainSimple(othello, net):
     # Play a bunch of games
     for i in range(0, 100):
-        pass
+        # Simple game loop
+        # If player has no legal moves, pass
+        # If both players have no legal moves consecutively, game is over
+
+        othello.init()
+
+        gameOver = False
+        while(not gameOver):
+            
+            # Get the encoded game state
+            encodedGameState = getEncodedState(othello)
+            
+            # Evaluate our position
+            evlauation = net(encodedGameState)
+            
+            # Play tile with highest probability
+
      
 
     
