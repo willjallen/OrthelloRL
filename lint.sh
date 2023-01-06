@@ -9,4 +9,7 @@ find -type f -name '*.py' -exec yapf -i -r --style pep8 -vv '{}' \;
 
 
 echo "Running pycodestyle..."
-find -type f -name '*.py' ! -path '*/migrations/*' -exec pycodestyle --first '{}' \;
+find -type f -name '*.py' ! -exec pycodestyle --first '{}' \;
+
+echo "Running pylint..."
+find -type f -name '*.py' ! -exec pylint '{}' \;

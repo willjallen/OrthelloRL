@@ -94,6 +94,8 @@ problem. Sounds too good to be true.
 
 Need to write some callbacks in python for the c prog.
 
+We want to run many games at once the only thing shared between them is the state of the NN for inference
+
 [] = async
 
   => [1] (async w/ pytorch)
@@ -104,9 +106,13 @@ Need to write some callbacks in python for the c prog.
   -> Generate the next game state
 
 
+================================================================================
 
+To C or not to C (python lol)
 
-
+Going back and forth on this but I think the best way forward is to write the modules in python,
+then serialize them to a script loaded into c++. Then we can do all of our async operations in one place
+rather than having to deal with a bunch of really cursed callbacks.
 
 
 
