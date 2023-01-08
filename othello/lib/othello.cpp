@@ -456,16 +456,5 @@ extern "C"
         unsigned int randomY = potentialCoordinates[choice].y;
 
         playMove(gameState, randomX, randomY);
-    }
-
-
-    /**
-     * @brief 
-     *
-     *
-     */
-    // __declspec(dllexport)
-    //   void playSimpleNetwork(GameState* gameState){
-    //     
-    //   }
+    }  
 }

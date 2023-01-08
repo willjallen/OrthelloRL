@@ -110,9 +110,48 @@ We want to run many games at once the only thing shared between them is the stat
 
 To C or not to C (python lol)
 
-Going back and forth on this but I think the best way forward is to write the modules in python,
-then serialize them to a script loaded into c++. Then we can do all of our async operations in one place
-rather than having to deal with a bunch of really cursed callbacks.
+Going back and forth on this but I think the best way forward is to write the networks in python,
+then serialize them to a script loaded into a c++ prog (for forward pass inference). Then we can do all of our async operations in one place rather than having to deal with a bunch of really cursed callbacks.
+
+https://pytorch.org/tutorials/advanced/cpp_export.html
+
+(Training will be in python)
+
+The alternative is to rewrite the whole othello lib in python. I don't like this because it's a lot of work and
+we take a massive performance penalty. 
+
+================================================================================
+
+-- Trivial Network revisited --
+
+Here's the full scheme:
+
+Optimizer(python):
+  
+
+Evaluator(c++):
+
+
+Self play(c++):
+  -> Load model script
+  -> Create a pool of games
+  => For each game
+    -> Reserve buffer for saving
+    -> Start game
+    => Game loop
+      -> Run inference on the model
+      -> Save the model state and the game state to the buffer
+      -> Choose move accordingly
+      -> Switch players
+      -> End game when appropriate
+     
+
+
+
+
+
+
+
 
 
 
