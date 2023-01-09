@@ -122,12 +122,17 @@ we take a massive performance penalty.
 
 ================================================================================
 
--- Trivial Network revisited --
+-- Trivial Network revisited  / TD learning --
+
+https://www.ai.rug.nl/~mwiering/GROUP/ARTICLES/paper-othello.pdf
 
 Here's the full scheme:
 
 Optimizer(python):
-  
+ -> Load model checkpoint
+  => Training loop
+  -> Sample a memory from self play
+    * Encoded as  
 
 Evaluator(c++):
 
@@ -145,6 +150,22 @@ Self play(c++):
       -> Switch players
       -> End game when appropriate
      
+================================================================================
+
+Need to regroup, the previous^ section is a little misleading.
+
+There are several techniques for reinforcement learning. Some we will look at is:
+TD learning (predicting just the scalar value of a state)
+Q learning (predicting which state in the statespace itself is good)
+AlphaZero (predicting which state in the statespace is good, given a MCTS using value scalar)
+
+The architecture for these techniques don't differ a whole lot. TD learning has one output neuron while Q learning/AlphaZero has many output neurons. The junk in the middle can be subject to NAS.
+
+So not only is NAS an important question, so is the training function.
+
+
+
+
 
 
 
