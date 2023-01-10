@@ -164,6 +164,37 @@ The architecture for these techniques don't differ a whole lot. TD learning has 
 So not only is NAS an important question, so is the training function.
 
 
+================================================================================
+
+Need to come to a conclusion about what the actual research topic is rn.
+My earlier thoughts that NAS would be too hard are wrong. 
+
+My current idea: build AlphaZero for othello, run NAS on the architecture
+this simplifies:
+  -> only need to build and maintain one algorithm
+  -> the ability to produce novel research
+    -> reimplmenting a bunch of algos that have been implemented a million times
+
+So how will the NAS work?
+
+Well, if AlphaZero is set up like this:
+
+in -> t1 -> t2 -> ... -> tn -> out
+where t is an arbitrary tensor
+and -> is an arbitrary activation function
+
+naively: run an optimizer to find the best combination(s)
+still naive: run a reinforcement learning algo to find the best combination(s)
+maybe less naive: run the former^ in conjunction with an evolutionary algorithm
+^ this i ~think~ is current SOTA
+*put a paper here so i can confirm this, i know i read it somewhere*
+
+So just come up with ideas in this space
+
+The advantage here is even if this totally flops, it is still likely we can produce something
+worthy of contribution-- as far as commentary on this particular subfield goes.
+
+
 
 
 
