@@ -1,10 +1,25 @@
+#include "Othello.h"
+
+typedef struct StateNode{
+  unsigned int hashedGameState;
+  StateNode *left;
+  StateNode *right;
+} StateNode;
+
+
 
 class StateSearchTree {
-
-  StateSearchTree();
-  ~StateSearchTree();
-
   
-  unsigned long getHashedGameState(GameState *gameState);
+  public:
+    StateSearchTree(GameState *gameState);
+    ~StateSearchTree();
+
+    int add();
+
+    int find();
+
+  private:
+    StateNode *root;
+
 
 }

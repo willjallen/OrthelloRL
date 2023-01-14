@@ -1,32 +1,99 @@
   
 #include "StateSearchTree.h"
+#include "Othello.h"
 
 
 
-StateSearchTree() {
+
+
+
+
+
+StateSearchTree::StateSearchTree(Othello::GameState *gameState) {
+  this->root = new StateNode(Othello::getHashedGameState(gameState), nullptr, nullptr); 
+}
+
+int StateSearchTree::add(Othello:GameState *gameState){
+
+  StateNode *cursor = this->root;
+  unsigned int newHashedGameState = Othello::getHashedGameState(gameState)
+  while(true){
+
+
+    if(newHashedGameState == cursor->hashedGameState){
+      return -1;
+    }
+
+
+    if(newHashedGameState < cursor->hashedGameState){
+      
+      StateNode *newCursor = cursor->left;
+      
+      if(newCursor == nullptr){
+        cursor->left = new StateNode(newHashedGameState, nullptr, nullptr);
+        return 1;
+      }else{
+        cursor = newCursor;
+        continue;
+      }
+    }
+
+    if(newHashedGameState > cursor->hashedGameState){
+      
+      StateNode *newCursor = cursor->right;
+      
+      if(newCursor == nullptr){
+        cursor->right = new StateNode(newHashedGameState, nullptr, nullptr);
+        return 1;
+      }else{
+        cursor = newCursor;
+        continue;
+      }
+
+    }
+  }
 
 }
 
 
+int StateSearchTree::find(Othello:GameState *gameState){
+
+  StateNode *cursor = this->root;
+  unsigned int newHashedGameState = Othello::getHashedGameState(gameState)
+  while(true){
 
 
-unsigned long StateSearchTree::getHashedGameState(GameState *gameState){
+    if(newHashedGameState == cursor->hashedGameState){
+      return 1;
+    }
 
-    unsigned long hash = 0;
 
-    unsigned long iterator = 0;
+    if(newHashedGameState < cursor->hashedGameState){
+      
+      StateNode *newCursor = cursor->left;
+      
+      if(newCursor == nullptr){
+        return -1;
+      }else{
+        cursor = newCursor;
+        continue;
+      }
+    }
 
-     for(int i = 0; i < 8; i++){
-       for(int j = 0; j < 8; j++){
-         if(gameState->board[i][j] == gameState->currentPlayer){
-          hash = hash || 1 << (i*j);
-         }
-       }
-     }
+    if(newHashedGameState > cursor->hashedGameState){
+      
+      StateNode *newCursor = cursor->right;
+      
+      if(newCursor == nullptr){
+        cursor->right = new StateNode(newHashedGameState, nullptr, nullptr);
+        return 1;
+      }else{
+        cursor = newCursor;
+        continue;
+      }
 
-  return hash; 
-
+    }
+  }
 
 }
-
 
