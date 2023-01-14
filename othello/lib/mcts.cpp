@@ -17,11 +17,25 @@ typedef struct Node
 
 } Node;
 
-class SearchTree
+
+typedef struct StateNode{
+  unsigned int gameState;
+  StateNode *left;
+  StateNode *right;
+}
+
+class StateSearchTree
 {
 
     SearchTree()
     {
-        Node *root = std::make_unique<Node>();
+        StateNode *root = std::make_unique<StateNode>();
+    }
+
+    
+
+
+    void find(int state){
+
     }
 }

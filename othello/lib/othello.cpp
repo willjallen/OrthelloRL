@@ -431,7 +431,7 @@ extern "C"
         int idx = 0;
         // Collect all valid lines
         for (unsigned int x = 0; x < 8; x++)
-{
+        {
             for (unsigned int y = 0; y < 8; y++)
             {
                 // Find at least one line on this tile
