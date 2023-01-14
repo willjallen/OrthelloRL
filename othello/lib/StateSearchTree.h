@@ -15,11 +15,11 @@ class StateSearchTree {
     ~StateSearchTree();
 
     int add();
-
-    int find();
+    int find();  
 
   private:
     StateNode *root;
 
+    void deleteTree(StateNode *stateNode);
 
 }

@@ -13,6 +13,26 @@ StateSearchTree::StateSearchTree(Othello::GameState *gameState) {
   this->root = new StateNode(Othello::getHashedGameState(gameState), nullptr, nullptr); 
 }
 
+StateSearchTree::~StateSearchTree(Othello::GameState *gameState) {
+  this->deleteTree(this->root);
+}
+
+
+// Delete inorder
+void StateSearchTree::deleteTree(StateNode *stateNode){
+  if(stateNode->left != nullptr){
+    this->deleteTree(stateNode->left);
+  }
+
+  delete stateNode;
+
+  if(stateNode->right != nullptr){
+    this->deleteTree(stateNode->right);
+  }
+
+}
+
+
 int StateSearchTree::add(Othello:GameState *gameState){
 
   StateNode *cursor = this->root;
@@ -85,8 +105,7 @@ int StateSearchTree::find(Othello:GameState *gameState){
       StateNode *newCursor = cursor->right;
       
       if(newCursor == nullptr){
-        cursor->right = new StateNode(newHashedGameState, nullptr, nullptr);
-        return 1;
+        return -1;
       }else{
         cursor = newCursor;
         continue;
