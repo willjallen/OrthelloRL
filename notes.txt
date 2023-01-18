@@ -194,9 +194,28 @@ So just come up with ideas in this space
 The advantage here is even if this totally flops, it is still likely we can produce something
 worthy of contribution-- as far as commentary on this particular subfield goes.
 
+================================================================================
 
+Implementing MCTS:
 
-
+I have a hashed representation of the game state i am using to search the game state tree.
+It would be easier to save the game state with the hashed state in the same struct, i'll probably do that.
+Then for inference the process is something like:
+  - Search the tree for the state
+  - If it does not exist, add it.
+  - Otherwise, we have the following 
+    - U(s,a) = Q(s,a) + c * P(s,a) * sqrt(sum of N(s,b) for all legal moves b)/1 + N(s,a)
+    - c controls exploration
+    - Compute which legal move a maximizes U, then play it
+    - If the next state s' exists: 
+      - call the search tree with s'
+    - If it does not exist:
+      - add it to the tree and initialize P and v from the neural network
+      - return -v
+      - [Do not rollout, instead propogate v up the call stack]
+    - Compute Q[s][a] = (N[s][a] * Q[s][a] + v)/(N[s][a] + 1)
+    - N[s][a] += 1
+    - Search tree returns -v
 
 
 

@@ -18,12 +18,6 @@ typedef struct Node
 } Node;
 
 
-typedef struct StateNode{
-  unsigned int gameState;
-  StateNode *left;
-  StateNode *right;
-}
-
 class StateSearchTree
 {
 

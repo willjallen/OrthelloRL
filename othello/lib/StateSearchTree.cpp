@@ -2,13 +2,6 @@
 #include "StateSearchTree.h"
 #include "Othello.h"
 
-
-
-
-
-
-
-
 StateSearchTree::StateSearchTree(Othello::GameState *gameState) {
   this->root = new StateNode(Othello::getHashedGameState(gameState), nullptr, nullptr); 
 }
