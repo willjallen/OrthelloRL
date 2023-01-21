@@ -27,7 +27,7 @@ void StateSearchTree::deleteTree(StateNode *stateNode){
 
 
 
-int StateSearchTree::add(Othello:GameState *gameState){
+StateNode* StateSearchTree::add(Othello:GameState *gameState){
 
   StateNode *cursor = this->root;
   uint64_t newHashedGameState = Othello::getHashedGameState(gameState)
@@ -35,7 +35,7 @@ int StateSearchTree::add(Othello:GameState *gameState){
 
 
     if(newHashedGameState == cursor->hashedGameState){
-      return -1;
+      return nullptr;
     }
 
 
@@ -45,7 +45,7 @@ int StateSearchTree::add(Othello:GameState *gameState){
       
       if(newCursor == nullptr){
         cursor->left = new StateNode(newHashedGameState);
-        return 1;
+        return cursor->left;
       }else{
         cursor = newCursor;
         continue;
@@ -58,7 +58,7 @@ int StateSearchTree::add(Othello:GameState *gameState){
       
       if(newCursor == nullptr){
         cursor->right = new StateNode(newHashedGameState);
-        return 1;
+        return cursor->right;
       }else{
         cursor = newCursor;
         continue;
@@ -71,7 +71,7 @@ int StateSearchTree::add(Othello:GameState *gameState){
 }
 
 
-int StateSearchTree::find(Othello::GameState *gameState){
+StateNode* StateSearchTree::find(Othello::GameState *gameState){
 
   StateNode *cursor = this->root;
   unsigned int newHashedGameState = Othello::getHashedGameState(gameState)
@@ -79,7 +79,7 @@ int StateSearchTree::find(Othello::GameState *gameState){
 
 
     if(newHashedGameState == cursor->hashedGameState){
-      return 1;
+      return cursor;
     }
 
 
@@ -88,7 +88,7 @@ int StateSearchTree::find(Othello::GameState *gameState){
       StateNode *newCursor = cursor->left;
       
       if(newCursor == nullptr){
-        return 0;
+        return nullptr;
       }else{
         cursor = newCursor;
         continue;
@@ -100,7 +100,7 @@ int StateSearchTree::find(Othello::GameState *gameState){
       StateNode *newCursor = cursor->right;
       
       if(newCursor == nullptr){
-        return 0;
+        return nullptr;
       }else{
         cursor = newCursor;
         continue;

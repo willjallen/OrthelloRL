@@ -115,6 +115,8 @@ extern "C"
       {
           bool noLegalMoveOnLastTurn;
           bool gameOver;
+            
+          bool legalMovesCalulated;
 
           unsigned int currentPlayer;
 
@@ -133,6 +135,31 @@ extern "C"
 
       } GameState;
 
+      void copyGameState(GameState *src, GameState *dst){
+        dst->noLegalMoveOnLastTurn = src->noLegalMoveOnLastTurn;
+        dst->gameOver = src->gameOver;
+        
+        dst->legalMovesCalulated = src->legalMovesCalulated;
+        
+        dst->currentPlayer = src->currentPlayer;
+        
+        dst->turnNumber = src->turnNumber;
+        
+        dst->numBlackTiles = src->numBlackTiles;
+        dst->numWhiteTiles = src->numWhiteTiles;
+        
+        dst->numBlackLegalMoves = src->numBlackLegalMoves;
+        dst->numWhiteLegalMoves = src->numWhiteLegalMoves;
+        
+        for(int i = 0; i < 8; i++){
+          for(int j = 0; j < 8; j++){
+            dst->board[i][j] = src->board[i][j];
+            dst->legalMoves[i][j] = src->legalMoves[i][j];
+            dst->moveLines[i][j] = src->movesLines[i][j];
+          }
+        }
+      }
+
       __declspec(dllexport)
       void switchPlayers(GameState *gameState)
       {
@@ -145,7 +172,8 @@ extern "C"
 
           gameState->noLegalMoveOnLastTurn = false;
           gameState->gameOver = false;
-          
+          gameState->legalMovesCalulated = false;
+
           gameState->currentPlayer = 1;
           gameState->turnNumber = 0;
 
@@ -336,6 +364,7 @@ extern "C"
                   }
               }
           }
+        gameState->legalMovesCalulated = true;
       }
 
       /**
@@ -431,7 +460,7 @@ extern "C"
           }
 
           gameState->turnNumber++;
-
+          gameState->legalMovesCalulated = false;
           switchPlayers(gameState);
       }
 
@@ -479,7 +508,11 @@ extern "C"
   }
 
   std::vector<Coordinate> getLegalMoves(GameState *gameState){
-    
+
+    if(!gameState->legalMovesCalulated){
+      calculateLegalMoves(gameState);
+    }
+
     std::vector<Coordinate> legalMoves;
   
     for(int i = 0; i < 8; i++){
@@ -524,7 +557,7 @@ extern "C"
     }
   }
   
-  
+  // Should probably check for collisions
   uint64_t hash = (whiteVec ^ distribution(generator)) ^ (blackVec ^ distribution(generator));
   
 

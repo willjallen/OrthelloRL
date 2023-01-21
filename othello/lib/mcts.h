@@ -11,7 +11,7 @@ class MCTS {
     MCTS();
     ~MCTS();
 
-    void search();
+    float search();
     
 
 }

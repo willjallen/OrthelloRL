@@ -1,11 +1,18 @@
 #include "Othello.h"
 
 // (s,a)
-template <typename T>
-struct StateValuePair {
-  uint64_t hashedGameState;
-  uint64_t hashedGameStateAfterAction;
-  T value;
+struct ActionValues {
+  Othello::Coordinate action;
+  // The expected reward for taking action a from state s
+  float Q;
+  
+  // The number of times we took action a from state s across simulations
+  int N;
+  
+  // The initial estimate of taking an action a from state s according to policy theta
+  float P;
+
+  ActionValues(Othello::Coordinate action, float Q, int N, float P) : action(action), Q(Q), N(N), P(P) {}
 }
 
 
@@ -14,20 +21,24 @@ struct StateNode{
   GameState *gameState;
   uint64_t hashedGameState;
 
-  // The expected reward for taking action a from state s
-  std::vector<StateValuePair<float>> Qvals;
-  
-  // The number of times we took action a from state s across simulations
-  std::vector<StateValuePair<int>> Nvals;
-
-  // The initial estimate of taking an action a from state s according to policy theta
-  std::vector<StateValuePair<float>> Pvals;
-  
+  std::vector<ActionValues> actions;
 
   StateNode *left;
   StateNode *right;
 
-  StateNode(uint64_t hashedGameState) : hashedGameState(hashedGameState){
+  StateNode(GameState *gameState, uint64_t hashedGameState) : hashedGameState(hashedGameState){
+    
+    Othello::copyGameState(gameState, this->gameState);
+  
+
+    // Initialize Q and N for all potential actions to 0
+    // Initialize P using NN
+  
+    std::vector<Othello::Coordinate> legalMoves = Othello::getLegalMoves(gameState);
+    for(auto& action : legalMoves){ 
+      actions.push_back(action, 0, 0, 0);
+    }
+
     this->left = nullptr;
     this->right = nullptr;
   }

@@ -17,13 +17,18 @@ float MCTS::search(Othello::GameState *gameState){
     return getGameOverReward(gameState);
   }
 
-  if(!stateSearchTree.find(gameState)){
-    stateSearchTree.add(gameState);
+  StateNode *stateNode = stateSearchTree.find(gameState);
+  if(stateSearchTree.find(gameState) == nullptr){
+    stateNode = stateSearchTree.add(gameState);
   }
 
   // Proper big number later
-  max_u = 9999999999999;
+  int max_u = 9999999999999;
+  std::vector<Othello::Coordinate> legalMoves = Othello::getLegalMoves(gameState);
 
+  for(auto& move : legalMoves){
+    
+  }
 
 }
 
