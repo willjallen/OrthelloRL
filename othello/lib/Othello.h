@@ -3,8 +3,9 @@
 // If i were to **hypothetically** rewrite this, I would have multiple 64xint arrays and do the legal moves and flipping
 // tiles all in one go
 
-#include <stdlib.h>
-
+#include <stdlib>
+#include <math>
+#include <random>
 // Linux fix
 #ifdef __linux__
 #define __declspec(v)
@@ -112,6 +113,8 @@ extern "C"
       __declspec(dllexport)
       typedef struct GameState
       {
+          bool noLegalMoveOnLastTurn;
+          bool gameOver;
 
           unsigned int currentPlayer;
 
@@ -140,6 +143,9 @@ extern "C"
       void init(GameState *gameState)
       {
 
+          gameState->noLegalMoveOnLastTurn = false;
+          gameState->gameOver = false;
+          
           gameState->currentPlayer = 1;
           gameState->turnNumber = 0;
 
@@ -361,6 +367,8 @@ extern "C"
 
           // Get all lines at the coordinate
           MoveLines moveLines = gameState->moveLines[startingX][startingY];
+        
+          bool noLegalMoves = true;
 
           // For each direction, check if a valid line exists
           for (unsigned int direction = 0; direction < 8; direction++)
@@ -371,7 +379,8 @@ extern "C"
 
               if (line.valid && line.assignedTurnNumber == gameState->turnNumber)
               {
-
+                  
+                noLegalMoves = false;
                   // Flip the tiles on the line
 
                   unsigned int x = startingX;
@@ -409,6 +418,16 @@ extern "C"
                       y += dy;
                   }
               }
+          }
+          
+          if(gameState->noLegalMoveOnLastTurn && noLegalMoves){
+            gameState->gameOver = true;
+            calculateWinner(gameState);
+            return; 
+          }else if(noLegalMoves){
+            gameState->noLegalMoveOnLastTurn = true;
+          }else{
+            gameState->noLegalMoveOnLastTurn = false;
           }
 
           gameState->turnNumber++;
@@ -459,22 +478,55 @@ extern "C"
       }  
   }
 
+  std::vector<Coordinate> getLegalMoves(GameState *gameState){
+    
+    std::vector<Coordinate> legalMoves;
+  
+    for(int i = 0; i < 8; i++){
+      for(int j = 0; j < 8; j++){
+        if(gameState-board[i][j] == LEGAL){
+          legalMoves.push_back(Coordinate(true, i, j));
+        }
+      }
+    }
+  }  
 
-  unsigned long getHashedGameState(GameState *gameState){
+  int calculateWinner(GameState *gameState){
+    if(gameState->numBlackTiles > gameState->numWhiteTiles){
+      return BLACK;
+    }else if(gameState->numBlackTiles < gameState-numWhiteTiles){
+      return WHITE;
+    }else{
+      return 0;
+    }
+  }
 
-      unsigned long hash = 0;
+  // 64 digit base 3 number
+  uint64_t getHashedGameState(GameState *gameState){
+    uint64_t whiteVec = 0;
+    uint64_t blackVec = 0;
+    /* Seed */
+    std::random_device rd;
 
-      unsigned long iterator = 0;
+    /* Random number generator */
+    std::default_random_engine generator(rd());
 
-       for(int i = 0; i < 8; i++){
-         for(int j = 0; j < 8; j++){
-           if(gameState->board[i][j] == gameState->currentPlayer){
-            hash = hash || 1 << (i*j);
-           }
-         }
-       }
+    /* Distribution on which to apply the generator */
+    std::uniform_int_distribution<long long unsigned> distribution(0,0xFFFFFFFFFFFFFFFF);
 
-    return hash; 
+  for(int i = 0; i < 8; i++){
+    for(int j = 0; j < 8; j++){
+        if(gameState->board[i][j] == BLACK){
+          blackVec || 1<<(i*j);
+        }else if(gameState->board[i][j] == WHITE){
+          whiteVec || 1<<(i*j);
+        }
+    }
+  }
+  
+  
+  uint64_t hash = (whiteVec ^ distribution(generator)) ^ (blackVec ^ distribution(generator));
+  
 
-
+  return hash; 
 }

@@ -3,8 +3,8 @@
 // (s,a)
 template <typename T>
 struct StateValuePair {
-  unsigned int hashedGameState;
-  unsigned int hashedGameStateAfterAction;
+  uint64_t hashedGameState;
+  uint64_t hashedGameStateAfterAction;
   T value;
 }
 
@@ -12,7 +12,7 @@ struct StateValuePair {
 struct StateNode{
   
   GameState *gameState;
-  unsigned int hashedGameState;
+  uint64_t hashedGameState;
 
   // The expected reward for taking action a from state s
   std::vector<StateValuePair<float>> Qvals;
@@ -26,6 +26,12 @@ struct StateNode{
 
   StateNode *left;
   StateNode *right;
+
+  StateNode(uint64_t hashedGameState) : hashedGameState(hashedGameState){
+    this->left = nullptr;
+    this->right = nullptr;
+  }
+    
 
 };
 

@@ -2,7 +2,7 @@
 #include "StateSearchTree.h"
 #include "Othello.h"
 
-StateSearchTree::StateSearchTree(Othello::GameState *gameState) {
+StateSearchTree::StateSearchTree(Othello::GameState *e) {
   this->root = new StateNode(Othello::getHashedGameState(gameState), nullptr, nullptr); 
 }
 
@@ -26,10 +26,11 @@ void StateSearchTree::deleteTree(StateNode *stateNode){
 }
 
 
+
 int StateSearchTree::add(Othello:GameState *gameState){
 
   StateNode *cursor = this->root;
-  unsigned int newHashedGameState = Othello::getHashedGameState(gameState)
+  uint64_t newHashedGameState = Othello::getHashedGameState(gameState)
   while(true){
 
 
@@ -43,7 +44,7 @@ int StateSearchTree::add(Othello:GameState *gameState){
       StateNode *newCursor = cursor->left;
       
       if(newCursor == nullptr){
-        cursor->left = new StateNode(newHashedGameState, nullptr, nullptr);
+        cursor->left = new StateNode(newHashedGameState);
         return 1;
       }else{
         cursor = newCursor;
@@ -56,7 +57,7 @@ int StateSearchTree::add(Othello:GameState *gameState){
       StateNode *newCursor = cursor->right;
       
       if(newCursor == nullptr){
-        cursor->right = new StateNode(newHashedGameState, nullptr, nullptr);
+        cursor->right = new StateNode(newHashedGameState);
         return 1;
       }else{
         cursor = newCursor;
@@ -64,12 +65,13 @@ int StateSearchTree::add(Othello:GameState *gameState){
       }
 
     }
+
   }
 
 }
 
 
-int StateSearchTree::find(Othello:GameState *gameState){
+int StateSearchTree::find(Othello::GameState *gameState){
 
   StateNode *cursor = this->root;
   unsigned int newHashedGameState = Othello::getHashedGameState(gameState)
@@ -86,7 +88,7 @@ int StateSearchTree::find(Othello:GameState *gameState){
       StateNode *newCursor = cursor->left;
       
       if(newCursor == nullptr){
-        return -1;
+        return 0;
       }else{
         cursor = newCursor;
         continue;
@@ -98,7 +100,7 @@ int StateSearchTree::find(Othello:GameState *gameState){
       StateNode *newCursor = cursor->right;
       
       if(newCursor == nullptr){
-        return -1;
+        return 0;
       }else{
         cursor = newCursor;
         continue;
