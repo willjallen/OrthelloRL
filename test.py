@@ -106,6 +106,7 @@ def test_performance(num_games):
 
 
 class RandomPlayContainer():
+
     def __init__(self, gui, othello):
         self.othello = othello
         self.gui = gui
@@ -151,6 +152,7 @@ class RandomPlayContainer():
 
 
 class PerformanceTestContainer():
+
     def __init__(self, othello):
         self.othello = othello
         self.gameState = othello.gameState

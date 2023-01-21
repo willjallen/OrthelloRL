@@ -1,4 +1,5 @@
 class BoardTile():
+
     def __init__(self, gui, canvas, othello):
         self._gui = gui
         self._canvas = canvas

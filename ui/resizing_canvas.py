@@ -2,6 +2,7 @@ from tkinter import Canvas
 
 
 class ResizingCanvas(Canvas):
+
     def __init__(self, parent, **kwargs):
         Canvas.__init__(self, parent, **kwargs)
         self.bind("<Configure>", self.on_resize)

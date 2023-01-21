@@ -3,6 +3,7 @@ from ui.board_tile import BoardTile
 
 
 class Board():
+
     def __init__(self, gui):
         self.gui = gui
         self.othello = gui.othello

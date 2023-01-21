@@ -4,6 +4,7 @@ import torch.nn.functional as F
 
 
 class SimpleNet(nn.Module):
+
     def __init__(self):
         super(SimpleNet, self).__init__()
 

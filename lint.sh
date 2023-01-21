@@ -4,8 +4,7 @@
 # find -type f -name '*.py' ! -path '*/migrations/*' -exec autopep8 -r -v -v -v -a -a --experimental --in-place '{}' \;
 
 echo "Running yapf"
-find -type f -name '*.py' -exec yapf -i -r --style pep8 -vv '{}' \;
-
+python -m yapf -ir .
 
 
 echo "Running pycodestyle..."

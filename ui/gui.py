@@ -4,6 +4,7 @@ from ui.board import Board
 
 
 class GUI():
+
     def __init__(self, root, othello):
 
         self.othello = othello
