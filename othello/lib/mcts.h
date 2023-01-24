@@ -10,12 +10,11 @@ class MCTS {
   
   public:
     MCTS(Othello::GameState &initialState);
-    ~MCTS();
-
+   ~MCTS(); 
     float search(Othello::GameState &gameState);
 
   private:
-    StateSearchTree stateSearchTree;
+    StateSearchTree *stateSearchTree;
 
 };
 

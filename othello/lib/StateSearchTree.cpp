@@ -1,7 +1,7 @@
   
 #include "StateSearchTree.h"
 #include "Othello.h"
-
+#include <iostream>
 StateSearchTree::StateSearchTree(Othello::GameState &gameState) {
   this->root = new StateNode(gameState, gameState.getHashedGameState()); 
 }
@@ -11,6 +11,8 @@ StateSearchTree::StateSearchTree(){
 }
 
 
+
+
 StateSearchTree::~StateSearchTree() {
   this->deleteTree(this->root);
 }
@@ -18,16 +20,12 @@ StateSearchTree::~StateSearchTree() {
 
 // Delete inorder
 void StateSearchTree::deleteTree(StateNode *stateNode){
-  if(stateNode->left != nullptr){
-    this->deleteTree(stateNode->left);
-  }
+  if(stateNode == nullptr) return;
+  std::cout << "ere" << std::endl;
+  this->deleteTree(stateNode->left);
+  this->deleteTree(stateNode->right);
 
   delete stateNode;
-
-  if(stateNode->right != nullptr){
-    this->deleteTree(stateNode->right);
-  }
-
 }
 
 

@@ -20,12 +20,13 @@ float getGameOverReward(const Othello::GameState &gameState){
 }
 
 MCTS::MCTS(Othello::GameState &initialState){
-  this->stateSearchTree = StateSearchTree(initialState);
+  this->stateSearchTree = new StateSearchTree(initialState);
 }
 
 MCTS::~MCTS(){
-
+  delete this->stateSearchTree;
 }
+
 
 
 // gamestate, NN
@@ -38,9 +39,9 @@ float MCTS::search(Othello::GameState &gameState){
 
   // If the state does not exist, add and initialize it
   // This will make a copy of gameState inside stateNode
-  StateNode *stateNode = this->stateSearchTree.find(gameState);
-  if(this->stateSearchTree.find(gameState) == nullptr){
-    stateNode = stateSearchTree.add(gameState);
+  StateNode *stateNode = this->stateSearchTree->find(gameState);
+  if(this->stateSearchTree->find(gameState) == nullptr){
+    stateNode = stateSearchTree->add(gameState);
   }
 
   // Proper small number later

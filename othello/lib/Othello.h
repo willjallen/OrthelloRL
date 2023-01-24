@@ -126,7 +126,6 @@ struct MoveLines
     public:
       GameState();
       GameState(const GameState &GameState);
-      ~GameState();
       
       void switchPlayers();
       void findLegalMove(unsigned int startingX, unsigned int startingY, unsigned int player, unsigned int otherPlayer);

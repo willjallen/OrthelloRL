@@ -124,10 +124,6 @@ GameState::GameState(const GameState &src){
 }
 
 
-GameState::~GameState(){
-
-}
-
 void GameState::findLegalMove(unsigned int startingX, unsigned int startingY, unsigned int player,
                                          unsigned int otherPlayer)
 {

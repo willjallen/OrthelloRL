@@ -45,12 +45,13 @@ struct StateNode{
     std::vector<std::pair<int,int>> legalMoves = gameState.getLegalMoves();
     for(auto& action : legalMoves){ 
       // TODO: When NN comes in it will go here
-      actions.push_back(ActionValues(action, 0, 0, 0));
+      this->actions.push_back(ActionValues(action, 0, 0, 0));
     }
 
     this->left = nullptr;
     this->right = nullptr;
   }
+
     
 
 };
