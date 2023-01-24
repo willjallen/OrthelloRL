@@ -3,18 +3,24 @@
 // If i were to **hypothetically** rewrite this, I would have multiple 64xint arrays and do the legal moves and flipping
 // tiles all in one go
 
-#include <stdlib>
-#include <math>
+#ifndef OTHELLO_H
+#define OTHELLO_H
+
+
+// #include <stdlib>
+#include <math.h>
 #include <random>
 // Linux fix
 #ifdef __linux__
 #define __declspec(v)
 #endif
-
-extern "C"
-{
   namespace Othello {
-      const unsigned int DEFAULT_BOARD[8][8] = {{0, 0, 0, 0, 0, 0, 0, 0},
+
+
+
+    extern "C"
+    {
+    const unsigned int DEFAULT_BOARD[8][8] = {{0, 0, 0, 0, 0, 0, 0, 0},
                                                 {0, 0, 0, 0, 0, 0, 0, 0},
                                                 {0, 0, 0, 0, 0, 0, 0, 0},
                                                 {0, 0, 0, 1, 2, 0, 0, 0},
@@ -86,25 +92,36 @@ extern "C"
           return player == 1 ? 2 : 1;
       }
 
+
+      typedef struct Coordinate
+      {
+          bool occupied = false;
+          unsigned int x;
+          unsigned int y;
+
+          Coordinate(bool occupied, unsigned int x, unsigned int y) : occupied(occupied), x(x), y(y) {}
+          Coordinate() {}
+      } Coordinate;
+
       /**
        * @brief A structure containing a single possible line of play for a given coordinate
        *
        */
-      struct Line
+      typedef struct Line
       {
           unsigned int assignedTurnNumber;
           bool valid;
           unsigned int length;
-      };
+      } Line;
 
       /**
        * @brief A structure containing all possible lines of play for a given coordinate
        *
        */
-      struct MoveLines
+      typedef struct MoveLines
       {
           Line lines[8];
-      };
+      } MoveLines;
 
       /**
        * @brief A structure containing all relevant game information for a particular state
@@ -155,7 +172,7 @@ extern "C"
           for(int j = 0; j < 8; j++){
             dst->board[i][j] = src->board[i][j];
             dst->legalMoves[i][j] = src->legalMoves[i][j];
-            dst->moveLines[i][j] = src->movesLines[i][j];
+            dst->moveLines[i][j] = src->moveLines[i][j];
           }
         }
       }
@@ -381,6 +398,19 @@ extern "C"
         return false;
       }
 
+
+    int calculateWinner(GameState *gameState){
+      if(gameState->numBlackTiles > gameState->numWhiteTiles){
+        return BLACK;
+      }else if(gameState->numBlackTiles < gameState->numWhiteTiles){
+        return WHITE;
+      }else{
+        return 0;
+      }
+    }
+
+
+
       __declspec(dllexport)
     void playMove(GameState *gameState, unsigned int startingX, unsigned int startingY)
       {
@@ -464,12 +494,6 @@ extern "C"
           switchPlayers(gameState);
       }
 
-      struct Coordinate
-      {
-          bool occupied = false;
-          unsigned int x;
-          unsigned int y;
-      };
 
       // Uniformly sample the legal action space
       __declspec(dllexport)
@@ -505,61 +529,59 @@ extern "C"
 
           playMove(gameState, randomX, randomY);
       }  
-  }
-
-  std::vector<Coordinate> getLegalMoves(GameState *gameState){
-
-    if(!gameState->legalMovesCalulated){
-      calculateLegalMoves(gameState);
+  
     }
 
-    std::vector<Coordinate> legalMoves;
-  
-    for(int i = 0; i < 8; i++){
-      for(int j = 0; j < 8; j++){
-        if(gameState-board[i][j] == LEGAL){
-          legalMoves.push_back(Coordinate(true, i, j));
+    std::vector<Coordinate> getLegalMoves(GameState *gameState){
+
+      if(!gameState->legalMovesCalulated){
+        calculateLegalMoves(gameState);
+      }
+
+      std::vector<Coordinate> legalMoves;
+    
+      for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+          if(gameState->board[i][j] == LEGAL){
+            legalMoves.push_back(Coordinate(true, i, j));
+          }
         }
       }
-    }
-  }  
+    
+      return legalMoves;
 
-  int calculateWinner(GameState *gameState){
-    if(gameState->numBlackTiles > gameState->numWhiteTiles){
-      return BLACK;
-    }else if(gameState->numBlackTiles < gameState-numWhiteTiles){
-      return WHITE;
-    }else{
-      return 0;
+    }  
+
+    // 64 digit base 3 number
+    uint64_t getHashedGameState(GameState *gameState){
+      uint64_t whiteVec = 0;
+      uint64_t blackVec = 0;
+      /* Seed */
+      std::random_device rd;
+
+      /* Random number generator */
+      std::default_random_engine generator(rd());
+
+      /* Distribution on which to apply the generator */
+      std::uniform_int_distribution<long long unsigned> distribution(0,0xFFFFFFFFFFFFFFFF);
+
+    for(int i = 0; i < 8; i++){
+      for(int j = 0; j < 8; j++){
+          if(gameState->board[i][j] == BLACK){
+            blackVec = blackVec | 1ULL << (i*j);
+          }else if(gameState->board[i][j] == WHITE){
+            whiteVec = whiteVec | 1ULL << (i*j);
+          }
+      }
     }
+    
+    // Should probably check for collisions
+    uint64_t hash = (whiteVec ^ distribution(generator)) ^ (blackVec ^ distribution(generator));
+    
+
+    return hash; 
   }
 
-  // 64 digit base 3 number
-  uint64_t getHashedGameState(GameState *gameState){
-    uint64_t whiteVec = 0;
-    uint64_t blackVec = 0;
-    /* Seed */
-    std::random_device rd;
-
-    /* Random number generator */
-    std::default_random_engine generator(rd());
-
-    /* Distribution on which to apply the generator */
-    std::uniform_int_distribution<long long unsigned> distribution(0,0xFFFFFFFFFFFFFFFF);
-
-  for(int i = 0; i < 8; i++){
-    for(int j = 0; j < 8; j++){
-        if(gameState->board[i][j] == BLACK){
-          blackVec || 1<<(i*j);
-        }else if(gameState->board[i][j] == WHITE){
-          whiteVec || 1<<(i*j);
-        }
-    }
-  }
-  
-  // Should probably check for collisions
-  uint64_t hash = (whiteVec ^ distribution(generator)) ^ (blackVec ^ distribution(generator));
-  
-
-  return hash; 
 }
+
+#endif
