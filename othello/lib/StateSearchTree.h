@@ -1,3 +1,6 @@
+#ifndef STATE_SEARCH_TREE_H
+#define STATE_SEARCH_TREE_H
+
 #include "Othello.h"
 
 // (s,a)
@@ -29,16 +32,17 @@ struct StateNode{
   StateNode *left;
   StateNode *right;
 
-  StateNode(Othello::GameState *gameState, uint64_t hashedGameState){
-    
-    Othello::copyGameState(gameState, this->gameState);
+  StateNode(Othello::GameState &gameState, uint64_t hashedGameState){
+   
+    // Make a copy
+    this->gameState = Othello::GameState(gameState);
     this->hashedGameState = hashedGameState;
 
     // Initialize Q and N for all potential actions to 0
     // Initialize P using NN
  
     // Save actions as x,y pairs 
-    std::vector<std::pair<int,int>> legalMoves = Othello::getLegalMoves(gameState);
+    std::vector<std::pair<int,int>> legalMoves = gameState.getLegalMoves();
     for(auto& action : legalMoves){ 
       // TODO: When NN comes in it will go here
       actions.push_back(ActionValues(action, 0, 0, 0));
@@ -57,11 +61,11 @@ class StateSearchTree {
   
   public:
     StateSearchTree();
-    StateSearchTree(Othello::GameState *gameState);
+    StateSearchTree(Othello::GameState &gameState);
     ~StateSearchTree();
 
-    StateNode* add(Othello::GameState *gameState);
-    StateNode* find(Othello::GameState *gameState);  
+    StateNode* add(Othello::GameState &gameState);
+    StateNode* find(Othello::GameState &gameState);  
 
   private:
     StateNode *root;
@@ -69,3 +73,5 @@ class StateSearchTree {
     void deleteTree(StateNode *stateNode);
 
 };
+
+#endif

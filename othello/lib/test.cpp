@@ -7,8 +7,7 @@
 int main(){
   // Set up the game
   Othello::GameState gameState;
-  Othello::init(&gameState);
 
   // Create MCTS
-  MCTS mcts(&gameState);
+  MCTS mcts(gameState);
 }

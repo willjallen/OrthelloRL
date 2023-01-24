@@ -96,6 +96,34 @@ GameState::GameState()
     }
 }
 
+  
+GameState::GameState(const GameState &src){
+  this->noLegalMoveOnLastTurn = src.noLegalMoveOnLastTurn;
+  this->gameOver = src.gameOver;
+  
+  this->legalMovesCalulated = src.legalMovesCalulated;
+  
+  this->currentPlayer = src.currentPlayer;
+ 
+  this->turnNumber = src.turnNumber;
+  
+  this->numBlackTiles = src.numBlackTiles;
+  this->numWhiteTiles = src.numWhiteTiles;
+  
+  this->numBlackLegalMoves = src.numBlackLegalMoves;
+  this->numWhiteLegalMoves = src.numWhiteLegalMoves;
+  
+  for(int i = 0; i < 8; i++){
+    for(int j = 0; j < 8; j++){
+      this->board[i][j] = src.board[i][j];
+      this->legalMoves[i][j] = src.legalMoves[i][j];
+      this->moveLines[i][j] = src.moveLines[i][j];
+    }
+  }
+
+}
+
+
 GameState::~GameState(){
 
 }

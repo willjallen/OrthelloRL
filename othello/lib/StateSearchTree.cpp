@@ -2,9 +2,14 @@
 #include "StateSearchTree.h"
 #include "Othello.h"
 
-StateSearchTree::StateSearchTree(Othello::GameState *gameState) {
-  this->root = new StateNode(gameState, Othello::getHashedGameState(gameState)); 
+StateSearchTree::StateSearchTree(Othello::GameState &gameState) {
+  this->root = new StateNode(gameState, gameState.getHashedGameState()); 
 }
+
+StateSearchTree::StateSearchTree(){
+  
+}
+
 
 StateSearchTree::~StateSearchTree() {
   this->deleteTree(this->root);
@@ -27,10 +32,10 @@ void StateSearchTree::deleteTree(StateNode *stateNode){
 
 
 
-StateNode* StateSearchTree::add(Othello::GameState *gameState){
+StateNode* StateSearchTree::add(Othello::GameState &gameState){
 
   StateNode *cursor = this->root;
-  uint64_t newHashedGameState = Othello::getHashedGameState(gameState);
+  uint64_t newHashedGameState = gameState.getHashedGameState();
   while(true){
 
 
@@ -71,10 +76,10 @@ StateNode* StateSearchTree::add(Othello::GameState *gameState){
 }
 
 
-StateNode* StateSearchTree::find(Othello::GameState *gameState){
+StateNode* StateSearchTree::find(Othello::GameState &gameState){
 
   StateNode *cursor = this->root;
-  unsigned int newHashedGameState = Othello::getHashedGameState(gameState);
+  uint64_t newHashedGameState = gameState.getHashedGameState();  
   while(true){
 
 

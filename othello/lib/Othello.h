@@ -3,7 +3,6 @@
 // If i were to **hypothetically** rewrite this, I would have multiple 64xint arrays and do the legal moves and flipping
 // tiles all in one go
 
-#pragma once
 
 #ifndef OTHELLO_H
 #define OTHELLO_H 
@@ -126,6 +125,7 @@ struct MoveLines
   {
     public:
       GameState();
+      GameState(const GameState &GameState);
       ~GameState();
       
       void switchPlayers();
@@ -142,7 +142,6 @@ struct MoveLines
       
       GameState& operator=(const GameState &src);
 
-    private:
       bool noLegalMoveOnLastTurn;
       bool gameOver;
 
@@ -162,6 +161,7 @@ struct MoveLines
       unsigned int legalMoves[8][8];
 
       MoveLines moveLines[8][8];
+    private:
 
   };
 

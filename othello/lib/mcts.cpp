@@ -7,27 +7,32 @@
 
 #include "Othello.h"
 #include "MCTS.h"
-// #include "StateSearchTree.h"
+#include "StateSearchTree.h"
 
 
 // 1 if BLACK won, -1 if WHITE won
-float getGameOverReward(Othello::GameState *gameState){
-  if(gameState->winner == Othello::BLACK){
+float getGameOverReward(const Othello::GameState &gameState){
+  if(gameState.winner == Othello::BLACK){
     return 1;
   }else{
     return -1;
   }
 }
 
-MCTS::MCTS(Othello::GameState *initialState){
+MCTS::MCTS(Othello::GameState &initialState){
   this->stateSearchTree = StateSearchTree(initialState);
 }
 
+MCTS::~MCTS(){
+
+}
+
+
 // gamestate, NN
-float MCTS::search(Othello::GameState *gameState){
+float MCTS::search(Othello::GameState &gameState){
 
   // If we've reached a terminal state, propogate the reward up
-  if(gameState->gameOver){
+  if(gameState.gameOver){
     return -getGameOverReward(gameState);
   }
 
@@ -62,7 +67,7 @@ float MCTS::search(Othello::GameState *gameState){
     }
   }
 
-  Othello::playMove(gameState, chosenAction.coordinate.first, chosenAction.coordinate.second);
+  gameState.playMove(chosenAction.coordinate.first, chosenAction.coordinate.second);
   // gameState is now s'
 
   float v = this->search(gameState);
