@@ -14,7 +14,7 @@ class MCTS {
     float search();
     
 
-}
+};
 
 
 

@@ -152,27 +152,27 @@
 
       } GameState;
 
-      void copyGameState(GameState *src, GameState *dst){
-        dst->noLegalMoveOnLastTurn = src->noLegalMoveOnLastTurn;
-        dst->gameOver = src->gameOver;
+      void copyGameState(GameState *src, GameState &dst){
+        dst.noLegalMoveOnLastTurn = src->noLegalMoveOnLastTurn;
+        dst.gameOver = src->gameOver;
         
-        dst->legalMovesCalulated = src->legalMovesCalulated;
+        dst.legalMovesCalulated = src->legalMovesCalulated;
         
-        dst->currentPlayer = src->currentPlayer;
+        dst.currentPlayer = src->currentPlayer;
+       
+        dst.turnNumber = src->turnNumber;
         
-        dst->turnNumber = src->turnNumber;
+        dst.numBlackTiles = src->numBlackTiles;
+        dst.numWhiteTiles = src->numWhiteTiles;
         
-        dst->numBlackTiles = src->numBlackTiles;
-        dst->numWhiteTiles = src->numWhiteTiles;
-        
-        dst->numBlackLegalMoves = src->numBlackLegalMoves;
-        dst->numWhiteLegalMoves = src->numWhiteLegalMoves;
+        dst.numBlackLegalMoves = src->numBlackLegalMoves;
+        dst.numWhiteLegalMoves = src->numWhiteLegalMoves;
         
         for(int i = 0; i < 8; i++){
           for(int j = 0; j < 8; j++){
-            dst->board[i][j] = src->board[i][j];
-            dst->legalMoves[i][j] = src->legalMoves[i][j];
-            dst->moveLines[i][j] = src->moveLines[i][j];
+            dst.board[i][j] = src->board[i][j];
+            dst.legalMoves[i][j] = src->legalMoves[i][j];
+            dst.moveLines[i][j] = src->moveLines[i][j];
           }
         }
       }
@@ -532,18 +532,18 @@
   
     }
 
-    std::vector<Coordinate> getLegalMoves(GameState *gameState){
+    std::vector<std::pair<int,int>> getLegalMoves(GameState *gameState){
 
       if(!gameState->legalMovesCalulated){
         calculateLegalMoves(gameState);
       }
 
-      std::vector<Coordinate> legalMoves;
+      std::vector<std::pair<int, int>> legalMoves;
     
       for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
           if(gameState->board[i][j] == LEGAL){
-            legalMoves.push_back(Coordinate(true, i, j));
+            legalMoves.push_back(std::pair<int,int>(i, j));
           }
         }
       }

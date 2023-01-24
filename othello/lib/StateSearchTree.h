@@ -12,21 +12,22 @@ struct ActionValues {
   // The initial estimate of taking an action a from state s according to policy theta
   float P;
 
-  ActionValues(std::pair<int, int> coordinate, float Q, int N, float P) : coordinate(coordinate) Q(Q), N(N), P(P) {}
-}
+  ActionValues(std::pair<int, int> coordinate, float Q, int N, float P) : coordinate(coordinate), Q(Q), N(N), P(P) {}
+};
 
 
 struct StateNode{
   
-  GameState *gameState;
+  Othello::GameState gameState;
   uint64_t hashedGameState;
 
-  std::unordered_map<std::pair<int. int>, ActionValues> actions;
+  std::vector<ActionValues> actions;
+
 
   StateNode *left;
   StateNode *right;
 
-  StateNode(GameState *gameState, uint64_t hashedGameState){
+  StateNode(Othello::GameState *gameState, uint64_t hashedGameState){
     
     Othello::copyGameState(gameState, this->gameState);
     this->hashedGameState = hashedGameState;
@@ -35,9 +36,9 @@ struct StateNode{
     // Initialize P using NN
  
     // Save actions as x,y pairs 
-     legalMoves = Othello::getLegalMoves(gameState);
+    std::vector<std::pair<int,int>> legalMoves = Othello::getLegalMoves(gameState);
     for(auto& action : legalMoves){ 
-      actions.push_back(std::pair<int,int>(action.x, action.y), 0, 0, 0);
+      actions.push_back(ActionValues(action, 0, 0, 0));
     }
 
     this->left = nullptr;
@@ -52,7 +53,7 @@ struct StateNode{
 class StateSearchTree {
   
   public:
-    StateSearchTree(GameState *gameState);
+    StateSearchTree(Othello::GameState *gameState);
     ~StateSearchTree();
 
     int addNode();
@@ -63,4 +64,4 @@ class StateSearchTree {
 
     void deleteTree(StateNode *stateNode);
 
-}
+};
