@@ -1,18 +1,20 @@
 
 
 #include <limits.h>
-#include "othello.h"
-
+#include "Othello.h"
+#include "StateSearchTree.h"
 
 
 class MCTS {
   
   public:
-    MCTS();
+    MCTS(Othello::GameState *initialState);
     ~MCTS();
 
-    float search();
-    
+    float search(Othello::GameState *gameState);
+
+  private:
+    StateSearchTree stateSearchTree;
 
 };
 

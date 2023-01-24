@@ -12,7 +12,9 @@ struct ActionValues {
   // The initial estimate of taking an action a from state s according to policy theta
   float P;
 
+  ActionValues() {}
   ActionValues(std::pair<int, int> coordinate, float Q, int N, float P) : coordinate(coordinate), Q(Q), N(N), P(P) {}
+
 };
 
 
@@ -38,6 +40,7 @@ struct StateNode{
     // Save actions as x,y pairs 
     std::vector<std::pair<int,int>> legalMoves = Othello::getLegalMoves(gameState);
     for(auto& action : legalMoves){ 
+      // TODO: When NN comes in it will go here
       actions.push_back(ActionValues(action, 0, 0, 0));
     }
 
@@ -53,11 +56,12 @@ struct StateNode{
 class StateSearchTree {
   
   public:
+    StateSearchTree();
     StateSearchTree(Othello::GameState *gameState);
     ~StateSearchTree();
 
-    int addNode();
-    int findNode();  
+    StateNode* add(Othello::GameState *gameState);
+    StateNode* find(Othello::GameState *gameState);  
 
   private:
     StateNode *root;

@@ -7,10 +7,20 @@
 
 #include "Othello.h"
 #include "MCTS.h"
-#include "StateSearchTree.h"
+// #include "StateSearchTree.h"
+
+
+// 1 if BLACK won, -1 if WHITE won
+float getGameOverReward(Othello::GameState *gameState){
+  if(gameState->winner == Othello::BLACK){
+    return 1;
+  }else{
+    return -1;
+  }
+}
 
 MCTS::MCTS(Othello::GameState *initialState){
-  StateSearchTree stateSearchTree(initialState);
+  this->stateSearchTree = StateSearchTree(initialState);
 }
 
 // gamestate, NN
@@ -23,8 +33,8 @@ float MCTS::search(Othello::GameState *gameState){
 
   // If the state does not exist, add and initialize it
   // This will make a copy of gameState inside stateNode
-  StateNode *stateNode = stateSearchTree.find(gameState);
-  if(stateSearchTree.find(gameState) == nullptr){
+  StateNode *stateNode = this->stateSearchTree.find(gameState);
+  if(this->stateSearchTree.find(gameState) == nullptr){
     stateNode = stateSearchTree.add(gameState);
   }
 
@@ -39,11 +49,11 @@ float MCTS::search(Othello::GameState *gameState){
   for(auto& action : stateNode->actions){
     sum_N += action.N;
   }
-  float sqrt_sum_N = sqrt(sum_N)
+  float sqrt_sum_N = sqrt(sum_N);
 
   // Find best action
   ActionValues chosenAction;
-  for(auto& action : legalMoves){
+  for(auto& action : stateNode->actions){
     // ActionValues actionValues = stateNode->actions.find(std::pair<int, int>(action.x, action.y));
     float u = action.Q + action.P * (sqrt_sum_N)/(1 + action.N);
     if(u > max_u){
@@ -52,26 +62,14 @@ float MCTS::search(Othello::GameState *gameState){
     }
   }
 
-  Othello::playMove(gameState, chosenAction.coordinate.x, chosenAction.coordinate.y);
+  Othello::playMove(gameState, chosenAction.coordinate.first, chosenAction.coordinate.second);
   // gameState is now s'
 
-  float v = this->search(gameState)
+  float v = this->search(gameState);
   
   chosenAction.Q = (chosenAction.N * chosenAction.Q + v)/(chosenAction.N + 1);
   chosenAction.N += 1;
 
   return -v;
 }
-
-// 1 if BLACK won, -1 if WHITE won
-float getGameOverReward(Othello::GameState *gameState){
-  if(gameState->winner == Othello::BLACK){
-    return 1;
-  }else{
-    return -1;
-  }
-}
-
-
-
 

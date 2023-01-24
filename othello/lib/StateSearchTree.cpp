@@ -2,11 +2,11 @@
 #include "StateSearchTree.h"
 #include "Othello.h"
 
-StateSearchTree::StateSearchTree(Othello::GameState *e) {
-  this->root = new StateNode(Othello::getHashedGameState(gameState), nullptr, nullptr); 
+StateSearchTree::StateSearchTree(Othello::GameState *gameState) {
+  this->root = new StateNode(gameState, Othello::getHashedGameState(gameState)); 
 }
 
-StateSearchTree::~StateSearchTree(Othello::GameState *gameState) {
+StateSearchTree::~StateSearchTree() {
   this->deleteTree(this->root);
 }
 
@@ -27,10 +27,10 @@ void StateSearchTree::deleteTree(StateNode *stateNode){
 
 
 
-StateNode* StateSearchTree::add(Othello:GameState *gameState){
+StateNode* StateSearchTree::add(Othello::GameState *gameState){
 
   StateNode *cursor = this->root;
-  uint64_t newHashedGameState = Othello::getHashedGameState(gameState)
+  uint64_t newHashedGameState = Othello::getHashedGameState(gameState);
   while(true){
 
 
@@ -44,7 +44,7 @@ StateNode* StateSearchTree::add(Othello:GameState *gameState){
       StateNode *newCursor = cursor->left;
       
       if(newCursor == nullptr){
-        cursor->left = new StateNode(newHashedGameState);
+        cursor->left = new StateNode(gameState, newHashedGameState);
         return cursor->left;
       }else{
         cursor = newCursor;
@@ -57,7 +57,7 @@ StateNode* StateSearchTree::add(Othello:GameState *gameState){
       StateNode *newCursor = cursor->right;
       
       if(newCursor == nullptr){
-        cursor->right = new StateNode(newHashedGameState);
+        cursor->right = new StateNode(gameState, newHashedGameState);
         return cursor->right;
       }else{
         cursor = newCursor;
@@ -74,7 +74,7 @@ StateNode* StateSearchTree::add(Othello:GameState *gameState){
 StateNode* StateSearchTree::find(Othello::GameState *gameState){
 
   StateNode *cursor = this->root;
-  unsigned int newHashedGameState = Othello::getHashedGameState(gameState)
+  unsigned int newHashedGameState = Othello::getHashedGameState(gameState);
   while(true){
 
 

@@ -28,10 +28,8 @@ endif()
 include_directories(".")
 
 add_executable(train
-  Othello.h
-  MCTS.h
+  Othello.cpp
   MCTS.cpp
-  StateSearchTree.h
   StateSearchTree.cpp
   test.cpp
 )
