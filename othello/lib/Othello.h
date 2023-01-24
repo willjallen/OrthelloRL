@@ -6,12 +6,14 @@
 #pragma once
 
 #ifndef OTHELLO_H
-#define OTHELLO_H 1
+#define OTHELLO_H 
 
 
 // #include <stdlib>
 #include <math.h>
 #include <random>
+
+namespace Othello {
 const unsigned int DEFAULT_BOARD[8][8] = {{0, 0, 0, 0, 0, 0, 0, 0},
                                               {0, 0, 0, 0, 0, 0, 0, 0},
                                               {0, 0, 0, 0, 0, 0, 0, 0},
@@ -120,7 +122,6 @@ struct MoveLines
 
 
 
-namespace Othello {
   class GameState 
   {
     public:
@@ -130,13 +131,16 @@ namespace Othello {
       void switchPlayers();
       void findLegalMove(unsigned int startingX, unsigned int startingY, unsigned int player, unsigned int otherPlayer);
       void calculateLegalMoves();
-      void shouldPass();
+      bool shouldPass();
       void calculateWinner();
       void playMove(unsigned int startingX, unsigned int startingY);
       void playRandomMove();
 
       std::vector<std::pair<int,int>> getLegalMoves();
       uint64_t getHashedGameState();
+
+      
+      GameState& operator=(const GameState &src);
 
     private:
       bool noLegalMoveOnLastTurn;
@@ -159,17 +163,16 @@ namespace Othello {
 
       MoveLines moveLines[8][8];
 
-  }
+  };
 
 
-  GameState& GameState::operator=(const GameState &src);
 }
 
 
 
 
 
-
+#endif
 
 
 

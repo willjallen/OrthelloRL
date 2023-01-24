@@ -1,3 +1,6 @@
+#include "Othello.h"
+
+namespace Othello {
 
 bool inBounds(int x, int y)
 {
@@ -18,28 +21,30 @@ unsigned int getOtherPlayer(unsigned int player)
 
 
 GameState& GameState::operator=(const GameState &src){
-  this.noLegalMoveOnLastTurn = src->noLegalMoveOnLastTurn;
-  this.gameOver = src->gameOver;
+  this->noLegalMoveOnLastTurn = src.noLegalMoveOnLastTurn;
+  this->gameOver = src.gameOver;
   
-  this.legalMovesCalulated = src->legalMovesCalulated;
+  this->legalMovesCalulated = src.legalMovesCalulated;
   
-  this.currentPlayer = src->currentPlayer;
+  this->currentPlayer = src.currentPlayer;
  
-  this.turnNumber = src->turnNumber;
+  this->turnNumber = src.turnNumber;
   
-  this.numBlackTiles = src->numBlackTiles;
-  this.numWhiteTiles = src->numWhiteTiles;
+  this->numBlackTiles = src.numBlackTiles;
+  this->numWhiteTiles = src.numWhiteTiles;
   
-  this.numBlackLegalMoves = src->numBlackLegalMoves;
-  this.numWhiteLegalMoves = src->numWhiteLegalMoves;
+  this->numBlackLegalMoves = src.numBlackLegalMoves;
+  this->numWhiteLegalMoves = src.numWhiteLegalMoves;
   
   for(int i = 0; i < 8; i++){
     for(int j = 0; j < 8; j++){
-      this.board[i][j] = src->board[i][j];
-      this.legalMoves[i][j] = src->legalMoves[i][j];
-      this.moveLines[i][j] = src->moveLines[i][j];
+      this->board[i][j] = src.board[i][j];
+      this->legalMoves[i][j] = src.legalMoves[i][j];
+      this->moveLines[i][j] = src.moveLines[i][j];
     }
   }
+
+  return *this;
 }
 
 
@@ -49,7 +54,7 @@ void GameState::switchPlayers()
 }
 
 
-void GameState::GameState()
+GameState::GameState()
 {
 
     this->noLegalMoveOnLastTurn = false;
@@ -91,16 +96,16 @@ void GameState::GameState()
     }
 }
 
-void GameState::~GameState(){
+GameState::~GameState(){
 
 }
 
-void GameState::findLegalMove(int startingX, int startingY, unsigned int player,
+void GameState::findLegalMove(unsigned int startingX, unsigned int startingY, unsigned int player,
                                          unsigned int otherPlayer)
 {
 
     // For all 8 cardinal directions
-    for (int direction = 0; direction < 8; direction++)
+    for (unsigned int direction = 0; direction < 8; direction++)
     {
 
         int dx = DIRECTION_COMPONENTS[direction][0];
@@ -245,7 +250,7 @@ void GameState::calculateLegalMoves()
             if (this->board[x][y] == this->currentPlayer)
             {
                 // Check the 8 cardinal directions, do not wrap around the board
-                findLegalMove(this, x, y, this->currentPlayer, otherPlayer);
+                findLegalMove(x, y, this->currentPlayer, otherPlayer);
             }
         }
     }
@@ -279,7 +284,7 @@ void GameState::calculateWinner(){
 
 
 
-void GameState::playMove(, unsigned int startingX, unsigned int startingY)
+void GameState::playMove(unsigned int startingX, unsigned int startingY)
 {
 
     if (this->currentPlayer == 1)
@@ -348,7 +353,7 @@ void GameState::playMove(, unsigned int startingX, unsigned int startingY)
     
     if(this->noLegalMoveOnLastTurn && noLegalMoves){
       this->gameOver = true;
-      calculateWinner(this);
+      this->calculateWinner();
       return; 
     }else if(noLegalMoves){
       this->noLegalMoveOnLastTurn = true;
@@ -358,7 +363,7 @@ void GameState::playMove(, unsigned int startingX, unsigned int startingY)
 
     this->turnNumber++;
     this->legalMovesCalulated = false;
-    switchPlayers(this);
+    this->switchPlayers();
 }
 
 
@@ -394,14 +399,14 @@ void GameState::playRandomMove()
     unsigned int randomX = potentialCoordinates[choice].x;
     unsigned int randomY = potentialCoordinates[choice].y;
 
-    playMove(this, randomX, randomY);
+    playMove(randomX, randomY);
 }  
 
 
-std::vector<std::pair<int,int>> getLegalMoves(){
+std::vector<std::pair<int,int>> GameState::getLegalMoves(){
 
   if(!this->legalMovesCalulated){
-    calculateLegalMoves(this);
+    this->calculateLegalMoves();
   }
 
   std::vector<std::pair<int, int>> legalMoves;
@@ -419,7 +424,7 @@ std::vector<std::pair<int,int>> getLegalMoves(){
 }  
 
 // 64 digit base 3 number
-uint64_t getHashedGameState(){
+uint64_t GameState::getHashedGameState(){
   uint64_t whiteVec = 0;
   uint64_t blackVec = 0;
   /* Seed */
@@ -449,4 +454,4 @@ return hash;
 }
 
 
-
+}
