@@ -218,8 +218,19 @@ Then for inference the process is something like:
     - Search tree returns -v
 
 
+================================================================================
+Quick diversion here. There is apparently a way to find legal moves with only bit masking and no loops. Let's see if we can figure out how.
 
 
+
+That representation also works but is a simple dual of white,black. 
+ulong present = white|black; 
+ulong empty = ~(white|black); etc. 
+Either way you can find moves w/o loops. 
+
+ulong whiteRight1Captures = empty & ((black >> 1) & mask1) & ((white>>2) & mask2); where the masks are left as an exercise. :)
+
+Actually, nevermind lol. Too much of a diversion to justify the time sink.
 
 
 

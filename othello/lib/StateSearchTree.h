@@ -2,7 +2,7 @@
 
 // (s,a)
 struct ActionValues {
-  Othello::Coordinate action;
+  std::pair<int, int> coordinate;
   // The expected reward for taking action a from state s
   float Q;
   
@@ -12,7 +12,7 @@ struct ActionValues {
   // The initial estimate of taking an action a from state s according to policy theta
   float P;
 
-  ActionValues(Othello::Coordinate action, float Q, int N, float P) : action(action), Q(Q), N(N), P(P) {}
+  ActionValues(std::pair<int, int> coordinate, float Q, int N, float P) : coordinate(coordinate) Q(Q), N(N), P(P) {}
 }
 
 
@@ -21,22 +21,23 @@ struct StateNode{
   GameState *gameState;
   uint64_t hashedGameState;
 
-  std::vector<ActionValues> actions;
+  std::unordered_map<std::pair<int. int>, ActionValues> actions;
 
   StateNode *left;
   StateNode *right;
 
-  StateNode(GameState *gameState, uint64_t hashedGameState) : hashedGameState(hashedGameState){
+  StateNode(GameState *gameState, uint64_t hashedGameState){
     
     Othello::copyGameState(gameState, this->gameState);
-  
+    this->hashedGameState = hashedGameState;
 
     // Initialize Q and N for all potential actions to 0
     // Initialize P using NN
-  
-    std::vector<Othello::Coordinate> legalMoves = Othello::getLegalMoves(gameState);
+ 
+    // Save actions as x,y pairs 
+     legalMoves = Othello::getLegalMoves(gameState);
     for(auto& action : legalMoves){ 
-      actions.push_back(action, 0, 0, 0);
+      actions.push_back(std::pair<int,int>(action.x, action.y), 0, 0, 0);
     }
 
     this->left = nullptr;
