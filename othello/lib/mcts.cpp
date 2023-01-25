@@ -32,10 +32,12 @@ MCTS::~MCTS(){
 // gamestate, NN
 float MCTS::search(Othello::GameState &gameState){
 
+ 
+  gameState.calculateLegalMoves();
+
+  std::cout << gameState << std::endl;
   // If we've reached a terminal state, propogate the reward up
   if(gameState.gameOver){
-    std::cout << gameState << std::endl;
-    std::cout << "gameover" << std::endl;
     return -getGameOverReward(gameState);
   }
 

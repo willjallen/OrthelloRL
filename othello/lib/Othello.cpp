@@ -320,6 +320,11 @@ void GameState::calculateWinner(){
 void GameState::playMove(unsigned int startingX, unsigned int startingY)
 {
 
+
+    if(!this->legalMovesCalulated){
+      this->calculateLegalMoves();
+    }
+
     if (this->currentPlayer == 1)
     {
         this->numBlackTiles++;
@@ -510,8 +515,9 @@ uint64_t GameState::getHashedGameState(){
 
 
 std::ostream& operator<<(std::ostream &strm, const Othello::GameState &gameState){
-  strm << "Current player: " << gameState.currentPlayer << std::endl
-       << "Board: ";
+  strm << "Current player: " << gameState.currentPlayer << "\n"
+       << "Board: " << "\n";
+
       
 
   for(int x = 0; x < 8; x++){
@@ -520,6 +526,8 @@ std::ostream& operator<<(std::ostream &strm, const Othello::GameState &gameState
         strm << "B  ";
       }else if(gameState.board[x][y] == Othello::WHITE){
         strm << "W  ";
+      }else if(gameState.legalMoves[x][y] == Othello::LEGAL){
+        strm << "X  ";
       }else{
         strm << ".  ";
       }
@@ -529,8 +537,8 @@ std::ostream& operator<<(std::ostream &strm, const Othello::GameState &gameState
 
   strm << std::endl;
 
-  strm << "No legal move on last turn: " << gameState.noLegalMoveOnLastTurn << std::endl
-       << "Game Over: " << gameState.gameOver << std::endl;
+  strm << "No legal move on last turn: " << gameState.noLegalMoveOnLastTurn << "\n" 
+       << "Game Over: " << gameState.gameOver << "\n";
 
   return strm;
 }
