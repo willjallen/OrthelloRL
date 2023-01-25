@@ -42,7 +42,7 @@ struct StateNode{
     // Initialize P using NN
  
     // Save actions as x,y pairs 
-    std::vector<std::pair<int,int>> legalMoves = gameState.getLegalMoves();
+    std::vector<std::pair<int,int>> legalMoves = this->gameState.getLegalMoves();
     for(auto& action : legalMoves){ 
       // TODO: When NN comes in it will go here
       this->actions.push_back(ActionValues(action, 0, 0, 0));
@@ -68,11 +68,12 @@ class StateSearchTree {
     StateNode* add(Othello::GameState &gameState);
     StateNode* find(Othello::GameState &gameState);  
 
+    void printTree();
+    void printTree(const std::string &prefix, const StateNode *stateNode, bool isLeft);
   private:
     StateNode *root;
 
     void deleteTree(StateNode *stateNode);
-
 };
 
 #endif

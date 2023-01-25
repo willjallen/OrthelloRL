@@ -8,7 +8,7 @@
 #include "Othello.h"
 #include "MCTS.h"
 #include "StateSearchTree.h"
-
+#include <iostream>
 
 // 1 if BLACK won, -1 if WHITE won
 float getGameOverReward(const Othello::GameState &gameState){
@@ -34,6 +34,8 @@ float MCTS::search(Othello::GameState &gameState){
 
   // If we've reached a terminal state, propogate the reward up
   if(gameState.gameOver){
+    std::cout << gameState << std::endl;
+    std::cout << "gameover" << std::endl;
     return -getGameOverReward(gameState);
   }
 

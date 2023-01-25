@@ -11,6 +11,8 @@
 // #include <stdlib>
 #include <math.h>
 #include <random>
+#include <ostream>
+#include <sstream>
 
 namespace Othello {
 const unsigned int DEFAULT_BOARD[8][8] = {{0, 0, 0, 0, 0, 0, 0, 0},
@@ -135,6 +137,8 @@ struct MoveLines
       void playMove(unsigned int startingX, unsigned int startingY);
       void playRandomMove();
 
+      // std::stringstream printBoard() const;
+
       std::vector<std::pair<int,int>> getLegalMoves();
       uint64_t getHashedGameState();
 
@@ -160,13 +164,16 @@ struct MoveLines
       unsigned int legalMoves[8][8];
 
       MoveLines moveLines[8][8];
+    
+      
     private:
 
   };
 
 
-}
+std::ostream& operator<<(std::ostream &strm, const Othello::GameState &gameState);
 
+}
 
 
 

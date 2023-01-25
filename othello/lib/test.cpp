@@ -10,4 +10,8 @@ int main(){
 
   // Create MCTS
   MCTS mcts(gameState);
+
+  mcts.search(gameState);
+  mcts.stateSearchTree->printTree(); 
+
 }

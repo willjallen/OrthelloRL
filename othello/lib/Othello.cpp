@@ -1,5 +1,6 @@
 #include "Othello.h"
-
+#include <ostream>
+#include <sstream>
 namespace Othello {
 
 bool inBounds(int x, int y)
@@ -23,11 +24,9 @@ unsigned int getOtherPlayer(unsigned int player)
 GameState& GameState::operator=(const GameState &src){
   this->noLegalMoveOnLastTurn = src.noLegalMoveOnLastTurn;
   this->gameOver = src.gameOver;
-  
   this->legalMovesCalulated = src.legalMovesCalulated;
   
   this->currentPlayer = src.currentPlayer;
- 
   this->turnNumber = src.turnNumber;
   
   this->numBlackTiles = src.numBlackTiles;
@@ -36,11 +35,21 @@ GameState& GameState::operator=(const GameState &src){
   this->numBlackLegalMoves = src.numBlackLegalMoves;
   this->numWhiteLegalMoves = src.numWhiteLegalMoves;
   
-  for(int i = 0; i < 8; i++){
-    for(int j = 0; j < 8; j++){
-      this->board[i][j] = src.board[i][j];
-      this->legalMoves[i][j] = src.legalMoves[i][j];
-      this->moveLines[i][j] = src.moveLines[i][j];
+  for(int x = 0; x < 8; x++){
+    for(int y = 0; y < 8; y++){
+      this->board[x][y] = src.board[x][y];
+      this->legalMoves[x][y] = src.legalMoves[x][y];
+  
+      for (int l = 0; l < 8; l++)
+      {
+          const Line *srcLine = &(src.moveLines[x][y].lines[l]);
+          this->moveLines[x][y].lines[l].valid = srcLine->valid;
+          this->moveLines[x][y].lines[l].length = srcLine->length;
+          this->moveLines[x][y].lines[l].assignedTurnNumber = srcLine->assignedTurnNumber;
+          // currLine->valid = false;
+          // currLine->length = 0;
+          // currLine->assignedTurnNumber = 0;
+      }
     }
   }
 
@@ -460,21 +469,70 @@ uint64_t GameState::getHashedGameState(){
   /* Distribution on which to apply the generator */
   std::uniform_int_distribution<long long unsigned> distribution(0,0xFFFFFFFFFFFFFFFF);
 
-for(int i = 0; i < 8; i++){
-  for(int j = 0; j < 8; j++){
-      if(this->board[i][j] == BLACK){
-        blackVec = blackVec | 1ULL << (i*j);
-      }else if(this->board[i][j] == WHITE){
-        whiteVec = whiteVec | 1ULL << (i*j);
-      }
+  for(int i = 0; i < 8; i++){
+    for(int j = 0; j < 8; j++){
+        if(this->board[i][j] == BLACK){
+          blackVec = blackVec | 1ULL << (i*j);
+        }else if(this->board[i][j] == WHITE){
+          whiteVec = whiteVec | 1ULL << (i*j);
+        }
+    }
   }
+
+  // Should probably check for collisions
+  uint64_t hash = (whiteVec ^ distribution(generator)) ^ (blackVec ^ distribution(generator));
+
+
+  return hash; 
 }
 
-// Should probably check for collisions
-uint64_t hash = (whiteVec ^ distribution(generator)) ^ (blackVec ^ distribution(generator));
+// std::stringstream GameState::printBoard() const {
+//   std::stringstream strm;
+//   for(int x = 0; x < 8; x++){
+//     for(int y = 0; y < 8; y++){
+//       if(this->board[x][y] == BLACK){
+//         strm << "B  ";
+//       }else if(this->board[x][y] == WHITE){
+//         strm << "W  ";
+//       }else{
+//         strm << ".  ";
+//       }
+//     }
+//     strm << "\n";
+//   }
+//
+//   return strm;
+// }
+//
 
 
-return hash; 
+
+
+
+std::ostream& operator<<(std::ostream &strm, const Othello::GameState &gameState){
+  strm << "Current player: " << gameState.currentPlayer << std::endl
+       << "Board: ";
+      
+
+  for(int x = 0; x < 8; x++){
+    for(int y = 0; y < 8; y++){
+      if(gameState.board[x][y] == Othello::BLACK){
+        strm << "B  ";
+      }else if(gameState.board[x][y] == Othello::WHITE){
+        strm << "W  ";
+      }else{
+        strm << ".  ";
+      }
+    }
+    strm << "\n";
+  }
+
+  strm << std::endl;
+
+  strm << "No legal move on last turn: " << gameState.noLegalMoveOnLastTurn << std::endl
+       << "Game Over: " << gameState.gameOver << std::endl;
+
+  return strm;
 }
 
 

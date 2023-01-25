@@ -113,4 +113,26 @@ StateNode* StateSearchTree::find(Othello::GameState &gameState){
   }
 
 }
+ 
+void StateSearchTree::printTree(){
+  this->printTree("", this->root, false); 
+}
+
+void StateSearchTree::printTree(const std::string& prefix, const StateNode *stateNode, bool isLeft){
+  if( stateNode != nullptr )
+  {
+      std::cout << prefix;
+
+      std::cout << (isLeft ? "├──" : "└──" );
+
+      // print the value of the node
+      std::cout << stateNode->hashedGameState << std::endl;
+
+      // enter the next tree level - left and right branch
+      this->printTree( prefix + (isLeft ? "│   " : "    "), stateNode->left, true);
+      this->printTree( prefix + (isLeft ? "│   " : "    "), stateNode->right, false);
+  }
+}
+
+
 
