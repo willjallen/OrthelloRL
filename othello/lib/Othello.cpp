@@ -407,8 +407,13 @@ void GameState::pass(){
 
 void GameState::playRandomMove()
 {
+
+    if(!this->legalMovesCalulated){
+      this->calculateLegalMoves();
+    }
     Coordinate potentialCoordinates[64];
     int idx = 0;
+    bool legalMovePresent = false;
     // Collect all valid lines
     for (unsigned int x = 0; x < 8; x++)
     {
@@ -417,7 +422,7 @@ void GameState::playRandomMove()
             // Find at least one line on this tile
             if (this->legalMoves[x][y] == LEGAL)
             {
-
+                legalMovePresent = true;
                 // Save it
                 potentialCoordinates[idx].occupied = true;
                 potentialCoordinates[idx].x = x;
@@ -430,12 +435,16 @@ void GameState::playRandomMove()
         }
     }
 
-    // We now have idx number of lines to choose from
-    unsigned int choice = rand() % idx;
-    unsigned int randomX = potentialCoordinates[choice].x;
-    unsigned int randomY = potentialCoordinates[choice].y;
-
-    playMove(randomX, randomY);
+    if(legalMovePresent){
+      // We now have idx number of lines to choose from
+      unsigned int choice = rand() % idx;
+      unsigned int randomX = potentialCoordinates[choice].x;
+      unsigned int randomY = potentialCoordinates[choice].y;
+      
+      this->playMove(randomX, randomY);
+    }else{
+      this->pass();
+    }
 }  
 
 
