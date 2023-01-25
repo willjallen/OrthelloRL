@@ -250,6 +250,7 @@ void GameState::findLegalMove(unsigned int startingX, unsigned int startingY, un
 
 void GameState::calculateLegalMoves()
 {
+    if(this->legalMovesCalulated) return;
     unsigned int otherPlayer = getOtherPlayer(this->currentPlayer);
 
     // Clear previous legal moves
@@ -395,6 +396,12 @@ void GameState::playMove(unsigned int startingX, unsigned int startingY)
     this->switchPlayers();
 }
 
+void GameState::pass(){
+    this->turnNumber++;
+    this->legalMovesCalulated = false;
+    this->switchPlayers();
+}
+
 
 // Uniformly sample the legal action space
 
@@ -432,18 +439,18 @@ void GameState::playRandomMove()
 }  
 
 
-std::vector<std::pair<int,int>> GameState::getLegalMoves(){
+std::vector<std::pair<unsigned int, unsigned int>> GameState::getLegalMoves(){
 
   if(!this->legalMovesCalulated){
     this->calculateLegalMoves();
   }
 
-  std::vector<std::pair<int, int>> legalMoves;
+  std::vector<std::pair<unsigned int, unsigned int>> legalMoves;
 
-  for(int i = 0; i < 8; i++){
-    for(int j = 0; j < 8; j++){
+  for(unsigned int i = 0; i < 8; i++){
+    for(unsigned int j = 0; j < 8; j++){
       if(this->legalMoves[i][j] == LEGAL){
-        legalMoves.push_back(std::pair<int,int>(i, j));
+        legalMoves.push_back(std::pair<unsigned int, unsigned int>(i, j));
       }
     }
   }
@@ -452,17 +459,14 @@ std::vector<std::pair<int,int>> GameState::getLegalMoves(){
 
 }  
 
-const uint64_t seed1 = 264578920567223;
-const uint64_t seed2 = 502770385867321;
-const uint64_t seed3 = 920581658938830;
 
 // 64 digit base 3 number
 ComparableGameState GameState::getComparableGameState(){
   uint64_t whiteVec = 0;
   uint64_t blackVec = 0;
   
-  for(int i = 0; i < 8; i++){
-    for(int j = 0; j < 8; j++){
+  for(unsigned int i = 0; i < 8; i++){
+    for(unsigned int j = 0; j < 8; j++){
         if(this->board[i][j] == BLACK){
           blackVec = blackVec | 1ULL << (i*8 + j);
         }else if(this->board[i][j] == WHITE){
@@ -556,7 +560,6 @@ std::ostream& operator<<(std::ostream &strm, const Othello::GameState &gameState
   }
 
   strm << std::endl;
-  std::cout << "here" << std::endl;
   strm << "No legal move on last turn: " << gameState.noLegalMoveOnLastTurn << "\n" 
        << "Game Over: " << gameState.gameOver << "\n";
 

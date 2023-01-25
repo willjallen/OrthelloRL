@@ -11,7 +11,9 @@ class MCTS {
   public:
     MCTS(Othello::GameState &initialState);
    ~MCTS(); 
+
     float search(Othello::GameState &gameState);
+    std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> getPI(Othello::GameState &gameState);
 
     StateSearchTree *stateSearchTree;
   private:

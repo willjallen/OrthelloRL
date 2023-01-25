@@ -5,56 +5,54 @@
 #include <iostream>
 // (s,a)
 struct ActionValues {
-  std::pair<int, int> coordinate;
+  std::pair<unsigned int, unsigned int> coordinate = std::make_pair(0,0);
   // The expected reward for taking action a from state s
-  float Q;
+  float Q = 0;
   
   // The number of times we took action a from state s across simulations
-  int N;
+  int N = 0;
   
   // The initial estimate of taking an action a from state s according to policy theta
-  float P;
+  float P = 0;
 
   ActionValues() {}
-  ActionValues(std::pair<int, int> coordinate, float Q, int N, float P) : coordinate(coordinate), Q(Q), N(N), P(P) {}
+  ActionValues(std::pair<unsigned int, unsigned int> coordinate, float Q, int N, float P) : coordinate(coordinate), Q(Q), N(N), P(P) {}
 
 };
 
 
 struct StateNode{
   
-  Othello::GameState gameState;
+  // Othello::GameState gameState;
   Othello::ComparableGameState comparableGameState;
 
 
   std::vector<ActionValues> actions;
+  bool noLegalMoves = false;
 
-
-  StateNode *left;
-  StateNode *right;
+  StateNode *left = nullptr;
+  StateNode *right = nullptr;
 
   StateNode(Othello::GameState &gameState){
     this->comparableGameState = gameState.getComparableGameState(); 
-    std::cout << "Constructing state node" << std::endl;
-    std::cout << "comparableGameState: " << this->comparableGameState; 
-    std::cout << "pointer: " << this << std::endl;
+    // std::cout << "Constructing state node" << std::endl;
+    // std::cout << "comparableGameState: " << this->comparableGameState; 
+    // std::cout << "pointer: " << this << std::endl;
     // Make a copy
-    this->gameState = Othello::GameState(gameState);
-    this->comparableGameState = comparableGameState;
+    // this->gameState = Othello::GameState(gameState);
 
     // Initialize Q and N for all potential actions to 0
     // Initialize P using NN
  
     // Save actions as x,y pairs 
-    std::vector<std::pair<int,int>> legalMoves = this->gameState.getLegalMoves();
+    std::vector<std::pair<unsigned int, unsigned int>> legalMoves = gameState.getLegalMoves();
+    if(legalMoves.size() == 0) this->noLegalMoves = true;
     for(auto& action : legalMoves){
-      std::cout << "Adding action: " << "(" << action.first << ", " << action.second << ")" << "\n";
+      // std::cout << "Adding action: " << "(" << action.first << ", " << action.second << ")" << "\n";
       // TODO: When NN comes in it will go here
-      this->actions.push_back(ActionValues(action, 0, 0, 0));
+      float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+      this->actions.push_back(ActionValues(action, 0, 0, r));
     }
-
-    this->left = nullptr;
-    this->right = nullptr;
   }
 
     

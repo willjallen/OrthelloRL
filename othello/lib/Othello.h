@@ -153,10 +153,12 @@ class ComparableGameState
       void calculateWinner();
       void playMove(unsigned int startingX, unsigned int startingY);
       void playRandomMove();
+      
+      void pass();
 
       // std::stringstream printBoard() const;
 
-      std::vector<std::pair<int,int>> getLegalMoves();
+      std::vector<std::pair<unsigned int, unsigned int>> getLegalMoves();
       ComparableGameState getComparableGameState();
 
       

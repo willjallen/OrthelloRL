@@ -41,16 +41,19 @@ float MCTS::search(Othello::GameState &gameState){
   }
 
     
-  std::cout << "\n";
+  // std::cout << "\n";
   // If the state does not exist, add and initialize it
   // This will make a copy of gameState inside stateNode
   StateNode *stateNode = this->stateSearchTree->find(gameState);
   if(this->stateSearchTree->find(gameState) == nullptr){
     stateNode = stateSearchTree->add(gameState);
+    // TODO: When NN comes in it will go here
+    float v = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    return -v;
   }
-    std::cout << stateNode << std::endl;
-    std::cout << stateNode->comparableGameState;
-    std::cout << gameState;
+    // std::cout << stateNode << std::endl;
+    // std::cout << stateNode->comparableGameState;
+    // std::cout << gameState;
   // Proper small number later
   float max_u = -9999999999999;
 
@@ -58,33 +61,75 @@ float MCTS::search(Othello::GameState &gameState){
   // std::vector<Othello::Coordinate> legalMoves = Othello::getLegalMoves(gameState);
 
   // Find sum(state.actions.N)
-  int sum_N;
+  int sum_N = 0;
   for(auto& action : stateNode->actions){
     sum_N += action.N;
   }
+
+  // std::cout << sum_N << std::endl;
+
   float sqrt_sum_N = sqrt(sum_N);
 
+
   // Find best action
-  ActionValues chosenAction;
+  ActionValues *chosenAction;
   for(auto& action : stateNode->actions){
     // ActionValues actionValues = stateNode->actions.find(std::pair<int, int>(action.x, action.y));
-    float u = action.Q + action.P * (sqrt_sum_N)/(1 + action.N);
+   
+    // Exploration para
+    float c = 1;
+   float u = action.Q + c * action.P * (sqrt_sum_N)/(1 + action.N);
+   // float u = rand(); 
+
     if(u > max_u){
       max_u = u;
-      chosenAction = action; 
+      chosenAction = &action; 
     }
   }
+  // std::cout << "action ptr: " << chosenAction << "\n";
+  // std::cout << "Chosen action: " << "(" << chosenAction->coordinate.first << ", " << chosenAction->coordinate.second << ")" << "\n";
+  // std::cout << "ca " << chosenAction << std::endl;
+  // std::cout << chosenAction->coordinate.first << " " << chosenAction->coordinate.second << std::endl;
 
-  std::cout << "Chosen action: " << "(" << chosenAction.coordinate.first << ", " << chosenAction.coordinate.second << ")" << "\n";
-
-  gameState.playMove(chosenAction.coordinate.first, chosenAction.coordinate.second);
+  // TODO: ??????
+  // If there is no action, pass
+  if(!stateNode->noLegalMoves){
+    gameState.playMove(chosenAction->coordinate.first, chosenAction->coordinate.second);
+  }else{
+    gameState.pass();
+  }
   // gameState is now s'
 
   float v = this->search(gameState);
-  
-  chosenAction.Q = (chosenAction.N * chosenAction.Q + v)/(chosenAction.N + 1);
-  chosenAction.N += 1;
+ 
+  if(!stateNode->noLegalMoves){
+    chosenAction->Q = (chosenAction->N * chosenAction->Q + v)/(chosenAction->N + 1);
+    chosenAction->N += 1;
+  }
 
   return -v;
 }
+
+std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> MCTS::getPI(Othello::GameState &gameState){
+  
+  std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> pi;
+
+  StateNode *stateNode = this->stateSearchTree->find(gameState);
+  if(this->stateSearchTree->find(gameState) == nullptr){
+    std::cout << "should not happen" << std::endl;
+  } 
+
+  // float sum_N = 0;
+  // for(auto& action : stateNode->actions){
+  //   sum_N += action.N;
+  // }
+
+  for(auto& action : stateNode->actions){
+    pi.push_back(std::pair(action.coordinate, action.Q));
+  }
+
+  return pi;
+}
+
+
 
