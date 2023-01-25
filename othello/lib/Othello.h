@@ -123,6 +123,23 @@ struct MoveLines
 
 
 
+class ComparableGameState
+{
+
+  public:
+    ComparableGameState(uint64_t blackVec, uint64_t whiteVec, int currentPlayer) : blackVec(blackVec), whiteVec(whiteVec), currentPlayer(currentPlayer) {};
+    ComparableGameState() {};
+
+    bool operator==(const ComparableGameState &other);
+    bool operator<(const ComparableGameState &other);
+    bool operator>(const ComparableGameState &other);
+    
+    uint64_t blackVec;
+    uint64_t whiteVec;
+    int currentPlayer;
+
+};
+
   class GameState 
   {
     public:
@@ -140,7 +157,7 @@ struct MoveLines
       // std::stringstream printBoard() const;
 
       std::vector<std::pair<int,int>> getLegalMoves();
-      uint64_t getHashedGameState();
+      ComparableGameState getComparableGameState();
 
       
       GameState& operator=(const GameState &src);
@@ -172,6 +189,7 @@ struct MoveLines
 
 
 std::ostream& operator<<(std::ostream &strm, const Othello::GameState &gameState);
+std::ostream& operator<<(std::ostream &strm, const Othello::ComparableGameState &comparableGameState);
 
 }
 

@@ -2,7 +2,7 @@
 #define STATE_SEARCH_TREE_H
 
 #include "Othello.h"
-
+#include <iostream>
 // (s,a)
 struct ActionValues {
   std::pair<int, int> coordinate;
@@ -24,7 +24,8 @@ struct ActionValues {
 struct StateNode{
   
   Othello::GameState gameState;
-  uint64_t hashedGameState;
+  Othello::ComparableGameState comparableGameState;
+
 
   std::vector<ActionValues> actions;
 
@@ -32,18 +33,22 @@ struct StateNode{
   StateNode *left;
   StateNode *right;
 
-  StateNode(Othello::GameState &gameState, uint64_t hashedGameState){
-   
+  StateNode(Othello::GameState &gameState){
+    this->comparableGameState = gameState.getComparableGameState(); 
+    std::cout << "Constructing state node" << std::endl;
+    std::cout << "comparableGameState: " << this->comparableGameState; 
+    std::cout << "pointer: " << this << std::endl;
     // Make a copy
     this->gameState = Othello::GameState(gameState);
-    this->hashedGameState = hashedGameState;
+    this->comparableGameState = comparableGameState;
 
     // Initialize Q and N for all potential actions to 0
     // Initialize P using NN
  
     // Save actions as x,y pairs 
     std::vector<std::pair<int,int>> legalMoves = this->gameState.getLegalMoves();
-    for(auto& action : legalMoves){ 
+    for(auto& action : legalMoves){
+      std::cout << "Adding action: " << "(" << action.first << ", " << action.second << ")" << "\n";
       // TODO: When NN comes in it will go here
       this->actions.push_back(ActionValues(action, 0, 0, 0));
     }

@@ -3,7 +3,7 @@
 #include "Othello.h"
 #include <iostream>
 StateSearchTree::StateSearchTree(Othello::GameState &gameState) {
-  this->root = new StateNode(gameState, gameState.getHashedGameState()); 
+  this->root = new StateNode(gameState); 
 }
 
 StateSearchTree::StateSearchTree(){
@@ -21,7 +21,6 @@ StateSearchTree::~StateSearchTree() {
 // Delete inorder
 void StateSearchTree::deleteTree(StateNode *stateNode){
   if(stateNode == nullptr) return;
-  std::cout << "ere" << std::endl;
   this->deleteTree(stateNode->left);
   this->deleteTree(stateNode->right);
 
@@ -33,21 +32,22 @@ void StateSearchTree::deleteTree(StateNode *stateNode){
 StateNode* StateSearchTree::add(Othello::GameState &gameState){
 
   StateNode *cursor = this->root;
-  uint64_t newHashedGameState = gameState.getHashedGameState();
+  Othello::ComparableGameState comparableGameState = gameState.getComparableGameState();  
+  
   while(true){
 
 
-    if(newHashedGameState == cursor->hashedGameState){
+    if(comparableGameState == cursor->comparableGameState){
       return nullptr;
     }
 
 
-    if(newHashedGameState < cursor->hashedGameState){
+    if(comparableGameState < cursor->comparableGameState){
       
       StateNode *newCursor = cursor->left;
       
       if(newCursor == nullptr){
-        cursor->left = new StateNode(gameState, newHashedGameState);
+        cursor->left = new StateNode(gameState);
         return cursor->left;
       }else{
         cursor = newCursor;
@@ -55,12 +55,12 @@ StateNode* StateSearchTree::add(Othello::GameState &gameState){
       }
     }
 
-    if(newHashedGameState > cursor->hashedGameState){
+    if(comparableGameState > cursor->comparableGameState){
       
       StateNode *newCursor = cursor->right;
       
       if(newCursor == nullptr){
-        cursor->right = new StateNode(gameState, newHashedGameState);
+        cursor->right = new StateNode(gameState);
         return cursor->right;
       }else{
         cursor = newCursor;
@@ -77,16 +77,16 @@ StateNode* StateSearchTree::add(Othello::GameState &gameState){
 StateNode* StateSearchTree::find(Othello::GameState &gameState){
 
   StateNode *cursor = this->root;
-  uint64_t newHashedGameState = gameState.getHashedGameState();  
+  Othello::ComparableGameState comparableGameState = gameState.getComparableGameState();  
   while(true){
 
 
-    if(newHashedGameState == cursor->hashedGameState){
+    if(comparableGameState == cursor->comparableGameState){
       return cursor;
     }
 
 
-    if(newHashedGameState < cursor->hashedGameState){
+    if(comparableGameState < cursor->comparableGameState){
       
       StateNode *newCursor = cursor->left;
       
@@ -98,7 +98,7 @@ StateNode* StateSearchTree::find(Othello::GameState &gameState){
       }
     }
 
-    if(newHashedGameState > cursor->hashedGameState){
+    if(comparableGameState > cursor->comparableGameState){
       
       StateNode *newCursor = cursor->right;
       
@@ -126,8 +126,7 @@ void StateSearchTree::printTree(const std::string& prefix, const StateNode *stat
       std::cout << (isLeft ? "├──" : "└──" );
 
       // print the value of the node
-      std::cout << stateNode->hashedGameState << std::endl;
-
+      std::cout << stateNode->comparableGameState; 
       // enter the next tree level - left and right branch
       this->printTree( prefix + (isLeft ? "│   " : "    "), stateNode->left, true);
       this->printTree( prefix + (isLeft ? "│   " : "    "), stateNode->right, false);

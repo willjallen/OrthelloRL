@@ -32,22 +32,25 @@ MCTS::~MCTS(){
 // gamestate, NN
 float MCTS::search(Othello::GameState &gameState){
 
- 
-  gameState.calculateLegalMoves();
+  // if(gameState.turnNumber == 40) return 0;
 
-  std::cout << gameState << std::endl;
+  gameState.calculateLegalMoves();
   // If we've reached a terminal state, propogate the reward up
   if(gameState.gameOver){
     return -getGameOverReward(gameState);
   }
 
+    
+  std::cout << "\n";
   // If the state does not exist, add and initialize it
   // This will make a copy of gameState inside stateNode
   StateNode *stateNode = this->stateSearchTree->find(gameState);
   if(this->stateSearchTree->find(gameState) == nullptr){
     stateNode = stateSearchTree->add(gameState);
   }
-
+    std::cout << stateNode << std::endl;
+    std::cout << stateNode->comparableGameState;
+    std::cout << gameState;
   // Proper small number later
   float max_u = -9999999999999;
 
@@ -71,6 +74,8 @@ float MCTS::search(Othello::GameState &gameState){
       chosenAction = action; 
     }
   }
+
+  std::cout << "Chosen action: " << "(" << chosenAction.coordinate.first << ", " << chosenAction.coordinate.second << ")" << "\n";
 
   gameState.playMove(chosenAction.coordinate.first, chosenAction.coordinate.second);
   // gameState is now s'

@@ -1,6 +1,7 @@
 #include "Othello.h"
 #include <ostream>
 #include <sstream>
+#include <iostream> 
 namespace Othello {
 
 bool inBounds(int x, int y)
@@ -288,20 +289,30 @@ void GameState::calculateLegalMoves()
         }
     }
   this->legalMovesCalulated = true;
+
+  bool legalMovesAvailable = false;
+
+  if(this->currentPlayer == BLACK){
+    if(this->numBlackLegalMoves > 0){
+      legalMovesAvailable = true;
+    }
+  }else{
+    if(this->numWhiteLegalMoves > 0){
+      legalMovesAvailable = true;
+    }
+  }
+
+  if(this->noLegalMoveOnLastTurn && !legalMovesAvailable){
+    this->gameOver = true;
+    this->calculateWinner();
+  }
+  if(!legalMovesAvailable){
+    this->noLegalMoveOnLastTurn = true;
+  }else{
+    this->noLegalMoveOnLastTurn = false;
+  }
 }
 
-/**
- * @brief Determines whether the current player has no legal moves
- *
- * @paramthis 
- * @return boolean
- */
-bool GameState::shouldPass()
-{
-  if((this->currentPlayer == BLACK && this->numBlackLegalMoves == 0)
-      || (this->currentPlayer == WHITE && this->numWhiteLegalMoves == 0)) { return true; }
-  return false;
-}
 
 
 void GameState::calculateWinner(){
@@ -314,16 +325,8 @@ void GameState::calculateWinner(){
   }
 }
 
-
-
-
 void GameState::playMove(unsigned int startingX, unsigned int startingY)
 {
-
-
-    if(!this->legalMovesCalulated){
-      this->calculateLegalMoves();
-    }
 
     if (this->currentPlayer == 1)
     {
@@ -337,8 +340,6 @@ void GameState::playMove(unsigned int startingX, unsigned int startingY)
     // Get all lines at the coordinate
     MoveLines moveLines = this->moveLines[startingX][startingY];
   
-    bool noLegalMoves = true;
-
     // For each direction, check if a valid line exists
     for (unsigned int direction = 0; direction < 8; direction++)
     {
@@ -349,7 +350,6 @@ void GameState::playMove(unsigned int startingX, unsigned int startingY)
         if (line.valid && line.assignedTurnNumber == this->turnNumber)
         {
             
-          noLegalMoves = false;
             // Flip the tiles on the line
 
             unsigned int x = startingX;
@@ -389,15 +389,6 @@ void GameState::playMove(unsigned int startingX, unsigned int startingY)
         }
     }
     
-    if(this->noLegalMoveOnLastTurn && noLegalMoves){
-      this->gameOver = true;
-      this->calculateWinner();
-      return; 
-    }else if(noLegalMoves){
-      this->noLegalMoveOnLastTurn = true;
-    }else{
-      this->noLegalMoveOnLastTurn = false;
-    }
 
     this->turnNumber++;
     this->legalMovesCalulated = false;
@@ -451,7 +442,7 @@ std::vector<std::pair<int,int>> GameState::getLegalMoves(){
 
   for(int i = 0; i < 8; i++){
     for(int j = 0; j < 8; j++){
-      if(this->board[i][j] == LEGAL){
+      if(this->legalMoves[i][j] == LEGAL){
         legalMoves.push_back(std::pair<int,int>(i, j));
       }
     }
@@ -461,61 +452,90 @@ std::vector<std::pair<int,int>> GameState::getLegalMoves(){
 
 }  
 
+const uint64_t seed1 = 264578920567223;
+const uint64_t seed2 = 502770385867321;
+const uint64_t seed3 = 920581658938830;
+
 // 64 digit base 3 number
-uint64_t GameState::getHashedGameState(){
+ComparableGameState GameState::getComparableGameState(){
   uint64_t whiteVec = 0;
   uint64_t blackVec = 0;
-  /* Seed */
-  std::random_device rd;
-
-  /* Random number generator */
-  std::default_random_engine generator(rd());
-
-  /* Distribution on which to apply the generator */
-  std::uniform_int_distribution<long long unsigned> distribution(0,0xFFFFFFFFFFFFFFFF);
-
+  
   for(int i = 0; i < 8; i++){
     for(int j = 0; j < 8; j++){
         if(this->board[i][j] == BLACK){
-          blackVec = blackVec | 1ULL << (i*j);
+          blackVec = blackVec | 1ULL << (i*8 + j);
         }else if(this->board[i][j] == WHITE){
-          whiteVec = whiteVec | 1ULL << (i*j);
+          whiteVec = whiteVec | 1ULL << (i*8 + j);
         }
     }
   }
 
-  // Should probably check for collisions
-  uint64_t hash = (whiteVec ^ distribution(generator)) ^ (blackVec ^ distribution(generator));
+  return ComparableGameState(blackVec, whiteVec, this->currentPlayer);
 
-
-  return hash; 
 }
 
-// std::stringstream GameState::printBoard() const {
-//   std::stringstream strm;
-//   for(int x = 0; x < 8; x++){
-//     for(int y = 0; y < 8; y++){
-//       if(this->board[x][y] == BLACK){
-//         strm << "B  ";
-//       }else if(this->board[x][y] == WHITE){
-//         strm << "W  ";
-//       }else{
-//         strm << ".  ";
-//       }
-//     }
-//     strm << "\n";
-//   }
-//
-//   return strm;
+
+
+// ComparableGameState::ComparableGameState(uint64_t whiteVec, uint64_t blackVec, int currentPlayer){
+//   this->whiteVec = whiteVec;
+//   this->blackVec = blackVec;
+//   this->currentPlayer = currentPlayer;
 // }
-//
 
 
+bool ComparableGameState::operator==(const ComparableGameState &other){
+  if(this->whiteVec == other.whiteVec && this->blackVec == other.blackVec && this->currentPlayer == other.currentPlayer){
+    return true;
+  }
+  return false;
+}
+
+bool ComparableGameState::operator<(const ComparableGameState &other){
+  if(this->blackVec < other.blackVec){
+    return true;
+  }else if(this->blackVec > other.blackVec){
+    return false;
+  }
+  
+  if(this->whiteVec < other.whiteVec){
+    return true;
+  }else if(this->whiteVec > other.whiteVec){
+    return false;
+  }
+
+  if(this->currentPlayer < other.currentPlayer){
+    return true;
+  }
+  return false;
+}
+
+
+bool ComparableGameState::operator>(const ComparableGameState &other){
+
+  if(this->blackVec > other.blackVec){
+    return true;
+  }else if(this->blackVec < other.blackVec){
+    return false;
+  }
+  
+  if(this->whiteVec > other.whiteVec){
+    return true;
+  }else if(this->whiteVec < other.whiteVec){
+    return false;
+  }
+
+  if(this->currentPlayer > other.currentPlayer){
+    return true;
+  }
+  return false;
+}
 
 
 
 std::ostream& operator<<(std::ostream &strm, const Othello::GameState &gameState){
-  strm << "Current player: " << gameState.currentPlayer << "\n"
+  strm << "Turn number: " << gameState.turnNumber << "\n"
+       << "Current player: " << gameState.currentPlayer << "\n"
        << "Board: " << "\n";
 
       
@@ -536,9 +556,17 @@ std::ostream& operator<<(std::ostream &strm, const Othello::GameState &gameState
   }
 
   strm << std::endl;
-
+  std::cout << "here" << std::endl;
   strm << "No legal move on last turn: " << gameState.noLegalMoveOnLastTurn << "\n" 
        << "Game Over: " << gameState.gameOver << "\n";
+
+  return strm;
+}
+
+
+std::ostream& operator<<(std::ostream &strm, const Othello::ComparableGameState &comparableGameState){
+
+  strm << "(" << comparableGameState.blackVec << ", " << comparableGameState.whiteVec << ", " << comparableGameState.currentPlayer << ")" << std::endl;
 
   return strm;
 }
