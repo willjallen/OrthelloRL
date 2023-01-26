@@ -9,6 +9,12 @@
 #include "MCTS.h"
 #include "StateSearchTree.h"
 #include <iostream>
+#include <random>
+#include <cstddef>
+
+// static std::random_device rd; 
+// static std::mt19937 rng{rd()};
+// static std::uniform_real_distribution<float> dist(0, 1);
 
 // 1 if BLACK won, -1 if WHITE won
 float getGameOverReward(const Othello::GameState &gameState){
@@ -41,21 +47,20 @@ float MCTS::search(Othello::GameState &gameState){
   }
 
     
-  // std::cout << "\n";
-  // If the state does not exist, add and initialize it
-  // This will make a copy of gameState inside stateNode
   StateNode *stateNode = this->stateSearchTree->find(gameState);
   if(this->stateSearchTree->find(gameState) == nullptr){
     stateNode = stateSearchTree->add(gameState);
     // TODO: When NN comes in it will go here
-    float v = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-    return -v;
+    // float v = dist(rng);
+    // return v;
+    //
+    // This rollout is temporary and for testing purposes
+    
   }
-    // std::cout << stateNode << std::endl;
-    // std::cout << stateNode->comparableGameState;
-    // std::cout << gameState;
+
   // Proper small number later
-  float max_u = -9999999999999;
+  float max_u = -99999999;
+// std::numeric_limits<float>::min();
 
   // For each legal move
   // std::vector<Othello::Coordinate> legalMoves = Othello::getLegalMoves(gameState);

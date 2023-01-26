@@ -1,8 +1,13 @@
 #include "Othello.h"
+#include <random>
 #include <ostream>
 #include <sstream>
 #include <iostream> 
 namespace Othello {
+
+
+static std::random_device rd; 
+static std::mt19937 rng{rd()};
 
 bool inBounds(int x, int y)
 {
@@ -66,6 +71,7 @@ void GameState::switchPlayers()
 
 GameState::GameState()
 {
+
 
     this->noLegalMoveOnLastTurn = false;
     this->gameOver = false;
@@ -437,7 +443,11 @@ void GameState::playRandomMove()
 
     if(legalMovePresent){
       // We now have idx number of lines to choose from
-      unsigned int choice = rand() % idx;
+      
+      std::uniform_int_distribution<> distrib(0, idx-1);
+      int choice = distrib(rng);
+      
+      // std::cout << choice << std::endl;
       unsigned int randomX = potentialCoordinates[choice].x;
       unsigned int randomY = potentialCoordinates[choice].y;
       

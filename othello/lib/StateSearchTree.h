@@ -3,6 +3,7 @@
 
 #include "Othello.h"
 #include <iostream>
+#include <random>
 // (s,a)
 struct ActionValues {
   std::pair<unsigned int, unsigned int> coordinate = std::make_pair(0,0);
@@ -21,6 +22,32 @@ struct ActionValues {
 };
 
 
+static std::random_device rd; 
+static std::mt19937 rng{rd()};
+static std::uniform_real_distribution<float> dist(0, 1);
+struct StateNode;
+
+
+class StateSearchTree {
+  
+  public:
+    StateSearchTree();
+    StateSearchTree(Othello::GameState &gameState);
+    ~StateSearchTree();
+
+    StateNode* add(Othello::GameState &gameState);
+    StateNode* find(Othello::GameState &gameState);  
+
+    void printTree();
+    void printTree(const std::string &prefix, const StateNode *stateNode, bool isLeft);
+  
+
+  private:
+    StateNode *root;
+
+    void deleteTree(StateNode *stateNode);
+};
+
 struct StateNode{
   
   // Othello::GameState gameState;
@@ -30,10 +57,13 @@ struct StateNode{
   std::vector<ActionValues> actions;
   bool noLegalMoves = false;
 
+  StateSearchTree *tree;
+
   StateNode *left = nullptr;
   StateNode *right = nullptr;
 
-  StateNode(Othello::GameState &gameState){
+  StateNode(Othello::GameState &gameState, StateSearchTree *tree){
+    this->tree = tree;
     this->comparableGameState = gameState.getComparableGameState(); 
     // std::cout << "Constructing state node" << std::endl;
     // std::cout << "comparableGameState: " << this->comparableGameState; 
@@ -50,7 +80,7 @@ struct StateNode{
     for(auto& action : legalMoves){
       // std::cout << "Adding action: " << "(" << action.first << ", " << action.second << ")" << "\n";
       // TODO: When NN comes in it will go here
-      float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+      float r = dist(rng);
       this->actions.push_back(ActionValues(action, 0, 0, r));
     }
   }
@@ -58,25 +88,4 @@ struct StateNode{
     
 
 };
-
-
-
-class StateSearchTree {
-  
-  public:
-    StateSearchTree();
-    StateSearchTree(Othello::GameState &gameState);
-    ~StateSearchTree();
-
-    StateNode* add(Othello::GameState &gameState);
-    StateNode* find(Othello::GameState &gameState);  
-
-    void printTree();
-    void printTree(const std::string &prefix, const StateNode *stateNode, bool isLeft);
-  private:
-    StateNode *root;
-
-    void deleteTree(StateNode *stateNode);
-};
-
 #endif

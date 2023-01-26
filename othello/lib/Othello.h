@@ -145,7 +145,6 @@ class ComparableGameState
     public:
       GameState();
       GameState(const GameState &GameState);
-      
       void switchPlayers();
       void findLegalMove(unsigned int startingX, unsigned int startingY, unsigned int player, unsigned int otherPlayer);
       void calculateLegalMoves();
@@ -163,6 +162,7 @@ class ComparableGameState
 
       
       GameState& operator=(const GameState &src);
+
 
       bool noLegalMoveOnLastTurn;
       bool gameOver;

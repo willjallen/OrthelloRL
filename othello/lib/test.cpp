@@ -4,19 +4,90 @@
 
 
 
-void MCTSvsRandom(){ 
- 
-  float numGames = 100;
 
-  int blackWins = 0;
-  int whiteWins = 0;
-  int ties = 0;
+void testMCTSvsMCTS(int numGames, int numSimsOne, int numSimsTwo){ 
+
+
+
+  float blackWins = 0;
+  float whiteWins = 0;
+  float ties = 0;
 
   for(int i = 0; i < numGames; i++){
 
     // Set up the game
     Othello::GameState actualGameState;
-    Othello::GameState searchGameState = actualGameState;
+    Othello::GameState searchGameState;
+    // Create MCTS
+    MCTS mcts(searchGameState);
+    while(true){
+
+      actualGameState.calculateLegalMoves();
+      if(actualGameState.gameOver){
+        actualGameState.calculateWinner();
+        if(actualGameState.winner == Othello::BLACK){
+          blackWins++;
+        }else if(actualGameState.winner == Othello::WHITE){
+          whiteWins++;
+        }else{
+          ties++;
+        }
+
+        std::cout << actualGameState;
+        break;
+      }
+
+      int numSims = 0;
+      if(actualGameState.currentPlayer == Othello::BLACK){
+        numSims = numSimsOne;
+      }else{
+        numSims = numSimsTwo;
+      }
+      for(int j = 0; j < numSims; j++){
+         searchGameState = actualGameState;
+        mcts.search(searchGameState);
+      }
+      std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> improvedPolicy = mcts.getPI(actualGameState);
+
+      std::pair<int,int> bestAction;
+      float maxVal = -999999999999;
+
+      for(auto& item : improvedPolicy){
+        if(item.second > maxVal){
+          maxVal = item.second;
+          bestAction = item.first;
+        }
+      }
+
+        if(improvedPolicy.size() != 0){
+          actualGameState.playMove(bestAction.first, bestAction.second);
+        }else{
+          actualGameState.pass();
+        }
+     
+    }
+  }
+
+  std::cout << "Black win %: " << (blackWins/numGames) << std::endl;
+  std::cout << "White win %: " << (whiteWins/numGames) << std::endl;
+  std::cout << "Tie %: " << (ties/numGames) << std::endl;
+
+}
+
+
+void testMCTSvsRandom(int numGames, int numSims){ 
+
+
+
+  float blackWins = 0;
+  float whiteWins = 0;
+  float ties = 0;
+
+  for(int i = 0; i < numGames; i++){
+
+    // Set up the game
+    Othello::GameState actualGameState;
+    Othello::GameState searchGameState;
     // Create MCTS
     MCTS mcts(searchGameState);
     while(true){
@@ -38,36 +109,36 @@ void MCTSvsRandom(){
       if(actualGameState.currentPlayer == Othello::BLACK){
 
       
-      for(int j = 0; j < 100; j++){
-        searchGameState = actualGameState;
-        mcts.search(searchGameState);
-      }
-      // mcts.stateSearchTree->printTree(); 
-      std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> improvedPolicy = mcts.getPI(actualGameState);
-
-      std::pair<int,int> bestAction;
-      float maxVal = -999999999999;
-
-      for(auto& item : improvedPolicy){
-        // std::cout << "(" << item.first.first << ", " << item.first.second << ", " << item.second << ") ";
-        if(item.second > maxVal){
-          maxVal = item.second;
-          bestAction = item.first;
+        for(int j = 0; j < numSims; j++){
+          searchGameState = actualGameState;
+          mcts.search(searchGameState);
         }
-      }
-       
-      // std::cout << std::endl;
+        // mcts.stateSearchTree->printTree(); 
+        std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> improvedPolicy = mcts.getPI(actualGameState);
+
+        std::pair<int,int> bestAction;
+        float maxVal = -999999999999;
+
+        for(auto& item : improvedPolicy){
+          // std::cout << "(" << item.first.first << ", " << item.first.second << ", " << item.second << ") ";
+          if(item.second > maxVal){
+            maxVal = item.second;
+            bestAction = item.first;
+          }
+        }
+         
+        // std::cout << std::endl;
 
 
 
-      // std::cout << actualGameState;
-      
-      if(improvedPolicy.size() != 0){
-        actualGameState.playMove(bestAction.first, bestAction.second);
-      }else{
-        actualGameState.pass();
-      }
-      }else{
+        // std::cout << actualGameState;
+        
+        if(improvedPolicy.size() != 0){
+          actualGameState.playMove(bestAction.first, bestAction.second);
+        }else{
+          actualGameState.pass();
+        }
+      }else if(actualGameState.currentPlayer == Othello::WHITE){
         actualGameState.playRandomMove();
       }
 
@@ -82,16 +153,15 @@ void MCTSvsRandom(){
 
 }
 
-void RandomvsRandom(){
+void testRandomvsRandom(int numGames){
 
-  float numGames = 100;
 
-  int blackWins = 0;
-  int whiteWins = 0;
-  int ties = 0;
+  float blackWins = 0;
+  float whiteWins = 0;
+  float ties = 0;
   // Set up the game
   
-  for(int i = 0; i < 100; i++){
+  for(int i = 0; i < numGames; i++){
     Othello::GameState actualGameState;
     while(true){
       actualGameState.calculateLegalMoves();
@@ -118,7 +188,10 @@ void RandomvsRandom(){
 }
 
 int main(){
-  MCTSvsRandom();
-  std::cout << "random now" << std::endl;
-  RandomvsRandom();
+  std::cout << "MCTS self-play" << std::endl;
+  testMCTSvsMCTS(20, 100, 10);
+  // std::cout << "MCTS vs Random" << std::endl;
+  // testMCTSvsRandom(20, 100);
+  // std::cout << "Random self-play" << std::endl;
+  // testRandomvsRandom(100);
 }
