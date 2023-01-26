@@ -52,7 +52,22 @@ float MCTS::search(Othello::GameState &gameState){
     stateNode = stateSearchTree->add(gameState);
     // TODO: When NN comes in it will go here
     // float v = dist(rng);
-    // return v;
+    float v;
+    if(gameState.currentPlayer == Othello::BLACK){
+      if(gameState.numBlackTiles > gameState.numWhiteTiles){
+        v = 1;
+      }else{
+        v = -1;
+      }
+    }else{
+      if(gameState.numWhiteTiles > gameState.numBlackTiles){
+        v = 1;
+      }else{
+        v = -1;
+      }
+    }
+
+    return -v;
     //
     // This rollout is temporary and for testing purposes
     
@@ -82,7 +97,7 @@ float MCTS::search(Othello::GameState &gameState){
     // ActionValues actionValues = stateNode->actions.find(std::pair<int, int>(action.x, action.y));
    
     // Exploration para
-    float c = 1;
+    float c = 0;
    float u = action.Q + c * action.P * (sqrt_sum_N)/(1 + action.N);
    // float u = rand(); 
 

@@ -33,7 +33,7 @@ void testMCTSvsMCTS(int numGames, int numSimsOne, int numSimsTwo){
           ties++;
         }
 
-        std::cout << actualGameState;
+        // std::cout << actualGameState;
         break;
       }
 
@@ -188,10 +188,10 @@ void testRandomvsRandom(int numGames){
 }
 
 int main(){
-  std::cout << "MCTS self-play" << std::endl;
-  testMCTSvsMCTS(20, 100, 10);
-  // std::cout << "MCTS vs Random" << std::endl;
-  // testMCTSvsRandom(20, 100);
-  // std::cout << "Random self-play" << std::endl;
-  // testRandomvsRandom(100);
+  // std::cout << "MCTS self-play" << std::endl;
+  // testMCTSvsMCTS(500, 25, 25);
+  std::cout << "MCTS vs Random" << std::endl;
+  testMCTSvsRandom(500, 25);
+  std::cout << "Random self-play" << std::endl;
+  testRandomvsRandom(500);
 }
