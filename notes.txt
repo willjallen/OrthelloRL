@@ -239,4 +239,11 @@ Actually, nevermind lol. Too much of a diversion to justify the time sink.
 
 
 
-
+Game Over: 1
+Black win %: 0.39
+White win %: 0.59
+Tie %: 0.02
+Random self-play
+Black win %: 0.5
+White win %: 0.47
+Tie %: 0.03

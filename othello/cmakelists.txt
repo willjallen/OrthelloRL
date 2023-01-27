@@ -24,12 +24,17 @@ endif()
 #  othello.h
 #)
 
+find_package(Torch REQUIRED)
 
-include_directories(".")
 
-add_executable(train
+include_directories("include")
+
+add_executable(othello
   Othello.cpp
   MCTS.cpp
   StateSearchTree.cpp
   test.cpp
 )
+
+target_link_libraries(othello "${TORCH_LIBRARIES}")
+set_property(TARGET othello PROPERTY CXX_STANDARD 14)

@@ -97,7 +97,7 @@ float MCTS::search(Othello::GameState &gameState){
     // ActionValues actionValues = stateNode->actions.find(std::pair<int, int>(action.x, action.y));
    
     // Exploration para
-    float c = 0;
+    float c = 0.12;
    float u = action.Q + c * action.P * (sqrt_sum_N)/(1 + action.N);
    // float u = rand(); 
 
@@ -145,7 +145,7 @@ std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> MCTS::getPI
   // }
 
   for(auto& action : stateNode->actions){
-    pi.push_back(std::pair(action.coordinate, action.Q));
+    pi.push_back(std::pair<std::pair<unsigned int, unsigned int>, float>(action.coordinate, action.Q));
   }
 
   return pi;

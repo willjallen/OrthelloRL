@@ -3,9 +3,10 @@
 *.exp
 *.lib
 *.so
+*.pt
 
 generate_tests.py
 
 build/
 __pycache__/
-
+libtorch/

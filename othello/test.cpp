@@ -189,9 +189,9 @@ void testRandomvsRandom(int numGames){
 
 int main(){
   // std::cout << "MCTS self-play" << std::endl;
-  // testMCTSvsMCTS(500, 25, 25);
+  // testMCTSvsMCTS(100, 100, 25);
   std::cout << "MCTS vs Random" << std::endl;
-  testMCTSvsRandom(500, 25);
-  std::cout << "Random self-play" << std::endl;
-  testRandomvsRandom(500);
+  testMCTSvsRandom(100, 400);
+  // std::cout << "Random self-play" << std::endl;
+  // testRandomvsRandom(100);
 }
