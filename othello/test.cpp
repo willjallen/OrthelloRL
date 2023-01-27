@@ -2,7 +2,7 @@
 #include "Othello.h"
 #include <iostream>
 #include <torch/script.h> // One-stop header.
-
+#include <torch/torch.h>
 
 
 void testMCTSvsMCTS(int numGames, int numSimsOne, int numSimsTwo){ 
@@ -210,5 +210,17 @@ int main(int argc, const char* argv[]){
   }
 
   std::cout << "ok\n";
+
+  // example = torch.rand(64,8,8)
+  // Create a vector of inputs.
+  std::vector<torch::jit::IValue> inputs;
+  inputs.push_back(torch::randn({64, 8, 8}));
+
+  // torch::Tensor testin = torch::randn({64, 8, 8});
+
+  // Execute the model and turn its output into a tensor.
+  auto output = module.forward(inputs).toTensor();
+  std::cout << output << std::endl;
+  
 }
 
