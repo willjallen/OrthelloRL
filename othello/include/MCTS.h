@@ -5,7 +5,7 @@
 #include <random>
 #include "Othello.h"
 #include "StateSearchTree.h"
-
+#include "NNet.h"
 
 class MCTS {
   

@@ -73,8 +73,9 @@ example = torch.rand(64,8,8)
 
 # Use torch.jit.trace to generate a torch.jit.ScriptModule via tracing.
 onn.eval()
-output_model = traced_script_module = torch.jit.trace(onn, example)
-output_model.save("output_model.pt")
-# for i in range(0, 10):
-#     print(onn.forward(torch.rand(64, 8, 8))[1])
-print(torch.cuda.is_available())
+# output_model = traced_script_module = torch.jit.trace(onn, example)
+# print(output_model)
+# output_model.save("output_model.pt")
+for i in range(0, 10):
+    print(onn.forward(torch.randn(64, 8, 8)))
+# print(torch.cuda.is_available())

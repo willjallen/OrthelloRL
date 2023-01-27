@@ -1,8 +1,8 @@
 #include "MCTS.h"
 #include "Othello.h"
+#include "NNet.h"
 #include <iostream>
 #include <torch/script.h> // One-stop header.
-#include <torch/torch.h>
 
 
 void testMCTSvsMCTS(int numGames, int numSimsOne, int numSimsTwo){ 
@@ -186,41 +186,31 @@ void testRandomvsRandom(int numGames){
 
 
 }
-
-int main(int argc, const char* argv[]){
+// int argc, const char* argv[]
+int main(){
   // std::cout << "MCTS self-play" << std::endl;
   // testMCTSvsMCTS(100, 100, 25);
   // std::cout << "MCTS vs Random" << std::endl;
   // testMCTSvsRandom(100, 400);
   // std::cout << "Random self-play" << std::endl;
   // testRandomvsRandom(100);
- if (argc != 2) {
-    std::cerr << "usage: example-app <path-to-exported-script-module>\n";
-    return -1;
-  }
+ // if (argc != 2) {
+ //    std::cerr << "usage: example-app <path-to-exported-script-module>\n";
+ //    return -1;
+ //  }
 
-  torch::jit::script::Module module;
-  try {
-    // Deserialize the ScriptModule from a file using torch::jit::load().
-    module = torch::jit::load(argv[1]);
-  }
-  catch (const c10::Error& e) {
-    std::cerr << "error loading the model\n";
-    return -1;
-  }
+  // torch::jit::script::Module module;
+  // try {
+  //   // Deserialize the ScriptModule from a file using torch::jit::load().
+  //   module = torch::jit::load(argv[1]);
+  // }
+  // catch (const c10::Error& e) {
+  //   std::cerr << "error loading the model\n";
+  //   return -1;
+  // }
 
-  std::cout << "ok\n";
-
-  // example = torch.rand(64,8,8)
-  // Create a vector of inputs.
-  std::vector<torch::jit::IValue> inputs;
-  inputs.push_back(torch::randn({64, 8, 8}));
-
-  // torch::Tensor testin = torch::randn({64, 8, 8});
-
-  // Execute the model and turn its output into a tensor.
-  auto output = module.forward(inputs).toTensor();
-  std::cout << output << std::endl;
-  
+  // std::cout << "ok\n";
+  // NNet nnet = std::make_shared<NNet>(new NNet("../networks/output_model.pt"));
+  std::shared_ptr<NNet> nnet(new NNet("../networks/output_model.pt"));
 }
 

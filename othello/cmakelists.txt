@@ -33,6 +33,7 @@ add_executable(othello
   Othello.cpp
   MCTS.cpp
   StateSearchTree.cpp
+  NNet.cpp
   test.cpp
 )
 
