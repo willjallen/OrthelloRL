@@ -186,6 +186,16 @@ void testRandomvsRandom(int numGames){
 
 
 }
+
+void testNN(){
+
+  Othello::GameState actualGameState;
+  std::shared_ptr<NNet> nnet(new NNet("../networks/output_model.pt"));
+
+  auto out = nnet->predict(actualGameState);
+  std::cout << out << std::endl;
+
+}
 // int argc, const char* argv[]
 int main(){
   // std::cout << "MCTS self-play" << std::endl;
@@ -211,6 +221,6 @@ int main(){
 
   // std::cout << "ok\n";
   // NNet nnet = std::make_shared<NNet>(new NNet("../networks/output_model.pt"));
-  std::shared_ptr<NNet> nnet(new NNet("../networks/output_model.pt"));
+  testNN();
 }
 

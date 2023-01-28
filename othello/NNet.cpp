@@ -14,6 +14,8 @@ NNet::NNet(const char* modelPath){
     // return -1;
   }
 
+  std::cout << "Model loaded" << std::endl;
+
 }
 
 std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &gameState){
@@ -48,10 +50,19 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
   torch::Tensor p_vals = outputs->elements()[0].toTensor();
   torch::Tensor v = outputs->elements()[1].toTensor();
 
-  std::cout << p_vals.index({0}) << std::endl;
-  std::cout << v.index({0}) << std::endl;
+  // std::cout << p_vals.index({0}) << std::endl;
+  // std::cout << v.index({0}) << std::endl;
 
-  return std::make_pair(p_vals.index({0}), v.index({0}));
+  // Recover probabilities
+  // std::cout << "probs" << std::endl; 
+  // std::cout << torch::exp(p_vals.index({0})) << std::endl;
 
+  // We want the first channel of the output.
+  // Additionally, we want to recover the log probabilities from p_vals
+  return std::make_pair(torch::exp(p_vals.index({0})), v.index({0}));
   
 }
+
+// torch::Tensor NNet::getMaskedPvals(const Othello::GameState &gameState, torch:;Tensor p_vals){
+//   
+// }
