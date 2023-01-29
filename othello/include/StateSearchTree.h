@@ -77,8 +77,8 @@ struct StateNode{
     if(legalMoves.size() == 0){
       this->noLegalMoves = true;
     }else{
-      std::cout << "HERE8" << std::endl;
-      std::cout << &(nnet->_module) << std::endl;
+      // std::cout << "HERE8" << std::endl;
+      // std::cout << &(nnet->_module) << std::endl;
       at::Tensor p_vals = nnet->getPvals(gameState);
       for(auto& action : legalMoves){
         int actionX = action.first;

@@ -29,8 +29,8 @@ float getGameOverReward(const Othello::GameState &gameState){
 
 MCTS::MCTS(Othello::GameState &initialState, NNet *nnet){
 
-  std::cout << "HERE7" << std::endl;
-  std::cout << &(nnet->_module) << std::endl;
+  // std::cout << "HERE7" << std::endl;
+  // std::cout << &(nnet->_module) << std::endl;
   this->stateSearchTree = new StateSearchTree(initialState, nnet);
 }
 

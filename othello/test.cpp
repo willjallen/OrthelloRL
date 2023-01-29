@@ -90,8 +90,8 @@ void testMCTSvsRandom(int numGames, int numSims, NNet *nnet){
     Othello::GameState searchGameState;
 
 
-   std::cout << "HERE6" << std::endl;
-  std::cout << &(nnet->_module) << std::endl;
+  //  std::cout << "HERE5" << std::endl;
+  // std::cout << &(nnet->_module) << std::endl;
     // Create MCTS
     MCTS mcts(searchGameState, nnet);
     while(true){
@@ -206,19 +206,16 @@ int main(){
   
   // testNN();
 
-  Othello::GameState actualGameState;
+  // Othello::GameState actualGameState;
 
   NNet *nnet = new NNet("../networks/output_model.pt");
   
-  auto out = nnet->getPvals(actualGameState);
-  out = nnet->getPvals(actualGameState);
-  std::cout << out << std::endl;
-  // std::cout << "MCTS self-play" << std::endl;
-  // testMCTSvsMCTS(100, 100, 25);
-  std::cout << "HERE5" << std::endl;
-  std::cout << &(nnet->_module) << std::endl;
   std::cout << "MCTS vs Random" << std::endl;
-  testMCTSvsRandom(100, 25, nnet);
+  auto start = std::chrono::high_resolution_clock::now();
+  testMCTSvsRandom(10, 25, nnet);
+  auto stop = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+  std::cout << "Runtime: " << duration.count() << "seconds" << std::endl;
 
   delete nnet;
   // std::cout << "Random self-play" << std::endl;

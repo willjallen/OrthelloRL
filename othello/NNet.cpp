@@ -58,9 +58,9 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
   gameStateContiguous = gameStateContiguous.view({1, 8, 8});
 
   // Now we need 63 1x8x8 dummy channels
-  std::cout << gameStateContiguous << std::endl;
-  std::cout << "HERE10" << std::endl;
-  std::cout << &(this->_module) << std::endl;
+  // std::cout << gameStateContiguous << std::endl;
+  // std::cout << "HERE10" << std::endl;
+  // std::cout << &(this->_module) << std::endl;
 
  // // Create a vector of tensors
  //  std::vector<torch::Tensor> tensors;
@@ -77,9 +77,9 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
   inputs.push_back(gameStateContiguous);
 
   // Run inference
-  std::cout << "Inference" << std::endl; 
+  // std::cout << "Inference" << std::endl; 
   auto outputs = this->_module.forward(inputs).toTuple();
-  std::cout << outputs << std::endl;
+  // std::cout << outputs << std::endl;
   torch::Tensor p_vals = outputs->elements()[0].toTensor();
   torch::Tensor v = outputs->elements()[1].toTensor();
 
@@ -100,8 +100,8 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
 
 at::Tensor NNet::getPvals(const Othello::GameState &gameState){
   
-  std::cout << "HERE9" << std::endl;
-  std::cout << &(this->_module) << std::endl;
+  // std::cout << "HERE9" << std::endl;
+  // std::cout << &(this->_module) << std::endl;
   auto prediction = this->predict(gameState);
   return prediction.first;
 }
