@@ -6,7 +6,7 @@ NNet::NNet(const char* modelPath){
 
   try {
       // Deserialize the ScriptModule from a file using torch::jit::load().
-    this->_module = torch::jit::load(modelPath);
+    this->_module = torch::jit::load(modelPath, at::kCUDA);
     
   }
   catch (const c10::Error& e) {
@@ -15,11 +15,12 @@ NNet::NNet(const char* modelPath){
   }
 
   std::cout << "Model loaded" << std::endl;
-
 }
 
 std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &gameState){
 
+  torch::NoGradGuard no_grad;
+  
   // Roll the game state into one contiguous 1d array of length 64
   torch::Tensor gameStateContiguous = torch::zeros(64);
   for(int i = 0; i < 8; i++){
@@ -56,7 +57,8 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
   
   // Transform into 1x8x8
   gameStateContiguous = gameStateContiguous.view({1, 8, 8});
-
+  //https://stackoverflow.com/questions/53570334/documentation-for-pytorch-tocpu-or-tocuda
+  torch::Tensor gameStateContiguousCUDA = gameStateContiguous.to(at::kCUDA);
   // Now we need 63 1x8x8 dummy channels
   // std::cout << gameStateContiguous << std::endl;
   // std::cout << "HERE10" << std::endl;
@@ -74,7 +76,7 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
  //  // Concatenate the tensors along the first dimension
  //  auto input_64ch = torch::cat(tensors, 0);
  //  std::cout << input_64ch.sizes() << std::endl;
-  inputs.push_back(gameStateContiguous);
+  inputs.push_back(gameStateContiguousCUDA);
 
   // Run inference
   // std::cout << "Inference" << std::endl; 
