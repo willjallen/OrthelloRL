@@ -11,10 +11,12 @@ class NNet{
     // Get policy (8x8 array) and value
     std::pair<torch::Tensor, torch::Tensor> predict(const Othello::GameState &gameState);
 
-    // torch::Tensor getMaskedPvals(const Othello::GameState &gameState, torch::Tensor p_vals);
+    torch::Tensor getPvals(const Othello::GameState &gameState);
 
-  private:
+    float getValue(const Othello::GameState &gameState);
+    
     torch::jit::script::Module _module;
+  private:
 
 
 };

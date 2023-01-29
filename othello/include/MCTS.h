@@ -10,7 +10,7 @@
 class MCTS {
   
   public:
-    MCTS(Othello::GameState &initialState);
+    MCTS(Othello::GameState &initialState, NNet *nnet);
    ~MCTS(); 
 
     float search(Othello::GameState &gameState);

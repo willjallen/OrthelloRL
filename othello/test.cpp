@@ -5,7 +5,7 @@
 #include <torch/script.h> // One-stop header.
 
 
-void testMCTSvsMCTS(int numGames, int numSimsOne, int numSimsTwo){ 
+void testMCTSvsMCTS(int numGames, int numSimsOne, int numSimsTwo, NNet *nnet){ 
 
 
 
@@ -19,7 +19,7 @@ void testMCTSvsMCTS(int numGames, int numSimsOne, int numSimsTwo){
     Othello::GameState actualGameState;
     Othello::GameState searchGameState;
     // Create MCTS
-    MCTS mcts(searchGameState);
+    MCTS mcts(searchGameState, nnet);
     while(true){
 
       actualGameState.calculateLegalMoves();
@@ -75,7 +75,7 @@ void testMCTSvsMCTS(int numGames, int numSimsOne, int numSimsTwo){
 }
 
 
-void testMCTSvsRandom(int numGames, int numSims){ 
+void testMCTSvsRandom(int numGames, int numSims, NNet *nnet){ 
 
 
 
@@ -88,8 +88,12 @@ void testMCTSvsRandom(int numGames, int numSims){
     // Set up the game
     Othello::GameState actualGameState;
     Othello::GameState searchGameState;
+
+
+   std::cout << "HERE6" << std::endl;
+  std::cout << &(nnet->_module) << std::endl;
     // Create MCTS
-    MCTS mcts(searchGameState);
+    MCTS mcts(searchGameState, nnet);
     while(true){
 
 
@@ -190,18 +194,33 @@ void testRandomvsRandom(int numGames){
 void testNN(){
 
   Othello::GameState actualGameState;
-  std::shared_ptr<NNet> nnet(new NNet("../networks/output_model.pt"));
 
+  NNet *nnet = new NNet("../networks/output_model.pt");
+  
   auto out = nnet->predict(actualGameState);
   std::cout << out << std::endl;
-
+  delete nnet;
 }
 // int argc, const char* argv[]
 int main(){
+  
+  // testNN();
+
+  Othello::GameState actualGameState;
+
+  NNet *nnet = new NNet("../networks/output_model.pt");
+  
+  auto out = nnet->getPvals(actualGameState);
+  out = nnet->getPvals(actualGameState);
+  std::cout << out << std::endl;
   // std::cout << "MCTS self-play" << std::endl;
   // testMCTSvsMCTS(100, 100, 25);
-  // std::cout << "MCTS vs Random" << std::endl;
-  // testMCTSvsRandom(100, 400);
+  std::cout << "HERE5" << std::endl;
+  std::cout << &(nnet->_module) << std::endl;
+  std::cout << "MCTS vs Random" << std::endl;
+  testMCTSvsRandom(100, 25, nnet);
+
+  delete nnet;
   // std::cout << "Random self-play" << std::endl;
   // testRandomvsRandom(100);
  // if (argc != 2) {
@@ -221,6 +240,6 @@ int main(){
 
   // std::cout << "ok\n";
   // NNet nnet = std::make_shared<NNet>(new NNet("../networks/output_model.pt"));
-  testNN();
+  // testNN();
 }
 

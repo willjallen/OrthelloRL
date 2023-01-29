@@ -2,8 +2,10 @@
 #define STATE_SEARCH_TREE_H
 
 #include "Othello.h"
+#include "NNet.h"
 #include <iostream>
 #include <random>
+#include <torch/script.h>
 // (s,a)
 struct ActionValues {
   std::pair<unsigned int, unsigned int> coordinate = std::make_pair(0,0);
@@ -32,7 +34,7 @@ class StateSearchTree {
   
   public:
     StateSearchTree();
-    StateSearchTree(Othello::GameState &gameState);
+    StateSearchTree(Othello::GameState &gameState, NNet *nnet);
     ~StateSearchTree();
 
     StateNode* add(Othello::GameState &gameState);
@@ -42,6 +44,8 @@ class StateSearchTree {
     void printTree(const std::string &prefix, const StateNode *stateNode, bool isLeft);
   
 
+    NNet *nnet;
+    
   private:
     StateNode *root;
 
@@ -57,32 +61,33 @@ struct StateNode{
   std::vector<ActionValues> actions;
   bool noLegalMoves = false;
 
-  StateSearchTree *tree;
 
   StateNode *left = nullptr;
   StateNode *right = nullptr;
 
-  StateNode(Othello::GameState &gameState, StateSearchTree *tree){
-    this->tree = tree;
+  StateNode(Othello::GameState &gameState, NNet *nnet){
     this->comparableGameState = gameState.getComparableGameState(); 
-    // std::cout << "Constructing state node" << std::endl;
-    // std::cout << "comparableGameState: " << this->comparableGameState; 
-    // std::cout << "pointer: " << this << std::endl;
-    // Make a copy
-    // this->gameState = Othello::GameState(gameState);
-
     // Initialize Q and N for all potential actions to 0
     // Initialize P using NN
  
     // Save actions as x,y pairs 
-    std::vector<std::pair<unsigned int, unsigned int>> legalMoves = gameState.getLegalMoves();
-    if(legalMoves.size() == 0) this->noLegalMoves = true;
-    for(auto& action : legalMoves){
-      // std::cout << "Adding action: " << "(" << action.first << ", " << action.second << ")" << "\n";
-      // TODO: When NN comes in it will go here
-      float r = dist(rng);
-      this->actions.push_back(ActionValues(action, 0, 0, r));
-    }
+    std::vector<std::pair<unsigned int, unsigned int>> legalMoves 
+      = gameState.getLegalMoves();
+
+    if(legalMoves.size() == 0){
+      this->noLegalMoves = true;
+    }else{
+      std::cout << "HERE8" << std::endl;
+      std::cout << &(nnet->_module) << std::endl;
+      at::Tensor p_vals = nnet->getPvals(gameState);
+      for(auto& action : legalMoves){
+        int actionX = action.first;
+        int actionY = action.second;
+
+        float p_val_at_location = p_vals[8*actionX + actionY].item<float>(); 
+        this->actions.push_back(ActionValues(action, 0, 0, p_val_at_location));
+      }
+    } 
   }
 
     

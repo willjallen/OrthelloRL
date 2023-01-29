@@ -7,6 +7,8 @@
 
 #include "Othello.h"
 #include "MCTS.h"
+#include "NNet.h"
+
 #include "StateSearchTree.h"
 #include <iostream>
 #include <random>
@@ -25,8 +27,11 @@ float getGameOverReward(const Othello::GameState &gameState){
   }
 }
 
-MCTS::MCTS(Othello::GameState &initialState){
-  this->stateSearchTree = new StateSearchTree(initialState);
+MCTS::MCTS(Othello::GameState &initialState, NNet *nnet){
+
+  std::cout << "HERE7" << std::endl;
+  std::cout << &(nnet->_module) << std::endl;
+  this->stateSearchTree = new StateSearchTree(initialState, nnet);
 }
 
 MCTS::~MCTS(){

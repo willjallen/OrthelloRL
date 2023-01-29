@@ -2,10 +2,11 @@
 #include "StateSearchTree.h"
 #include "Othello.h"
 #include <iostream>
-StateSearchTree::StateSearchTree(Othello::GameState &gameState) {
+StateSearchTree::StateSearchTree(Othello::GameState &gameState, NNet *nnet) {
 
   
-  this->root = new StateNode(gameState, this); 
+  this->root = new StateNode(gameState, nnet);
+  this->nnet = nnet;
 }
 
 StateSearchTree::StateSearchTree(){
@@ -49,7 +50,7 @@ StateNode* StateSearchTree::add(Othello::GameState &gameState){
       StateNode *newCursor = cursor->left;
       
       if(newCursor == nullptr){
-        cursor->left = new StateNode(gameState, this);
+        cursor->left = new StateNode(gameState, this->nnet);
         return cursor->left;
       }else{
         cursor = newCursor;
@@ -62,7 +63,7 @@ StateNode* StateSearchTree::add(Othello::GameState &gameState){
       StateNode *newCursor = cursor->right;
       
       if(newCursor == nullptr){
-        cursor->right = new StateNode(gameState, this);
+        cursor->right = new StateNode(gameState, this->nnet);
         return cursor->right;
       }else{
         cursor = newCursor;
