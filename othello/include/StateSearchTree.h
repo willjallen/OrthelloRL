@@ -54,10 +54,12 @@ class StateSearchTree {
 
 struct StateNode{
   
-  // Othello::GameState gameState;
   Othello::ComparableGameState comparableGameState;
 
+  // v
+  float value;
 
+  // policy
   std::vector<ActionValues> actions;
   bool noLegalMoves = false;
 
@@ -74,20 +76,27 @@ struct StateNode{
     std::vector<std::pair<unsigned int, unsigned int>> legalMoves 
       = gameState.getLegalMoves();
 
+    auto nnetResult = nnet->predict(gameState);
+    auto value = nnetResult.second.item<float>();
+
+    // Get state value
+    this->value = value; 
+
     if(legalMoves.size() == 0){
       this->noLegalMoves = true;
     }else{
-      // std::cout << "HERE8" << std::endl;
-      // std::cout << &(nnet->_module) << std::endl;
-      at::Tensor p_vals = nnet->getPvals(gameState);
+      auto pvals = nnetResult.first;
+     
       for(auto& action : legalMoves){
         int actionX = action.first;
         int actionY = action.second;
 
-        float p_val_at_location = p_vals[8*actionX + actionY].item<float>(); 
+        float p_val_at_location = pvals[8*actionX + actionY].item<float>(); 
         this->actions.push_back(ActionValues(action, 0, 0, p_val_at_location));
       }
-    } 
+    }
+
+
   }
 
     

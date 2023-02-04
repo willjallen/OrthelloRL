@@ -14,10 +14,6 @@
 #include <random>
 #include <cstddef>
 
-// static std::random_device rd; 
-// static std::mt19937 rng{rd()};
-// static std::uniform_real_distribution<float> dist(0, 1);
-
 // 1 if BLACK won, -1 if WHITE won
 float getGameOverReward(const Othello::GameState &gameState){
   if(gameState.winner == Othello::BLACK){
@@ -29,8 +25,6 @@ float getGameOverReward(const Othello::GameState &gameState){
 
 MCTS::MCTS(Othello::GameState &initialState, NNet *nnet){
 
-  // std::cout << "HERE7" << std::endl;
-  // std::cout << &(nnet->_module) << std::endl;
   this->stateSearchTree = new StateSearchTree(initialState, nnet);
 }
 
@@ -55,26 +49,7 @@ float MCTS::search(Othello::GameState &gameState){
   StateNode *stateNode = this->stateSearchTree->find(gameState);
   if(this->stateSearchTree->find(gameState) == nullptr){
     stateNode = stateSearchTree->add(gameState);
-    // TODO: When NN comes in it will go here
-    // float v = dist(rng);
-    float v;
-    if(gameState.currentPlayer == Othello::BLACK){
-      if(gameState.numBlackTiles > gameState.numWhiteTiles){
-        v = 1;
-      }else{
-        v = -1;
-      }
-    }else{
-      if(gameState.numWhiteTiles > gameState.numBlackTiles){
-        v = 1;
-      }else{
-        v = -1;
-      }
-    }
-
-    return -v;
-    //
-    // This rollout is temporary and for testing purposes
+    return -stateNode->value;
     
   }
 
@@ -91,18 +66,15 @@ float MCTS::search(Othello::GameState &gameState){
     sum_N += action.N;
   }
 
-  // std::cout << sum_N << std::endl;
-
   float sqrt_sum_N = sqrt(sum_N);
 
 
   // Find best action
   ActionValues *chosenAction;
   for(auto& action : stateNode->actions){
-    // ActionValues actionValues = stateNode->actions.find(std::pair<int, int>(action.x, action.y));
-   
-    // Exploration para
-    float c = 0.12;
+
+   // Exploration para
+   float c = 0.12;
    float u = action.Q + c * action.P * (sqrt_sum_N)/(1 + action.N);
    // float u = rand(); 
 

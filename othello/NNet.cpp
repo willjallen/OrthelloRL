@@ -100,17 +100,3 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
 
 }
 
-at::Tensor NNet::getPvals(const Othello::GameState &gameState){
-  
-  // std::cout << "HERE9" << std::endl;
-  // std::cout << &(this->_module) << std::endl;
-  auto prediction = this->predict(gameState);
-  return prediction.first;
-}
-
-float NNet::getValue(const Othello::GameState &gameState){
-  auto prediction = this->predict(gameState);
-  return prediction.second.item<float>();
-}
-
-
