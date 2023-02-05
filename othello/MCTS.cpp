@@ -13,6 +13,7 @@
 #include <iostream>
 #include <random>
 #include <cstddef>
+#include <cmath>
 
 // 1 if BLACK won, -1 if WHITE won
 float getGameOverReward(const Othello::GameState &gameState){
@@ -108,9 +109,12 @@ float MCTS::search(Othello::GameState &gameState){
 }
 
 
+const float TEMP_THRESHOLD = 0.01;
 
-Policy MCTS::getPI(Othello::GameState &gameState){
- 
+Policy MCTS::getPI(Othello::GameState &gameState, float temperature){
+  // If temperature < 0.01 (=0)
+  // Set the prob of best action to 1
+  // Otherwise explore based on temp
   Policy policy;
 
   StateNode *stateNode = this->stateSearchTree->find(gameState);
@@ -118,15 +122,32 @@ Policy MCTS::getPI(Othello::GameState &gameState){
     std::cout << "should not happen" << std::endl;
   } 
 
-  float sum_N = 0;
-  for(auto& action : stateNode->actions){
-    sum_N += action.N;
-  }
 
-  for(auto& action : stateNode->actions){
-     policy.pi[action.coordinate.first][action.coordinate.second] = action.N / sum_N;
-  }
+  if(temperature < TEMP_THRESHOLD){
+    // Pick the best action
+    float maxN = -9999999;
+    ActionValues bestAction;
+    for(auto& action : stateNode->actions){
+      if(action.N > maxN){
+        bestAction = action;
+        maxN = action.N;
+      }
+    }
+   
+   policy.pi[bestAction.coordinate.first][bestAction.coordinate.second] = 1;
+    
+  }else{
+    // Explore
+    float sum = 0;
+    for(auto& action : stateNode->actions){
+      sum += pow(action.N, 1/temperature);
+    }
 
+    for(auto& action : stateNode->actions){
+       policy.pi[action.coordinate.first][action.coordinate.second] 
+         = pow(action.N, 1/temperature)/sum;
+    }
+  }
   return policy;
 }
 

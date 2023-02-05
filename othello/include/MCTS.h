@@ -29,7 +29,7 @@ class MCTS {
    ~MCTS(); 
 
     float search(Othello::GameState &gameState);
-    Policy getPI(Othello::GameState &gameState);
+    Policy getPI(Othello::GameState &gameState, float temperature);
 
     
     StateSearchTree *stateSearchTree;

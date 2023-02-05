@@ -13,11 +13,11 @@
 
 
 struct TrainingExample {
- Othello::ComparableGameState state;
- std::vector<std::vector<float>> pi;
- int reward;
+  torch::Tensor contiguousGameState;
+  std::vector<std::vector<float>> pi;
+  int reward;
 
-  TrainingExample(Othello::ComparableGameState state, std::vector<std::vector<float>> pi, int reward) : state(state), pi(pi), reward(reward) {
+  TrainingExample(torch::Tensor contiguousGameState, std::vector<std::vector<float>> pi, int reward) : contiguousGameState(contiguousGameState), pi(pi), reward(reward) {
     // for(int i = 0; i < 8; i++){
     //   for(int j = 0; j < 8; j++){
     //     this->pi[i][j] = pi[i][j];
@@ -64,8 +64,8 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet){
         searchGameState = actualGameState;
         mcts.search(searchGameState);
       }
-      Policy improvedPolicy = mcts.getPI(actualGameState);
-      examples.push_back(TrainingExample(actualGameState.getComparableGameState(),
+      Policy improvedPolicy = mcts.getPI(actualGameState, 1);
+      examples.push_back(TrainingExample(nnet->getContiguousGameState(actualGameState),
                                          improvedPolicy.pi,
                                          0));
 
@@ -78,8 +78,8 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet){
 
   for(auto &example : examples){
     printf("=============== \n");
-    printf("Training example: + \n");
-    std::cout << example.state << std::endl;
+    printf("Training example: \n");
+    std::cout << example.contiguousGameState << std::endl;
     for(int i = 0; i < 8; i++){
       for(int j = 0; j < 8; j++){
         printf("%f, ", example.pi[i][j]);

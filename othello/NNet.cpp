@@ -17,13 +17,8 @@ NNet::NNet(const char* modelPath){
   std::cout << "Model loaded" << std::endl;
 }
 
-std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &gameState){
-
-  torch::NoGradGuard no_grad;
-  // auto start = std::chrono::high_resolution_clock::now();
-
-  // Roll the game state into one contiguous 1d array of length 64
-  torch::Tensor gameStateContiguous = torch::zeros(64);
+torch::Tensor NNet::getContiguousGameState(const Othello::GameState &gameState){
+   torch::Tensor gameStateContiguous = torch::zeros(64);
   for(int i = 0; i < 8; i++){
     for(int j = 0; j < 8; j++){
       int boardValue = 0;
@@ -51,10 +46,20 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
     }
   }
 
-  // auto stop = std::chrono::high_resolution_clock::now();
+  return gameStateContiguous;
+
+}
+
+std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &gameState){
+
+  torch::NoGradGuard no_grad;
+  // auto start = std::chrono::high_resolution_clock::now();
+
+  // Roll the game state into one contiguous 1d array of length 64
+   // auto stop = std::chrono::high_resolution_clock::now();
   // auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
   // std::cout << "Construct board Runtime: " << duration.count() << "ms" << std::endl;
-  
+  torch::Tensor gameStateContiguous = getContiguousGameState(gameState);
   // Create a vector of inputs.
   std::vector<torch::jit::IValue> inputs;
   
@@ -97,16 +102,6 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
   // std::cout << outputs << std::endl;
   torch::Tensor p_vals = outputs->elements()[0].toTensor();
   torch::Tensor v = outputs->elements()[1].toTensor();
-
-  // std::cout << p_vals[0] << std::endl;
-  // std::cout << v[0] << std::endl;
-  //
-  // Recover probabilities
-  // std::cout << "probs" << std::endl; 
-  // std::cout << torch::exp(p_vals.index({0})) << std::endl;
-
-  // We want the first channel of the output.
-  // Additionally, we want to recover the log probabilities from p_vals
 
   return std::make_pair(torch::exp(p_vals[0]), v[0]);
 
