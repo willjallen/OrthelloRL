@@ -193,10 +193,15 @@ void testNN(){
 int main(int argc, const char* argv[]){
 
   NNet *nnet = new NNet("../networks/output_model.pt");
- 
 
+  if(argc != 3){
+    std::cout << "usage: othello (#games) (#mctssims)" << std::endl;
+    return 0;
+  }
+  long numGames = std::stoi(argv[1]);
+  long numMCTSItr = std::stoi(argv[2]);
   // auto start = std::chrono::high_resolution_clock::now();
-  selfPlay(10, 25, nnet);
+  selfPlay(numGames, numMCTSItr, nnet);
   // auto stop = std::chrono::high_resolution_clock::now();
   // auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
   // std::cout << "Runtime: " << duration.count() << "seconds" << std::endl;
