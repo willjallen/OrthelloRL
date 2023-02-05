@@ -26,6 +26,29 @@ struct TrainingExample {
   }
 };
 
+void writeRewards(std::vector<TrainingExample> &examples, int winner){
+  
+  // Tie
+  if(winner == 0){
+    return;
+  }
+
+  int player = Othello::BLACK;
+  for(auto &example : examples){
+    if(winner == player){
+    example.reward = 1;
+    }else{
+      example.reward = -1;
+    }
+    
+    if(player == Othello::BLACK){
+      player = Othello::WHITE;
+    }else{
+      player = Othello::BLACK;
+    }
+  }
+}
+
 
 void selfPlay(int numGames, int numMCTSsims, NNet *nnet){ 
   
@@ -48,15 +71,7 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet){
       actualGameState.calculateLegalMoves();
       if(actualGameState.gameOver){
         actualGameState.calculateWinner();
-        if(actualGameState.winner == Othello::BLACK){
-         // Fill in rewards 
-        }else if(actualGameState.winner == Othello::WHITE){
-        // ..
-        }else{
-        // Tie 
-        }
-
-        // std::cout << actualGameState
+        writeRewards(examples, actualGameState.winner);
         break;
       }
 
@@ -79,21 +94,19 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet){
   for(auto &example : examples){
     printf("=============== \n");
     printf("Training example: \n");
-    std::cout << example.contiguousGameState << std::endl;
+    // std::cout << example.contiguousGameState << std::endl;
     for(int i = 0; i < 8; i++){
       for(int j = 0; j < 8; j++){
         printf("%f, ", example.pi[i][j]);
       }
       printf("\n");
     }
+    printf("reward: %d \n", example.reward);
     printf("===============\n");
   }
 
 }
 
-void writeRewards(){
-
-}
 
 
 void testRandomvsRandom(int numGames){
