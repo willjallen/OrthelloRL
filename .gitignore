@@ -4,6 +4,7 @@
 *.lib
 *.so
 *.pt
+*.json
 
 generate_tests.py
 

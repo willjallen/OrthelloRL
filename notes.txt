@@ -247,3 +247,8 @@ Random self-play
 Black win %: 0.5
 White win %: 0.47
 Tie %: 0.03
+
+
+=====
+
+45 seconds
