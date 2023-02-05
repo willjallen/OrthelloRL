@@ -107,25 +107,27 @@ float MCTS::search(Othello::GameState &gameState){
   return -v;
 }
 
-std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> MCTS::getPI(Othello::GameState &gameState){
-  
-  std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> pi;
+
+
+Policy MCTS::getPI(Othello::GameState &gameState){
+ 
+  Policy policy;
 
   StateNode *stateNode = this->stateSearchTree->find(gameState);
   if(this->stateSearchTree->find(gameState) == nullptr){
     std::cout << "should not happen" << std::endl;
   } 
 
-  // float sum_N = 0;
-  // for(auto& action : stateNode->actions){
-  //   sum_N += action.N;
-  // }
-
+  float sum_N = 0;
   for(auto& action : stateNode->actions){
-    pi.push_back(std::pair<std::pair<unsigned int, unsigned int>, float>(action.coordinate, action.Q));
+    sum_N += action.N;
   }
 
-  return pi;
+  for(auto& action : stateNode->actions){
+     policy.pi[action.coordinate.first][action.coordinate.second] = action.N / sum_N;
+  }
+
+  return policy;
 }
 
 

@@ -44,8 +44,15 @@ void testMCTSvsMCTS(int numGames, int numSimsOne, int numSimsTwo, NNet *nnet){
         numSims = numSimsTwo;
       }
       for(int j = 0; j < numSims; j++){
-         searchGameState = actualGameState;
+        searchGameState = actualGameState;
+
+        auto start = std::chrono::high_resolution_clock::now();
+
         mcts.search(searchGameState);
+
+        auto stop = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+        std::cout << "Runtime: " << duration.count() << "ms" << std::endl;
       }
       std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> improvedPolicy = mcts.getPI(actualGameState);
 
@@ -115,7 +122,13 @@ void testMCTSvsRandom(int numGames, int numSims, NNet *nnet){
       
         for(int j = 0; j < numSims; j++){
           searchGameState = actualGameState;
+          auto start = std::chrono::high_resolution_clock::now();
+
           mcts.search(searchGameState);
+
+          auto stop = std::chrono::high_resolution_clock::now();
+          auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+          std::cout << "Runtime: " << duration.count() << "ms" << std::endl;
         }
         // mcts.stateSearchTree->printTree(); 
         std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> improvedPolicy = mcts.getPI(actualGameState);

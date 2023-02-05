@@ -16,16 +16,12 @@ if(WIN32)
 endif()
 
 if(UNIX)
-  # add_compile_options(-O2 -g -fPIC -Wall -Werror -Wextra -pedantic)
-  add_compile_options(-g -fPIC -Wall -Werror -Wextra -pedantic)
+  add_compile_options(-g -fPIC -Wall -Wextra -pedantic)
 endif()
 
-# add_library(${PROJECT_NAME} SHARED
-#  othello.h
-#)
+# -Werror
 
 find_package(Torch REQUIRED)
-
 
 include_directories("include")
 
@@ -34,7 +30,7 @@ add_executable(othello
   MCTS.cpp
   StateSearchTree.cpp
   NNet.cpp
-  test.cpp
+  OthelloEngine.cpp
 )
 
 target_link_libraries(othello "${TORCH_LIBRARIES}")

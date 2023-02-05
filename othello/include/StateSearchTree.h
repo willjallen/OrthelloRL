@@ -13,7 +13,7 @@ struct ActionValues {
   float Q = 0;
   
   // The number of times we took action a from state s across simulations
-  int N = 0;
+  float N = 0;
   
   // The initial estimate of taking an action a from state s according to policy theta
   float P = 0;
@@ -76,9 +76,9 @@ struct StateNode{
     std::vector<std::pair<unsigned int, unsigned int>> legalMoves 
       = gameState.getLegalMoves();
 
+
     auto nnetResult = nnet->predict(gameState);
     auto value = nnetResult.second.item<float>();
-
     // Get state value
     this->value = value; 
 
@@ -86,13 +86,13 @@ struct StateNode{
       this->noLegalMoves = true;
     }else{
       auto pvals = nnetResult.first;
-     
+    
       for(auto& action : legalMoves){
         int actionX = action.first;
         int actionY = action.second;
 
         float p_val_at_location = pvals[8*actionX + actionY].item<float>(); 
-        this->actions.push_back(ActionValues(action, 0, 0, p_val_at_location));
+        this->actions.push_back(ActionValues(action, value, 1, p_val_at_location));
       }
     }
 

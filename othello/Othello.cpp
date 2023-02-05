@@ -479,7 +479,6 @@ std::vector<std::pair<unsigned int, unsigned int>> GameState::getLegalMoves(){
 }  
 
 
-// 64 digit base 3 number
 ComparableGameState GameState::getComparableGameState(){
   uint64_t whiteVec = 0;
   uint64_t blackVec = 0;

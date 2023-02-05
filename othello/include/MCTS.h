@@ -7,6 +7,21 @@
 #include "StateSearchTree.h"
 #include "NNet.h"
 
+
+struct Policy {
+
+  std::vector<std::vector<float>> pi; 
+
+  Policy(){
+    for(int i = 0; i < 8; i++){
+      for(int j = 0; j < 8; j++){
+        pi.push_back({0,0,0,0,0,0,0,0}); 
+      }
+    }
+  }
+};
+
+
 class MCTS {
   
   public:
@@ -14,7 +29,7 @@ class MCTS {
    ~MCTS(); 
 
     float search(Othello::GameState &gameState);
-    std::vector<std::pair<std::pair<unsigned int, unsigned int>, float>> getPI(Othello::GameState &gameState);
+    Policy getPI(Othello::GameState &gameState);
 
     
     StateSearchTree *stateSearchTree;
