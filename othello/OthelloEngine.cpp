@@ -11,6 +11,9 @@
 #include <random>
 #include <vector>
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 
 struct TrainingExample {
   torch::Tensor contiguousGameState;
@@ -50,6 +53,36 @@ void writeRewards(std::vector<TrainingExample> &examples, int winner){
 }
 
 
+void saveTrainingExamples(std::vector<TrainingExample> examples){
+
+  // Create a JSON object to hold the serialized data
+  json serializedData;
+  serializedData["examples"] = json::array();
+  
+  for (const auto &example : examples) {
+    json exampleData;
+    auto contiguousGameStateData = example.contiguousGameState.data<float>();
+    exampleData["contiguousGameState"] = std::vector<float>(contiguousGameStateData, contiguousGameStateData + example.contiguousGameState.numel());
+    
+    
+    exampleData["pi"] = json::array();
+    int idx = 0;
+    for (const auto &piRow : example.pi) {
+      if(idx >= 8) break;
+      idx++;
+      exampleData["pi"].push_back(piRow);
+    }
+    
+    exampleData["reward"] = example.reward;
+    serializedData["examples"].push_back(exampleData);
+  }
+  
+  // Write the serialized data to a file
+  std::ofstream file("examples.json");
+  file << serializedData.dump(4);
+  file.close();
+}
+
 void selfPlay(int numGames, int numMCTSsims, NNet *nnet){ 
   
   printf("Executing self play with %d games and %d MCTS simulations", numGames, numMCTSsims);
@@ -72,6 +105,7 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet){
       if(actualGameState.gameOver){
         actualGameState.calculateWinner();
         writeRewards(examples, actualGameState.winner);
+        saveTrainingExamples(examples);
         break;
       }
 
@@ -89,21 +123,23 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet){
 
 
     }
+
+  // for(auto &example : examples){
+  //   printf("=============== \n");
+  //   printf("Training example: \n");
+  //   // std::cout << example.contiguousGameState << std::endl;
+  //   for(int i = 0; i < 8; i++){
+  //     for(int j = 0; j < 8; j++){
+  //       printf("%f, ", example.pi[i][j]);
+  //     }
+  //     printf("\n");
+  //   }
+  //   printf("reward: %d \n", example.reward);
+  //   printf("===============\n");
+  // }
   }
 
-  for(auto &example : examples){
-    printf("=============== \n");
-    printf("Training example: \n");
-    // std::cout << example.contiguousGameState << std::endl;
-    for(int i = 0; i < 8; i++){
-      for(int j = 0; j < 8; j++){
-        printf("%f, ", example.pi[i][j]);
-      }
-      printf("\n");
-    }
-    printf("reward: %d \n", example.reward);
-    printf("===============\n");
-  }
+
 
 }
 
