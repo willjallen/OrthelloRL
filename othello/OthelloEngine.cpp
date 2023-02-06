@@ -65,21 +65,23 @@ void saveTrainingExamples(std::vector<TrainingExample> examples){
     exampleData["contiguousGameState"] = std::vector<float>(contiguousGameStateData, contiguousGameStateData + example.contiguousGameState.numel());
     
     
-    exampleData["pi"] = json::array();
-    int idx = 0;
-    for (const auto &piRow : example.pi) {
-      if(idx >= 8) break;
-      idx++;
-      exampleData["pi"].push_back(piRow);
+  exampleData["pi"] = json::array();
+  int idx = 0;
+  for (const auto &piRow : example.pi) {
+    if(idx >= 8) break;
+    for (const auto &piVal : piRow) {
+      exampleData["pi"].push_back(piVal);
     }
+    idx++;
+  }
     
     exampleData["reward"] = example.reward;
     serializedData["examples"].push_back(exampleData);
   }
   
   // Write the serialized data to a file
-  std::ofstream file("examples.json");
-  file << serializedData.dump(4);
+  std::ofstream file("best.pth.tar.examples");
+  file << serializedData.dump(-1);
   file.close();
 }
 

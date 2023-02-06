@@ -7,7 +7,6 @@ from tqdm import tqdm
 
 sys.path.append('../../')
 from utils import *
-from NeuralNet import NeuralNet
 
 import torch
 import torch.optim as optim
@@ -24,9 +23,9 @@ args = dotdict({
 })
 
 
-class NNetWrapper(NeuralNet):
-    def __init__(self, game):
-        self.nnet = onnet(game, args)
+class NNetWrapper():
+    def __init__(self):
+        self.nnet = onnet(args)
         self.board_x = self.board_y = 8
         self.action_size = 64 
 
@@ -55,7 +54,7 @@ class NNetWrapper(NeuralNet):
                 target_pis = torch.FloatTensor(np.array(pis))
                 target_vs = torch.FloatTensor(np.array(vs).astype(np.float64))
 
-                # predict
+                # predict:
                 if args.cuda:
                     boards, target_pis, target_vs = boards.contiguous().cuda(), target_pis.contiguous().cuda(), target_vs.contiguous().cuda()
 

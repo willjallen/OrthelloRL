@@ -5,9 +5,12 @@
 *.so
 *.pt
 *.json
+*.examples
+*.tar
 
 generate_tests.py
 
+dev/
 build/
 __pycache__/
 libtorch/

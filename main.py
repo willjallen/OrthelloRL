@@ -1,40 +1,56 @@
-from tkinter import Tk
-from othello.othello_wrapper import Othello
-from ui.gui import GUI
+import logging
 
-# def print_board(othello):
-#     print('Player: ', othello.currentPlayer)
-#     for row in range(0, 8):
-#         for col in range(0, 8):
-#             print(str(othello.board[row][col]) + ' ', end='')
-#         print()
-#     print()
+import coloredlogs
+
+from coach import Coach
+from networks.NNet import NNetWrapper as nn
+from utils import *
+
+log = logging.getLogger(__name__)
+
+coloredlogs.install(level='INFO')  # Change this to DEBUG to see more info.
+
+args = dotdict({
+    'numIters': 1000,
+    'numEps': 100,              # Number of complete self-play games to simulate during a new iteration.
+    'tempThreshold': 15,        #
+    'updateThreshold': 0.6,     # During arena playoff, new neural net will be accepted if threshold or more of games are won.
+    'maxlenOfQueue': 200000,    # Number of game examples to train the neural networks.
+    'numMCTSSims': 25,          # Number of games moves for MCTS to simulate.
+    'arenaCompare': 40,         # Number of games to play during arena play to determine if new net will be accepted.
+    'cpuct': 1,
+
+    'checkpoint': './temp/',
+    'load_model': False,
+    'load_folder_file': ('./dev/models/8x100x50','best.pth.tar'),
+    'numItersForTrainExamplesHistory': 20,
+
+})
 
 
-def print_legal_board(othello):
-    print('Player: ', othello.currentPlayer)
-    for row in range(0, 8):
-        for col in range(0, 8):
-            print(str(othello.legal_moves[row][col]) + ' ', end='')
-        print()
-    print()
+def main():
+    # log.info('Loading %s...', Game.__name__)
+    # g = Game(6)
+
+    log.info('Loading %s...', nn.__name__)
+    nnet = nn()
+
+    if args.load_model:
+        log.info('Loading checkpoint "%s/%s"...', args.load_folder_file[0], args.load_folder_file[1])
+        nnet.load_checkpoint(args.load_folder_file[0], args.load_folder_file[1])
+    else:
+        log.warning('Not loading a checkpoint!')
+
+    log.info('Loading the Coach...')
+    c = Coach(nnet, args)
+
+    if args.load_model:
+        log.info("Loading 'trainExamples' from file...")
+        c.loadTrainExamples()
+
+    log.info('Starting the learning process 🎉')
+    c.learn()
 
 
-othello = Othello()
-
-# default_board = "0000000000000000000000000001200000021000000000000000000000000000"
-# # opening_board = "0000000000000000000010000001100000012222001221000101000000000000"
-# othello.set_board_from_string(default_board)
-# othello.set_current_player(1)
-# print_board(othello)
-othello.calculate_legal_moves()
-# print()
-# print_legal_board(othello)
-
-# for x in range(0, 8):
-#     for y in range(0, 8):
-#         print(othello._board[x][y])
-
-root = Tk()
-GUI(root, othello)
-root.mainloop()
+if __name__ == "__main__":
+    main()

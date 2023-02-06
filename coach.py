@@ -5,12 +5,12 @@ import sys
 from collections import deque
 from pickle import Pickler, Unpickler
 from random import shuffle
+import json
 
 import numpy as np
 from tqdm import tqdm
 
-from Arena import Arena
-from MCTS import MCTS
+import subprocess
 
 log = logging.getLogger(__name__)
 
@@ -21,12 +21,10 @@ class Coach():
     in Game and NeuralNet. args are specified in main.py.
     """
 
-    def __init__(self, game, nnet, args):
-        self.game = game
+    def __init__(self, nnet, args):
         self.nnet = nnet
-        self.pnet = self.nnet.__class__(self.game)  # the competitor network
+        self.pnet = self.nnet.__class__()  # the competitor network
         self.args = args
-        self.mcts = MCTS(self.game, self.nnet, self.args)
         self.trainExamplesHistory = []  # history of examples from args.numItersForTrainExamplesHistory latest iterations
         self.skipFirstSelfPlay = False  # can be overriden in loadTrainExamples()
 
@@ -62,43 +60,29 @@ class Coach():
         for i in range(1, self.args.numIters + 1):
             # bookkeeping
             log.info(f'Starting Iter #{i} ...')
-            # examples of the iteration
-            if not self.skipFirstSelfPlay or i > 1:
-                iterationTrainExamples = deque([], maxlen=self.args.maxlenOfQueue)
-
-                for _ in tqdm(range(self.args.numEps), desc="Self Play"):
-                    self.mcts = MCTS(self.game, self.nnet, self.args)  # reset search tree
-                    iterationTrainExamples += self.executeEpisode()
-
-                # save the iteration examples to the history 
-                self.trainExamplesHistory.append(iterationTrainExamples)
-
-            if len(self.trainExamplesHistory) > self.args.numItersForTrainExamplesHistory:
-                log.warning(
-                    f"Removing the oldest entry in trainExamples. len(trainExamplesHistory) = {len(self.trainExamplesHistory)}")
-                self.trainExamplesHistory.pop(0)
             # backup history to a file
-            # NB! the examples were collected using the model from the previous iteration, so (i-1)  
-            self.saveTrainExamples(i - 1)
 
+            # TODO: Call othello engine self play, then load examples    
+            self.loadTrainExamples();
             # shuffle examples before training
-            trainExamples = []
-            for e in self.trainExamplesHistory:
-                trainExamples.extend(e)
-            shuffle(trainExamples)
+            # trainExamples = []
+            # for e in self.trainExamplesHistory:
+            #     trainExamples.extend(e)
+            # shuffle(trainExamples)
 
             # training new network, keeping a copy of the old one
             self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
             self.pnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
-            pmcts = MCTS(self.game, self.pnet, self.args)
+            # pmcts = MCTS(self.game, self.pnet, self.args)
 
-            self.nnet.train(trainExamples)
-            nmcts = MCTS(self.game, self.nnet, self.args)
+            self.nnet.train(self.trainExamplesHistory)
+            # nmcts = MCTS(self.game, self.nnet, self.args)
 
             log.info('PITTING AGAINST PREVIOUS VERSION')
-            arena = Arena(lambda x: np.argmax(pmcts.getActionProb(x, temp=0)),
-                          lambda x: np.argmax(nmcts.getActionProb(x, temp=0)), self.game)
-            pwins, nwins, draws = arena.playGames(self.args.arenaCompare)
+            # TODO: call othello engine "pit"
+            # arena = Arena(lambda x: np.argmax(pmcts.getActionProb(x, temp=0)),
+            #               lambda x: np.argmax(nmcts.getActionProb(x, temp=0)), self.game)
+            # pwins, nwins, draws = arena.playGames(self.args.arenaCompare)
 
             log.info('NEW/PREV WINS : %d / %d ; DRAWS : %d' % (nwins, pwins, draws))
             if pwins + nwins == 0 or float(nwins) / (pwins + nwins) < self.args.updateThreshold:
@@ -132,7 +116,17 @@ class Coach():
         else:
             log.info("File with trainExamples found. Loading it...")
             with open(examplesFile, "rb") as f:
-                self.trainExamplesHistory = Unpickler(f).load()
+                data = json.load(f)
+                examples = data['examples']
+                self.trainExamplesHistory = [] 
+                for example in examples:
+                   self.trainExamplesHistory.append((example['contiguousGameState'], example['pi'], example['reward']))
+                print(*self.trainExamplesHistory[0])
+                 
+                    
+
+
+
             log.info('Loading done!')
 
             # examples based on the model were already collected (loaded)
