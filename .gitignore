@@ -10,7 +10,7 @@
 
 generate_tests.py
 
-dev/
+temp/
 build/
 __pycache__/
 libtorch/
