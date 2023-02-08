@@ -74,9 +74,9 @@ float MCTS::search(Othello::GameState &gameState){
   ActionValues *chosenAction;
   for(auto& action : stateNode->actions){
 
-   // Exploration para
-   float c = 0.12;
-   float u = action.Q + c * action.P * (sqrt_sum_N)/(1 + action.N);
+   // Exploration parameter
+   float cpuct = 1;
+   float u = action.Q + cpuct * action.P * (sqrt_sum_N)/(1 + action.N);
    // float u = rand(); 
 
     if(u > max_u){

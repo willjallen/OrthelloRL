@@ -6,7 +6,7 @@
 class NNet{
 
   public:
-    NNet(const char* modelPath);
+    NNet(std::string modelPath);
 
     // Get policy (8x8 array) and value
     std::pair<torch::Tensor, torch::Tensor> predict(const Othello::GameState &gameState);

@@ -5,14 +5,10 @@ project(othello VERSION 0.1 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17) 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# set(CMAKE_CXX_CLANG_TIDY clang-tidy -checks=*)
-
-# CMake likes to prepend "lib" to shared libraries
-# This setting actually doesn't work
-set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
 if(WIN32)
   add_compile_options(/O2)
+  include_directories("./libtorch-win/include")
 endif()
 
 if(UNIX)
@@ -20,6 +16,7 @@ if(UNIX)
 endif()
 
 # -Werror
+
 
 find_package(Torch REQUIRED)
 
@@ -35,3 +32,12 @@ add_executable(othello
 
 target_link_libraries(othello "${TORCH_LIBRARIES}")
 set_property(TARGET othello PROPERTY CXX_STANDARD 14)
+
+if (MSVC)
+  file(GLOB TORCH_DLLS "${TORCH_INSTALL_PREFIX}/lib/*.dll")
+  add_custom_command(TARGET othello
+                     POST_BUILD
+                     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                     ${TORCH_DLLS}
+                     $<TARGET_FILE_DIR:othello>)
+endif (MSVC)

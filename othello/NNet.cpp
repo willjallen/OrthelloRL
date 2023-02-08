@@ -2,19 +2,21 @@
 #include "Othello.h"
 #include "NNet.h"
 #include <iostream>
-NNet::NNet(const char* modelPath){ 
+NNet::NNet(std::string modelPath){ 
 
+    
+  std::cout << "Loading model..\n";
   try {
       // Deserialize the ScriptModule from a file using torch::jit::load().
     this->_module = torch::jit::load(modelPath, at::kCUDA);
     
   }
   catch (const c10::Error& e) {
-    std::cerr << "error loading the model\n";
+    std::cerr << "Error loading the model\n";
     // return -1;
   }
 
-  std::cout << "Model loaded" << std::endl;
+  std::cout << "Model loaded\n";
 }
 
 torch::Tensor NNet::getContiguousGameState(const Othello::GameState &gameState){

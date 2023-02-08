@@ -252,3 +252,29 @@ Tie %: 0.03
 =====
 
 45 seconds
+
+=====
+
+# 1
+10 25, no cuda
+1 min 51 sec
+
+# 2
+10 25, no cuda
+1 min 42 sec
+
+--
+# 1
+10 25, cuda
+1 min 42 sec
+
+--
+10 25, cuda, 4 processes
+1 mnin 42 sec each
+
+--
+100 25, cuda, 4 processes
+
+
+
+export PYTORCH_JIT_USE_NNC_NOT_NVFUSER=1

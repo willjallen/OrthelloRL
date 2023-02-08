@@ -53,8 +53,10 @@ void writeRewards(std::vector<TrainingExample> &examples, int winner){
 }
 
 
-void saveTrainingExamples(std::vector<TrainingExample> examples){
+void saveTrainingExamples(std::vector<TrainingExample> examples, std::string outputFilePath, std::string outputFilename){
 
+  std::cout << "Writing training examples to";
+  std::cout << outputFilePath + outputFilename;
   // Create a JSON object to hold the serialized data
   json serializedData;
   serializedData["examples"] = json::array();
@@ -80,22 +82,22 @@ void saveTrainingExamples(std::vector<TrainingExample> examples){
   }
   
   // Write the serialized data to a file
-  std::ofstream file("best.pth.tar.examples");
+  std::string fullFilePath = outputFilePath + outputFilename;
+  std::ofstream file(fullFilePath);
   file << serializedData.dump(-1);
   file.close();
 }
 
-void selfPlay(int numGames, int numMCTSsims, NNet *nnet){ 
+void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputFilePath, std::string outputFilename){ 
   
-  printf("Executing self play with %d games and %d MCTS simulations", numGames, numMCTSsims);
+  printf("Executing self play with %d games and %d MCTS simulations\n", numGames, numMCTSsims);
    
   std::vector<TrainingExample> examples;
 
 
   for(int i = 0; i < numGames; i++){
-    printf("Starting game %d", i);
+    printf("Starting game %d\n", i);
 
-  auto gen = std::mt19937{std::random_device{}()};
     // Set up the game
     Othello::GameState actualGameState;
     Othello::GameState searchGameState;
@@ -107,7 +109,7 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet){
       if(actualGameState.gameOver){
         actualGameState.calculateWinner();
         writeRewards(examples, actualGameState.winner);
-        saveTrainingExamples(examples);
+        saveTrainingExamples(examples, outputFilePath, outputFilename);
         break;
       }
 
@@ -194,21 +196,61 @@ void testNN(){
 
 int main(int argc, const char* argv[]){
 
-  NNet *nnet = new NNet("../networks/output_model.pt");
+  // arg0 othello
+  // arg1 command
 
-  if(argc != 3){
-    std::cout << "usage: othello (#games) (#mctssims)" << std::endl;
+  int numGames;
+  int MCTSsims;
+  
+  std::string modelPathOne;
+  std::string modelPathTwo;
+
+  std::string outputFilePath;
+  std::string outputFilename;
+
+
+  NNet *nnet = nullptr;
+
+  if(argc < 2){
+    std::cout << "usage: othello <command> [<args>]\n";
+    std::cout << "commands:\n";
+    std::cout << "  selfplay [numGames] [MCTSsims] [modelPath] [outputFilePath] [outputFilename]\n";
+    std::cout << "  pit [numGames] [MCTSsims] [modelPathOne] [modelPathTwo] [outputFilePath] [outputFilename]\n";
     return 0;
-  }
-  long numGames = std::stoi(argv[1]);
-  long numMCTSItr = std::stoi(argv[2]);
-  // auto start = std::chrono::high_resolution_clock::now();
-  selfPlay(numGames, numMCTSItr, nnet);
-  // auto stop = std::chrono::high_resolution_clock::now();
-  // auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
-  // std::cout << "Runtime: " << duration.count() << "seconds" << std::endl;
+  }else if(strcmp(argv[1], "selfplay") == 0){
+    if(argc < 6){
+      std::cout << "Usage: selfplay [numGames] [MCTSsims] [modelPath] [outputFilePath] [outputFilename]\n";
+    }else{
+      numGames = std::stoi(argv[2]);
+      MCTSsims = std::stoi(argv[3]);
+      modelPathOne = argv[4];
+      outputFilePath = argv[5];
+      outputFilename = argv[6];
 
-  delete nnet;
+      NNet *nnet = new NNet(modelPathOne);
+
+      selfPlay(numGames, MCTSsims, nnet, outputFilePath, outputFilename);
+
+      delete nnet;
+    }
+    
+  }else if(strcmp(argv[1], "pit") == 0){
+    if(argc < 5){
+      std::cout << "Usage: selfplay [numGames] [MCTSsims] [modelPathOne] [modelPathTwo] [outputFilePath] [outputFilename]\n";
+    }else{
+      numGames = std::stoi(argv[2]);
+      MCTSsims = std::stoi(argv[3]);
+      modelPathOne = argv[4];
+      modelPathTwo = argv[5];
+      outputFilePath = argv[6];
+      outputFilename = argv[7];
+
+      // NNet *nnet = new NNet(modelPathOne);
+
+      // selfPlay(numGames, numMCTSItr, nnet, outputFilePath, outputFilename);
+    }
+  }
+
 
   
 
