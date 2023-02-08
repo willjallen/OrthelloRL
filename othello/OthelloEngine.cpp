@@ -53,10 +53,10 @@ void writeRewards(std::vector<TrainingExample> &examples, int winner){
 }
 
 
-void saveTrainingExamples(std::vector<TrainingExample> examples, std::string outputFilePath, std::string outputFilename){
+void saveTrainingExamples(std::vector<TrainingExample> examples, std::string outputPath){
 
   std::cout << "Writing training examples to";
-  std::cout << outputFilePath + outputFilename;
+  std::cout << outputPath << "\n";
   // Create a JSON object to hold the serialized data
   json serializedData;
   serializedData["examples"] = json::array();
@@ -82,20 +82,21 @@ void saveTrainingExamples(std::vector<TrainingExample> examples, std::string out
   }
   
   // Write the serialized data to a file
-  std::string fullFilePath = outputFilePath + outputFilename;
-  std::ofstream file(fullFilePath);
+  std::ofstream file(outputPath);
   file << serializedData.dump(-1);
   file.close();
 }
 
-void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputFilePath, std::string outputFilename){ 
+void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputPath){ 
   
   printf("Executing self play with %d games and %d MCTS simulations\n", numGames, numMCTSsims);
    
-  std::vector<TrainingExample> examples;
+  
 
+  std::vector<TrainingExample> fullExamples;
 
   for(int i = 0; i < numGames; i++){
+    std::vector<TrainingExample> examples;
     printf("Starting game %d\n", i);
 
     // Set up the game
@@ -103,21 +104,27 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputFileP
     Othello::GameState searchGameState;
     // Create MCTS
     MCTS mcts(searchGameState, nnet);
+    int numSimsExecuted = 0;
+    int temperature = 1;
     while(true){
 
       actualGameState.calculateLegalMoves();
       if(actualGameState.gameOver){
         actualGameState.calculateWinner();
         writeRewards(examples, actualGameState.winner);
-        saveTrainingExamples(examples, outputFilePath, outputFilename);
+        fullExamples.insert(fullExamples.end(), examples.begin(), examples.end());
         break;
       }
 
       for(int j = 0; j < numMCTSsims; j++){
         searchGameState = actualGameState;
         mcts.search(searchGameState);
+        numSimsExecuted++;
       }
-      Policy improvedPolicy = mcts.getPI(actualGameState, 1);
+  
+      if(numSimsExecuted == 30) temperature = 0;
+
+      Policy improvedPolicy = mcts.getPI(actualGameState, temperature);
       examples.push_back(TrainingExample(nnet->getContiguousGameState(actualGameState),
                                          improvedPolicy.pi,
                                          0));
@@ -128,22 +135,10 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputFileP
 
     }
 
-  // for(auto &example : examples){
-  //   printf("=============== \n");
-  //   printf("Training example: \n");
-  //   // std::cout << example.contiguousGameState << std::endl;
-  //   for(int i = 0; i < 8; i++){
-  //     for(int j = 0; j < 8; j++){
-  //       printf("%f, ", example.pi[i][j]);
-  //     }
-  //     printf("\n");
-  //   }
-  //   printf("reward: %d \n", example.reward);
-  //   printf("===============\n");
-  // }
   }
 
 
+  saveTrainingExamples(fullExamples, outputPath);
 
 }
 
@@ -205,16 +200,14 @@ int main(int argc, const char* argv[]){
   std::string modelPathOne;
   std::string modelPathTwo;
 
-  std::string outputFilePath;
-  std::string outputFilename;
+  std::string outputPath;
 
 
-  NNet *nnet = nullptr;
 
   if(argc < 2){
     std::cout << "usage: othello <command> [<args>]\n";
     std::cout << "commands:\n";
-    std::cout << "  selfplay [numGames] [MCTSsims] [modelPath] [outputFilePath] [outputFilename]\n";
+    std::cout << "  selfplay [numGames] [MCTSsims] [modelPath] [outputPath]\n";
     std::cout << "  pit [numGames] [MCTSsims] [modelPathOne] [modelPathTwo] [outputFilePath] [outputFilename]\n";
     return 0;
   }else if(strcmp(argv[1], "selfplay") == 0){
@@ -224,12 +217,11 @@ int main(int argc, const char* argv[]){
       numGames = std::stoi(argv[2]);
       MCTSsims = std::stoi(argv[3]);
       modelPathOne = argv[4];
-      outputFilePath = argv[5];
-      outputFilename = argv[6];
+      outputPath = argv[5];
 
       NNet *nnet = new NNet(modelPathOne);
 
-      selfPlay(numGames, MCTSsims, nnet, outputFilePath, outputFilename);
+      selfPlay(numGames, MCTSsims, nnet, outputPath);
 
       delete nnet;
     }
@@ -242,8 +234,6 @@ int main(int argc, const char* argv[]){
       MCTSsims = std::stoi(argv[3]);
       modelPathOne = argv[4];
       modelPathTwo = argv[5];
-      outputFilePath = argv[6];
-      outputFilename = argv[7];
 
       // NNet *nnet = new NNet(modelPathOne);
 

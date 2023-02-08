@@ -56,26 +56,3 @@ class dotdict(dict):
     def __getattr__(self, name):
         return self[name]
 
-args = dotdict({
-    'lr': 0.001,
-    'dropout': 0.3,
-    'epochs': 10,
-    'batch_size': 64,
-    'cuda': torch.cuda.is_available(),
-    'num_channels': 512,
-})
-onn = OthelloNNet(args)
-print(onn)
-# print()
-
-# An example input you would normally provide to your model's forward() method.
-example = torch.rand(1,8,8)
-
-# Use torch.jit.trace to generate a torch.jit.ScriptModule via tracing.
-onn.eval()
-output_model = traced_script_module = torch.jit.trace(onn, example)
-print(output_model)
-output_model.save("output_model.pt")
-for i in range(0, 10):
-    print(onn.forward(torch.randn(1, 8, 8)))
-# print(torch.cuda.is_available())

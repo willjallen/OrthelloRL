@@ -98,6 +98,18 @@ class NNetWrapper():
     def loss_v(self, targets, outputs):
         return torch.sum((targets - outputs.view(-1)) ** 2) / targets.size()[0]
 
+    def serialize(self):
+        # An example input you would normally provide to your model's forward() method.
+        # Generate example data of shape (batch_size, input_size)
+        batch_size = 64
+        input_size = 64
+        example_data = torch.randn(batch_size, input_size).contiguous().cuda()
+        # Use torch.jit.trace to generate a torch.jit.ScriptModule via tracing.
+        self.nnet.eval()
+        traced_script_module = torch.jit.trace(self.nnet, example_data)
+        traced_script_module.save("dev/models/ABC123/model.pt")
+
+
     def save_checkpoint(self, folder='checkpoint', filename='checkpoint.pth.tar'):
         filepath = os.path.join(folder, filename)
         if not os.path.exists(folder):

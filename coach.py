@@ -27,6 +27,8 @@ class Coach():
         self.args = args
         self.trainExamplesHistory = []  # history of examples from args.numItersForTrainExamplesHistory latest iterations
         self.skipFirstSelfPlay = False  # can be overriden in loadTrainExamples()
+        self.nnet.serialize()
+
 
     def executeEpisode(self):
         """
