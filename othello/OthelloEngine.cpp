@@ -142,9 +142,33 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputPath)
 
 }
 
+
+void saveOutcome(int numGames, int numP1Wins, int numP2Wins, int numTies, std::string outputPath){
+  std::cout << "Writing arena outcome to";
+  std::cout << outputPath << "\n";
+  // Create a JSON object to hold the serialized data
+  json serializedData;
+  
+  serializedData["numGames"] = numGames;
+  serializedData["numP1Wins"] = numP1Wins;
+  serializedData["numP2Wins"] = numP2Wins;
+  serializedData["numTies"] = numTies;
+
+
+  // Write the serialized data to a file
+  std::ofstream file(outputPath);
+  file << serializedData.dump(-1);
+  file.close();
+
+}
+
+
 void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::string outputPath){
   printf("Executing arena with %d games and %d MCTS simulations\n", numGames, numMCTSsims);
-   
+  
+  float numP1Wins = 0;
+  float numP2Wins = 0;
+  float numTies = 0;
 
   for(int i = 0; i < numGames; i++){
     printf("Starting game %d\n", i);
@@ -168,6 +192,13 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
       
       if(actualGameState.gameOver){
         actualGameState.calculateWinner();
+        if(actualGameState.winner == Othello::BLACK){
+          numP1Wins++;
+        }else if(actualGameState.winner == Othello::WHITE){
+          numP2Wins++;
+        }else{
+          numTies++;
+        }
         break;
       }  
       
@@ -208,7 +239,7 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
   }
 
 
-  // saveOutcome(numP1Win, numP2Win, outputPath);
+  saveOutcome(numGames, numP1Wins, numP2Wins, numTies, outputPath);
 
 }
 
@@ -276,11 +307,11 @@ int main(int argc, const char* argv[]){
     std::cout << "usage: othello <command> [<args>]\n";
     std::cout << "commands:\n";
     std::cout << "  selfplay [numGames] [MCTSsims] [modelPath] [outputPath]\n";
-    std::cout << "  arena [numGames] [MCTSsims] [modelPathOne] [modelPathTwo] [outputFilePath] [outputFilename]\n";
+    std::cout << "  arena [numGames] [MCTSsims] [modelPathOne] [modelPathTwo] [outputPath]\n";
     return 0;
   }else if(strcmp(argv[1], "selfplay") == 0){
     if(argc < 6){
-      std::cout << "Usage: selfplay [numGames] [MCTSsims] [modelPath] [outputFilePath] [outputFilename]\n";
+      std::cout << "Usage: selfplay [numGames] [MCTSsims] [modelPath] [outputPath]\n";
     }else{
       numGames = std::stoi(argv[2]);
       MCTSsims = std::stoi(argv[3]);
@@ -296,16 +327,18 @@ int main(int argc, const char* argv[]){
     
   }else if(strcmp(argv[1], "pit") == 0){
     if(argc < 5){
-      std::cout << "Usage: selfplay [numGames] [MCTSsims] [modelPathOne] [modelPathTwo] [outputFilePath] [outputFilename]\n";
+      std::cout << "Usage: arena [numGames] [MCTSsims] [modelPathOne] [modelPathTwo] [outputPath]\n";
     }else{
       numGames = std::stoi(argv[2]);
       MCTSsims = std::stoi(argv[3]);
       modelPathOne = argv[4];
       modelPathTwo = argv[5];
+      outputPath = argv[6];
 
-      // NNet *nnet = new NNet(modelPathOne);
+      NNet *nnetOne = new NNet(modelPathOne);
+      NNet *nnetTwo = new NNet(modelPathOne);
 
-      // selfPlay(numGames, numMCTSItr, nnet, outputFilePath, outputFilename);
+      arena(numGames, MCTSsims, nnetOne, nnetTwo, outputPath);
     }
   }
 
