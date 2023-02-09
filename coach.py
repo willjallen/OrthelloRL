@@ -29,88 +29,93 @@ class Coach():
         self.skipFirstSelfPlay = False  # can be overriden in loadTrainExamples()
 
 
-    def executeEpisode(self):
-        """
-        This function executes one episode of self-play, starting with player 1.
-        As the game is played, each turn is added as a training example to
-        trainExamples. The game is played till the game ends. After the game
-        ends, the outcome of the game is used to assign values to each example
-        in trainExamples.
-        It uses a temp=1 if episodeStep < tempThreshold, and thereafter
-        uses temp=0.
-        Returns:
-            trainExamples: a list of examples of the form (canonicalBoard, currPlayer, pi,v)
-                           pi is the MCTS informed policy vector, v is +1 if
-                           the player eventually won the game, else -1.
-        """
-        trainExamples = []
-        board = self.game.getInitBoard()
-        self.curPlayer = 1
-        episodeStep = 0
-
 
     def learn(self):
         """
         Performs numIters iterations with numEps episodes of self-play in each
         iteration. After every iteration, it retrains neural network with
         examples in trainExamples (which has a maximum length of maxlenofQueue).
-        It then pits the new neural network against the old one and accepts it
+        It then pits the new neural network the old one and accepts it
         only if it wins >= updateThreshold fraction of games.
         """
+
+
+        # Write init of serialized network
+        # TODO: Check if one exists or pick up where we left off
+        self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename= '0.pth.tar')
+        self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename='best.pth.tar')
+        bestCheckpoint = 0
+        currCheckpoint = 0
+        
+        bestModel = 'best.pth.tar'
 
         for i in range(1, self.args.numIters + 1):
             # bookkeeping
             log.info(f'Starting Iter #{i} ...')
-            # backup history to a file
+            
+            # Always use the best model for generating examples
+            log.info('Calling selfplay subprocess')
+            subprocess.run(["./othello/build/othello",
+                            "selfplay",
+                            str(self.args.selfplayGames),
+                            str(self.args.selfplayMCTSSims),
+                            './dev/models/ABC123/' + bestModel + '.pt',
+                            './dev/models/ABC123/examples.json'])
+        
 
-            # TODO: Call othello engine self play, then load examples    
-            self.loadTrainExamples();
-            # shuffle examples before training
-            # trainExamples = []
-            # for e in self.trainExamplesHistory:
-            #     trainExamples.extend(e)
-            # shuffle(trainExamples)
+            log.info('Loading training examples')
+            self.loadTrainExamples()
+
+            # Ensure we have < maxlenOfQueue examples, delete the oldest ones for space
+            if(len(self.trainExamplesHistory) >= self.args.maxlenOfQueue):
+                difference = len(self.trainExamplesHistory) - self.args.maxlenOfQueue
+                del self.trainExamplesHistory[0:difference]
+
+
+            # Copy examples then shuffle them
+            trainExamples = []
+            for e in self.trainExamplesHistory:
+                trainExamples.append(e)
+            shuffle(trainExamples)
 
             # training new network, keeping a copy of the old one
-            self.nnet.save_checkpoint(folder='./temp/', filename='old.pth.tar')
+            # self.nnet.save_checkpoint(folder='./temp/', filename='old.pth.tar')
             # self.pnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
-            # pmcts = MCTS(self.game, self.pnet, self.args)
 
-            self.nnet.train(self.trainExamplesHistory)
-            # nmcts = MCTS(self.game, self.nnet, self.args)
+            self.nnet.train(trainExamples)
+            
+            currCheckpoint += 1
+            currModel =  str(currCheckpoint) + '.pth.tar'
+            self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename=currModel)
 
-            self.nnet.save_checkpoint(folder='./temp/', filename='new.pth.tar')
-            log.info('PITTING AGAINST PREVIOUS VERSION')
-            # TODO: call othello engine "pit"
-            # arena = Arena(lambda x: np.argmax(pmcts.getActionProb(x, temp=0)),
-            #               lambda x: np.argmax(nmcts.getActionProb(x, temp=0)), self.game)
-            # pwins, nwins, draws = arena.playGames(self.args.arenaCompare)
+            log.info('Calling arena subprocess')
+            subprocess.run(["./othello/build/othello",
+                            "arena",
+                            str(self.args.arenaGames),
+                            str(self.args.arenaMCTSSims),
+                            './dev/models/ABC123/' + bestModel + '.pt',
+                            './dev/models/ABC123/' + currModel +'.pt',
+                            './dev/models/ABC123/arena.json'])
 
-            # log.info('NEW/PREV WINS : %d / %d ; DRAWS : %d' % (nwins, pwins, draws))
-            # if pwins + nwins == 0 or float(nwins) / (pwins + nwins) < self.args.updateThreshold:
-            #     log.info('REJECTING NEW MODEL')
-            #     self.nnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
-            # else:
-            #     log.info('ACCEPTING NEW MODEL')
-            #     self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
-            #     self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='best.pth.tar')
+            bestWins, currWins, draws = self.loadArenaData()
+
+            log.info('BEST/CURR WINS : %d / %d ; DRAWS : %d' % (bestWins, currWins, draws))
+            if bestWins + currWins == 0 or float(currWins) / (bestWins + currWins) < self.args.updateThreshold:
+                log.info('Rejecting new model')
+                # self.nnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
+            else:
+                log.info('Accepting new model')
+                # self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
+                self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename=bestModel)
 
     def getCheckpointFile(self, iteration):
         return 'checkpoint_' + str(iteration) + '.pth.tar'
 
-    def saveTrainExamples(self, iteration):
-        folder = self.args.checkpoint
-        if not os.path.exists(folder):
-            os.makedirs(folder)
-        filename = os.path.join(folder, self.getCheckpointFile(iteration) + ".examples")
-        with open(filename, "wb+") as f:
-            Pickler(f).dump(self.trainExamplesHistory)
-        f.closed
 
     def loadTrainExamples(self):
-        modelFile = os.path.join(self.args.load_folder_file[0], self.args.load_folder_file[1])
+        # modelFile = os.path.join(self.args.load_folder_file[0], self.args.load_folder_file[1])
         # examplesFile = modelFile + ".examples"
-        examplesFile = "./temp/examples.json"
+        examplesFile = "./dev/models/ABC123/examples.json"
         if not os.path.isfile(examplesFile):
             log.warning(f'File "{examplesFile}" with trainExamples not found!')
             r = input("Continue? [y|n]")
@@ -127,9 +132,28 @@ class Coach():
                  
                     
 
-
-
             log.info('Loading done!')
 
+            
+            
             # examples based on the model were already collected (loaded)
-            self.skipFirstSelfPlay = True
+            # self.skipFirstSelfPlay = True
+
+    def loadArenaData(self):
+        # modelFile = os.path.join(self.args.load_folder_file[0], self.args.load_folder_file[1])
+        # examplesFile = modelFile + ".examples"
+        arenaFile = './dev/models/ABC123/arena.json'
+        if not os.path.isfile(arenaFile):
+            log.warning(f'File "{arenaFile}" not found!')
+            r = input("Continue? [y|n]")
+            if r != "y":
+                sys.exit()
+        else:
+            log.info("Arena file found. Loading it...")
+            with open(arenaFile, "rb") as f:
+                data = json.load(f)
+                return data['numP1Wins'], data['numP2Wins'], data['numTies']
+            
+            
+            # examples based on the model were already collected (loaded)
+            # self.skipFirstSelfPlay = True

@@ -278,3 +278,23 @@ Tie %: 0.03
 
 
 export PYTORCH_JIT_USE_NNC_NOT_NVFUSER=1
+
+================================================================================
+
+Hooray for learning. From here:
+
+Create a new folder for each NN
+/dev/models/ABC123
+Put training examples in 
+/dev/models/ABC123/examples.json
+Only keep most recent(overwrite for now)
+Write checkpoint 
+/dev/models/ABC123/checkpoint.(i).pth.tar
+Train
+Write checkpoint
+/dev/models/ABC123/checkpoint.(i+1).pth.tar
+Arena
+Find best i (curr i vs best i)
+if new best i, write 
+/dev/models/ABC123/checkpoint.best.pth.tar
+

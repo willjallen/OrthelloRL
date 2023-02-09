@@ -279,16 +279,7 @@ void testRandomvsRandom(int numGames){
 
 }
 
-void testNN(){
 
-  Othello::GameState actualGameState;
-
-  NNet *nnet = new NNet("../networks/output_model.pt");
-  
-  auto out = nnet->predict(actualGameState);
-  std::cout << out << std::endl;
-  delete nnet;
-}
 
 int main(int argc, const char* argv[]){
 
@@ -327,7 +318,7 @@ int main(int argc, const char* argv[]){
       delete nnet;
     }
     
-  }else if(strcmp(argv[1], "pit") == 0){
+  }else if(strcmp(argv[1], "arena") == 0){
     if(argc < 5){
       std::cout << "Usage: arena [numGames] [MCTSsims] [modelPathOne] [modelPathTwo] [outputPath]\n";
     }else{
