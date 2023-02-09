@@ -111,11 +111,14 @@ float MCTS::search(Othello::GameState &gameState){
 
 const float TEMP_THRESHOLD = 0.01;
 
-Policy MCTS::getPI(Othello::GameState &gameState, float temperature){
+std::vector<std::vector<float>> MCTS::getPolicy(Othello::GameState &gameState, float temperature){
   // If temperature < 0.01 (=0)
   // Set the prob of best action to 1
   // Otherwise explore based on temp
-  Policy policy;
+  std::vector<std::vector<float>> policy;
+  for(int i = 0; i < 8; i++){
+    policy.push_back({0,0,0,0,0,0,0,0});
+  }
 
   StateNode *stateNode = this->stateSearchTree->find(gameState);
   if(this->stateSearchTree->find(gameState) == nullptr){
@@ -134,7 +137,7 @@ Policy MCTS::getPI(Othello::GameState &gameState, float temperature){
       }
     }
    
-   policy.pi[bestAction.coordinate.first][bestAction.coordinate.second] = 1;
+   policy[bestAction.coordinate.first][bestAction.coordinate.second] = 1;
     
   }else{
     // Explore
@@ -144,7 +147,7 @@ Policy MCTS::getPI(Othello::GameState &gameState, float temperature){
     }
 
     for(auto& action : stateNode->actions){
-       policy.pi[action.coordinate.first][action.coordinate.second] 
+       policy[action.coordinate.first][action.coordinate.second] 
          = pow(action.N, 1/temperature)/sum;
     }
   }

@@ -124,9 +124,9 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputPath)
   
       if(numSimsExecuted == 30) temperature = 0;
 
-      Policy improvedPolicy = mcts.getPI(actualGameState, temperature);
+      std::vector<std::vector<float>> improvedPolicy = mcts.getPolicy(actualGameState, temperature);
       examples.push_back(TrainingExample(nnet->getContiguousGameState(actualGameState),
-                                         improvedPolicy.pi,
+                                         improvedPolicy,
                                          0));
 
       // Play random move
@@ -142,7 +142,75 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputPath)
 
 }
 
+void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::string outputPath){
+  printf("Executing arena with %d games and %d MCTS simulations\n", numGames, numMCTSsims);
+   
 
+  for(int i = 0; i < numGames; i++){
+    printf("Starting game %d\n", i);
+
+    // Set up the game
+    Othello::GameState actualGameState;
+
+    Othello::GameState searchGameStateOne;
+    Othello::GameState searchGameStateTwo;
+
+    // Create a MCTS for each player 
+    MCTS mctsOne(searchGameStateOne, nnetOne);
+    MCTS mctsTwo(searchGameStateTwo, nnetTwo);
+
+
+    // Temperature is set to 0 for evaluation
+    int temperature = 0;
+    std::vector<std::vector<float>> improvedPolicy;
+    while(true){
+      actualGameState.calculateLegalMoves();
+      
+      if(actualGameState.gameOver){
+        actualGameState.calculateWinner();
+        break;
+      }  
+      
+      if(actualGameState.currentPlayer == Othello::BLACK){
+        for(int j = 0; j < numMCTSsims; j++){
+          searchGameStateOne = actualGameState;
+          mctsOne.search(searchGameStateOne);
+        }
+    
+        improvedPolicy = mctsOne.getPolicy(actualGameState, temperature);
+      }else{
+        for(int j = 0; j < numMCTSsims; j++){
+          searchGameStateTwo = actualGameState;
+          mctsTwo.search(searchGameStateTwo);
+        }
+    
+        improvedPolicy = mctsTwo.getPolicy(actualGameState, temperature);
+      } 
+      // Get action
+      float maxVal = -9999;
+      std::pair<unsigned int, unsigned int> chosenCoordinate;
+      for(unsigned int i = 0; i < 8; i++){
+        for(unsigned int j = 0; j < 8; j++){
+          float val = improvedPolicy[i][j];
+          if(val > maxVal){
+            maxVal = val;
+            chosenCoordinate.first = i;
+            chosenCoordinate.second = j;
+          }
+        }
+      }
+
+      // Play move
+      actualGameState.playMove(chosenCoordinate.first, chosenCoordinate.second);
+
+    }
+
+  }
+
+
+  // saveOutcome(numP1Win, numP2Win, outputPath);
+
+}
 
 void testRandomvsRandom(int numGames){
 
@@ -208,7 +276,7 @@ int main(int argc, const char* argv[]){
     std::cout << "usage: othello <command> [<args>]\n";
     std::cout << "commands:\n";
     std::cout << "  selfplay [numGames] [MCTSsims] [modelPath] [outputPath]\n";
-    std::cout << "  pit [numGames] [MCTSsims] [modelPathOne] [modelPathTwo] [outputFilePath] [outputFilename]\n";
+    std::cout << "  arena [numGames] [MCTSsims] [modelPathOne] [modelPathTwo] [outputFilePath] [outputFilename]\n";
     return 0;
   }else if(strcmp(argv[1], "selfplay") == 0){
     if(argc < 6){
