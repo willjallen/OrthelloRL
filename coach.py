@@ -27,7 +27,6 @@ class Coach():
         self.args = args
         self.trainExamplesHistory = []  # history of examples from args.numItersForTrainExamplesHistory latest iterations
         self.skipFirstSelfPlay = False  # can be overriden in loadTrainExamples()
-        self.nnet.serialize()
 
 
     def executeEpisode(self):
@@ -73,13 +72,14 @@ class Coach():
             # shuffle(trainExamples)
 
             # training new network, keeping a copy of the old one
-            self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
-            self.pnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
+            self.nnet.save_checkpoint(folder='./temp/', filename='old.pth.tar')
+            # self.pnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
             # pmcts = MCTS(self.game, self.pnet, self.args)
 
             self.nnet.train(self.trainExamplesHistory)
             # nmcts = MCTS(self.game, self.nnet, self.args)
 
+            self.nnet.save_checkpoint(folder='./temp/', filename='new.pth.tar')
             log.info('PITTING AGAINST PREVIOUS VERSION')
             # TODO: call othello engine "pit"
             # arena = Arena(lambda x: np.argmax(pmcts.getActionProb(x, temp=0)),
@@ -109,7 +109,8 @@ class Coach():
 
     def loadTrainExamples(self):
         modelFile = os.path.join(self.args.load_folder_file[0], self.args.load_folder_file[1])
-        examplesFile = modelFile + ".examples"
+        # examplesFile = modelFile + ".examples"
+        examplesFile = "./temp/examples.json"
         if not os.path.isfile(examplesFile):
             log.warning(f'File "{examplesFile}" with trainExamples not found!')
             r = input("Continue? [y|n]")
@@ -123,7 +124,6 @@ class Coach():
                 self.trainExamplesHistory = [] 
                 for example in examples:
                    self.trainExamplesHistory.append((example['contiguousGameState'], example['pi'], example['reward']))
-                print(*self.trainExamplesHistory[0])
                  
                     
 
