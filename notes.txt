@@ -298,3 +298,12 @@ Find best i (curr i vs best i)
 if new best i, write 
 /dev/models/ABC123/checkpoint.best.pth.tar
 
+====
+
+
+https://github.com/suragnair/alpha-zero-general/discussions/24
+solution for determinism in arena is to used a shared MCTS. Someone pointed out that in
+AlphaZero, they axed neural networks fighting and just continually updated. I think we will do this
+and keep arena for making elo later.
+
+

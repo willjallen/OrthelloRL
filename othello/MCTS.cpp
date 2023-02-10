@@ -58,8 +58,6 @@ float MCTS::search(Othello::GameState &gameState){
   float max_u = -99999999;
 // std::numeric_limits<float>::min();
 
-  // For each legal move
-  // std::vector<Othello::Coordinate> legalMoves = Othello::getLegalMoves(gameState);
 
   // Find sum(state.actions.N)
   int sum_N = 0;
@@ -84,13 +82,7 @@ float MCTS::search(Othello::GameState &gameState){
       chosenAction = &action; 
     }
   }
-  // std::cout << "action ptr: " << chosenAction << "\n";
-  // std::cout << "Chosen action: " << "(" << chosenAction->coordinate.first << ", " << chosenAction->coordinate.second << ")" << "\n";
-  // std::cout << "ca " << chosenAction << std::endl;
-  // std::cout << chosenAction->coordinate.first << " " << chosenAction->coordinate.second << std::endl;
 
-  // TODO: ??????
-  // If there is no action, pass
   if(!stateNode->noLegalMoves){
     gameState.playMove(chosenAction->coordinate.first, chosenAction->coordinate.second);
   }else{

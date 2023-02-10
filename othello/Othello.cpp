@@ -31,6 +31,7 @@ GameState& GameState::operator=(const GameState &src){
   this->noLegalMoveOnLastTurn = src.noLegalMoveOnLastTurn;
   this->gameOver = src.gameOver;
   this->legalMovesCalulated = src.legalMovesCalulated;
+  this->legalMovePresent = src.legalMovePresent;
   
   this->currentPlayer = src.currentPlayer;
   this->turnNumber = src.turnNumber;
@@ -74,6 +75,7 @@ GameState::GameState()
 
 
     this->noLegalMoveOnLastTurn = false;
+    this->legalMovePresent = false;
     this->gameOver = false;
     this->legalMovesCalulated = false;
 
@@ -115,12 +117,11 @@ GameState::GameState()
   
 GameState::GameState(const GameState &src){
   this->noLegalMoveOnLastTurn = src.noLegalMoveOnLastTurn;
-  this->gameOver = src.gameOver;
-  
+  this->gameOver = src.gameOver; 
   this->legalMovesCalulated = src.legalMovesCalulated;
+  this->legalMovePresent = src.legalMovePresent;
   
   this->currentPlayer = src.currentPlayer;
- 
   this->turnNumber = src.turnNumber;
   
   this->numBlackTiles = src.numBlackTiles;
@@ -297,23 +298,23 @@ void GameState::calculateLegalMoves()
     }
   this->legalMovesCalulated = true;
 
-  bool legalMovesAvailable = false;
+  this->legalMovePresent = false;
 
   if(this->currentPlayer == BLACK){
     if(this->numBlackLegalMoves > 0){
-      legalMovesAvailable = true;
+      this->legalMovePresent = true;
     }
   }else{
     if(this->numWhiteLegalMoves > 0){
-      legalMovesAvailable = true;
+       this->legalMovePresent = true;
     }
   }
 
-  if(this->noLegalMoveOnLastTurn && !legalMovesAvailable){
+  if(this->noLegalMoveOnLastTurn && !this->legalMovePresent){
     this->gameOver = true;
     this->calculateWinner();
   }
-  if(!legalMovesAvailable){
+  if(!this->legalMovePresent){
     this->noLegalMoveOnLastTurn = true;
   }else{
     this->noLegalMoveOnLastTurn = false;

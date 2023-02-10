@@ -1,0 +1,4521 @@
+Loading model..
+Model loaded
+Loading model..
+Model loaded
+Executing arena with 5 games and 25 MCTS simulations
+Starting game 0
+Turn number: 0
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  X  .  .  .  
+.  .  .  B  W  X  .  .  
+.  .  X  W  B  .  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 1
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  X  B  W  .  .  .  
+.  .  .  B  B  .  .  .  
+.  .  X  B  X  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 2
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  X  X  X  X  X  .  .  
+.  .  W  W  W  .  .  .  
+.  .  .  B  B  .  .  .  
+.  .  .  B  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 3
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  B  .  .  
+.  .  W  W  B  X  .  .  
+.  .  .  B  B  .  .  .  
+.  .  .  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 4
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  X  X  X  X  B  X  .  
+.  .  W  W  W  W  .  .  
+.  .  .  B  B  X  .  .  
+.  .  .  B  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 5
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  .  X  X  X  .  
+.  .  .  B  .  B  .  .  
+.  .  W  B  W  W  .  .  
+.  .  .  B  B  .  .  .  
+.  .  X  B  X  .  .  .  
+.  .  X  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 6
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  B  .  B  X  .  
+.  X  W  B  W  W  X  .  
+.  X  .  W  W  X  .  .  
+.  .  X  B  W  X  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 7
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  X  X  .  X  .  
+.  .  X  B  X  B  X  .  
+.  .  W  B  B  B  X  .  
+.  .  .  W  W  B  X  .  
+.  .  X  B  W  .  .  .  
+.  .  X  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 8
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  X  W  .  
+.  .  .  B  .  W  .  .  
+.  X  W  B  W  B  .  .  
+.  X  X  W  W  B  .  .  
+.  .  .  B  W  X  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 9
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  X  X  .  W  .  
+.  .  X  B  .  W  X  .  
+.  .  W  B  W  B  X  .  
+.  .  .  W  W  B  X  .  
+.  .  .  B  B  X  X  .  
+.  .  X  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 10
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  W  .  
+.  X  .  B  X  W  X  .  
+.  X  W  B  W  W  X  .  
+.  X  .  W  W  W  .  .  
+.  .  .  B  B  W  X  .  
+.  .  .  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 11
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  X  .  .  W  .  
+.  X  X  B  .  W  .  .  
+X  B  B  B  W  W  .  .  
+.  .  .  W  W  W  .  .  
+.  .  X  B  B  W  .  .  
+.  .  X  B  X  X  .  .  
+.  .  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 12
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  W  X  X  .  W  .  
+.  .  .  W  X  W  X  .  
+.  B  B  B  W  W  X  .  
+.  .  .  W  W  W  .  .  
+.  .  .  B  B  W  X  .  
+.  .  .  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 13
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  .  
+.  .  W  X  B  .  W  .  
+.  X  X  B  .  W  .  .  
+X  B  B  B  W  W  .  .  
+.  .  .  W  W  W  .  .  
+.  .  X  B  B  W  .  .  
+.  .  X  B  X  X  .  .  
+.  .  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 14
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  .  
+.  .  W  .  B  .  W  .  
+.  .  .  B  X  W  .  .  
+.  B  B  B  W  W  X  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  X  W  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 15
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  W  X  B  X  W  .  
+.  X  X  B  X  B  X  .  
+.  B  B  B  B  B  B  .  
+.  .  .  W  W  B  X  .  
+.  .  .  W  B  W  X  .  
+.  .  W  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 16
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  X  
+.  .  W  .  B  W  W  X  
+.  .  .  B  .  W  .  .  
+.  B  B  B  B  W  B  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  X  W  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 17
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  .  
+.  .  W  X  B  W  W  .  
+.  X  X  B  X  W  .  X  
+X  B  B  B  B  W  B  X  
+.  .  .  W  W  W  .  X  
+.  .  .  W  B  W  .  .  
+.  B  B  B  X  X  .  .  
+.  X  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 18
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  X  
+.  .  W  .  B  W  W  X  
+.  .  .  B  .  W  .  .  
+.  B  B  B  B  W  B  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  B  W  B  .  .  X  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 19
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  B  
+.  .  W  X  B  W  B  X  
+.  X  X  B  X  B  .  X  
+X  B  B  B  B  W  B  X  
+.  .  .  W  W  W  .  .  
+.  X  .  W  B  W  .  .  
+X  B  W  B  X  X  .  .  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 20
+Current player: 1
+Board: 
+.  X  .  .  .  X  .  B  
+.  .  W  .  B  W  B  .  
+.  .  .  B  .  B  .  X  
+.  B  B  B  B  W  W  W  
+.  .  .  W  W  W  .  X  
+.  .  X  W  B  W  X  .  
+.  B  W  B  .  X  X  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 21
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  B  
+.  .  W  X  B  W  B  X  
+.  X  X  B  X  B  .  .  
+X  B  B  B  B  W  W  W  
+.  .  .  W  W  B  X  .  
+.  X  .  W  B  B  B  X  
+X  B  W  B  X  X  X  X  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 22
+Current player: 1
+Board: 
+.  X  .  W  .  X  .  B  
+.  .  W  X  W  W  B  .  
+.  .  .  B  .  W  .  X  
+.  B  B  B  B  W  W  W  
+.  .  X  W  W  B  .  .  
+.  .  X  W  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 23
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  B  X  W  W  B  X  
+.  X  X  B  X  W  .  .  
+X  B  B  B  B  W  W  W  
+.  X  .  W  W  B  X  .  
+.  X  .  W  B  B  B  X  
+X  B  W  B  X  X  X  .  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 24
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  .  X  
+.  B  W  B  B  W  W  W  
+.  X  X  W  W  B  .  .  
+.  .  X  W  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 25
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  .  .  
+X  B  W  B  B  W  W  W  
+.  X  X  B  W  B  X  .  
+.  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 26
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  .  W  X  W  W  B  .  
+.  W  .  B  .  W  X  X  
+X  W  W  B  B  W  W  W  
+.  W  .  B  W  B  .  .  
+X  .  B  B  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 27
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  .  .  
+B  B  B  B  B  W  W  W  
+.  B  X  B  W  B  X  .  
+X  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 28
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  X  X  
+B  B  B  B  B  W  W  W  
+.  B  .  B  W  W  W  X  
+.  .  B  B  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 29
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  X  B  
+B  B  B  B  B  W  B  W  
+.  B  X  B  W  B  W  X  
+X  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 30
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  X  B  
+B  B  B  B  B  W  B  W  
+.  B  .  B  W  B  W  X  
+.  .  B  B  W  W  B  .  
+.  B  W  W  W  X  X  .  
+.  W  X  X  X  X  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 31
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  B  B  B  B  B  B  W  
+.  B  X  B  W  B  W  X  
+.  X  B  B  W  W  B  X  
+X  B  W  W  W  .  X  X  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 32
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  .  W  .  B  B  B  .  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  W  W  W  W  B  X  
+.  W  W  W  W  X  X  .  
+X  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 33
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  W  
+.  W  X  B  W  B  W  X  
+.  W  B  W  W  W  B  X  
+X  B  W  W  W  .  X  X  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 34
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  .  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  B  W  W  W  W  W  
+.  B  W  W  W  X  X  X  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 35
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  W  
+.  W  X  B  W  B  W  X  
+.  W  B  W  W  W  B  W  
+X  B  W  W  W  .  X  B  
+B  W  .  .  .  .  .  X  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 36
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  W  
+.  W  .  B  .  B  .  W  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  B  W  W  W  B  W  
+.  B  W  W  W  X  X  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 37
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  B  
+.  W  X  B  W  B  B  B  
+.  W  B  W  W  W  B  B  
+X  B  W  W  W  .  .  B  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 38
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  B  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  B  
+X  W  W  W  W  B  B  B  
+X  W  W  W  W  W  B  B  
+X  B  W  W  W  X  X  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 39
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  B  
+.  W  W  W  B  B  B  B  
+.  W  W  W  W  B  B  B  
+X  B  W  W  W  .  B  B  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 40
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  X  B  B  B  B  
+.  W  X  B  W  B  .  B  
+B  W  B  W  W  B  B  B  
+X  W  W  W  W  B  B  B  
+X  W  W  W  W  B  B  B  
+X  B  W  W  W  X  B  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 41
+Current player: 2
+Board: 
+.  B  .  W  .  B  X  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  B  B  X  B  
+B  W  B  W  B  B  B  B  
+X  B  W  W  B  B  B  B  
+.  W  B  W  B  B  B  B  
+X  B  W  B  B  X  B  B  
+B  W  .  X  B  X  .  X  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 42
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  B  
+X  W  .  B  B  B  .  B  
+B  W  B  W  B  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  W  B  B  
+X  B  W  B  B  X  W  B  
+B  W  X  .  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 43
+Current player: 2
+Board: 
+.  B  .  W  X  B  X  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  B  B  X  B  
+B  W  B  W  B  B  B  B  
+X  B  W  W  W  B  B  B  
+.  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 44
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+X  X  W  X  W  B  B  B  
+X  W  X  B  W  B  .  B  
+B  W  B  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 45
+Current player: 2
+Board: 
+.  B  .  W  W  B  X  B  
+X  B  W  X  W  B  B  B  
+X  B  X  B  W  B  X  B  
+B  B  B  W  W  B  B  B  
+X  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 46
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+.  B  W  X  W  B  B  B  
+.  B  W  W  W  B  .  B  
+B  B  W  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 47
+Current player: 2
+Board: 
+X  B  .  W  W  B  X  B  
+X  B  W  .  W  B  B  B  
+X  B  W  W  W  B  X  B  
+B  B  W  W  W  B  B  B  
+X  B  W  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 48
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+X  B  W  X  W  B  B  B  
+W  W  W  W  W  B  .  B  
+B  W  W  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+.  B  W  B  B  B  B  B  
+B  W  X  X  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 49
+Current player: 2
+Board: 
+X  B  B  B  B  B  X  B  
+.  B  B  X  W  B  B  B  
+W  W  B  W  W  B  X  B  
+B  W  B  W  W  B  B  B  
+X  B  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 50
+Current player: 1
+Board: 
+.  B  B  B  B  B  .  B  
+X  B  B  X  W  B  B  B  
+W  W  B  W  W  B  .  B  
+W  W  B  W  W  B  B  B  
+W  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 51
+Current player: 2
+Board: 
+X  B  B  B  B  B  X  B  
+B  B  B  X  W  B  B  B  
+B  B  B  W  W  B  X  B  
+B  W  B  W  W  B  B  B  
+B  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 52
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  W  B  .  B  
+B  W  B  W  W  B  B  B  
+B  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  X  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 53
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+B  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 54
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  .  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  B  B  W  B  B  
+B  W  X  X  B  X  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 55
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  B  B  B  B  B  
+B  W  X  X  B  B  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 56
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  .  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  W  B  B  B  B  
+B  W  X  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 57
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+B  B  B  B  B  B  B  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 58
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  W  W  W  B  
+B  W  B  B  W  W  W  B  
+B  W  B  W  W  B  W  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 59
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  B  B  B  B  B  
+B  B  B  B  B  W  W  B  
+B  B  B  B  W  B  W  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Starting game 1
+Turn number: 0
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  X  .  .  .  
+.  .  .  B  W  X  .  .  
+.  .  X  W  B  .  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 1
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  X  B  W  .  .  .  
+.  .  .  B  B  .  .  .  
+.  .  X  B  X  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 2
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  X  X  X  X  X  .  .  
+.  .  W  W  W  .  .  .  
+.  .  .  B  B  .  .  .  
+.  .  .  B  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 3
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  B  .  .  
+.  .  W  W  B  X  .  .  
+.  .  .  B  B  .  .  .  
+.  .  .  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 4
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  X  X  X  X  B  X  .  
+.  .  W  W  W  W  .  .  
+.  .  .  B  B  X  .  .  
+.  .  .  B  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 5
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  .  X  X  X  .  
+.  .  .  B  .  B  .  .  
+.  .  W  B  W  W  .  .  
+.  .  .  B  B  .  .  .  
+.  .  X  B  X  .  .  .  
+.  .  X  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 6
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  B  .  B  X  .  
+.  X  W  B  W  W  X  .  
+.  X  .  W  W  X  .  .  
+.  .  X  B  W  X  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 7
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  X  X  .  X  .  
+.  .  X  B  X  B  X  .  
+.  .  W  B  B  B  X  .  
+.  .  .  W  W  B  X  .  
+.  .  X  B  W  .  .  .  
+.  .  X  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 8
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  X  W  .  
+.  .  .  B  .  W  .  .  
+.  X  W  B  W  B  .  .  
+.  X  X  W  W  B  .  .  
+.  .  .  B  W  X  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 9
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  X  X  .  W  .  
+.  .  X  B  .  W  X  .  
+.  .  W  B  W  B  X  .  
+.  .  .  W  W  B  X  .  
+.  .  .  B  B  X  X  .  
+.  .  X  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 10
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  W  .  
+.  X  .  B  X  W  X  .  
+.  X  W  B  W  W  X  .  
+.  X  .  W  W  W  .  .  
+.  .  .  B  B  W  X  .  
+.  .  .  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 11
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  X  .  .  W  .  
+.  X  X  B  .  W  .  .  
+X  B  B  B  W  W  .  .  
+.  .  .  W  W  W  .  .  
+.  .  X  B  B  W  .  .  
+.  .  X  B  X  X  .  .  
+.  .  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 12
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  W  X  X  .  W  .  
+.  .  .  W  X  W  X  .  
+.  B  B  B  W  W  X  .  
+.  .  .  W  W  W  .  .  
+.  .  .  B  B  W  X  .  
+.  .  .  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 13
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  .  
+.  .  W  X  B  .  W  .  
+.  X  X  B  .  W  .  .  
+X  B  B  B  W  W  .  .  
+.  .  .  W  W  W  .  .  
+.  .  X  B  B  W  .  .  
+.  .  X  B  X  X  .  .  
+.  .  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 14
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  .  
+.  .  W  .  B  .  W  .  
+.  .  .  B  X  W  .  .  
+.  B  B  B  W  W  X  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  X  W  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 15
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  W  X  B  X  W  .  
+.  X  X  B  X  B  X  .  
+.  B  B  B  B  B  B  .  
+.  .  .  W  W  B  X  .  
+.  .  .  W  B  W  X  .  
+.  .  W  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 16
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  X  
+.  .  W  .  B  W  W  X  
+.  .  .  B  .  W  .  .  
+.  B  B  B  B  W  B  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  X  W  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 17
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  .  
+.  .  W  X  B  W  W  .  
+.  X  X  B  X  W  .  X  
+X  B  B  B  B  W  B  X  
+.  .  .  W  W  W  .  X  
+.  .  .  W  B  W  .  .  
+.  B  B  B  X  X  .  .  
+.  X  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 18
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  X  
+.  .  W  .  B  W  W  X  
+.  .  .  B  .  W  .  .  
+.  B  B  B  B  W  B  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  B  W  B  .  .  X  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 19
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  B  
+.  .  W  X  B  W  B  X  
+.  X  X  B  X  B  .  X  
+X  B  B  B  B  W  B  X  
+.  .  .  W  W  W  .  .  
+.  X  .  W  B  W  .  .  
+X  B  W  B  X  X  .  .  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 20
+Current player: 1
+Board: 
+.  X  .  .  .  X  .  B  
+.  .  W  .  B  W  B  .  
+.  .  .  B  .  B  .  X  
+.  B  B  B  B  W  W  W  
+.  .  .  W  W  W  .  X  
+.  .  X  W  B  W  X  .  
+.  B  W  B  .  X  X  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 21
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  B  
+.  .  W  X  B  W  B  X  
+.  X  X  B  X  B  .  .  
+X  B  B  B  B  W  W  W  
+.  .  .  W  W  B  X  .  
+.  X  .  W  B  B  B  X  
+X  B  W  B  X  X  X  X  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 22
+Current player: 1
+Board: 
+.  X  .  W  .  X  .  B  
+.  .  W  X  W  W  B  .  
+.  .  .  B  .  W  .  X  
+.  B  B  B  B  W  W  W  
+.  .  X  W  W  B  .  .  
+.  .  X  W  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 23
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  B  X  W  W  B  X  
+.  X  X  B  X  W  .  .  
+X  B  B  B  B  W  W  W  
+.  X  .  W  W  B  X  .  
+.  X  .  W  B  B  B  X  
+X  B  W  B  X  X  X  .  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 24
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  .  X  
+.  B  W  B  B  W  W  W  
+.  X  X  W  W  B  .  .  
+.  .  X  W  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 25
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  .  .  
+X  B  W  B  B  W  W  W  
+.  X  X  B  W  B  X  .  
+.  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 26
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  .  W  X  W  W  B  .  
+.  W  .  B  .  W  X  X  
+X  W  W  B  B  W  W  W  
+.  W  .  B  W  B  .  .  
+X  .  B  B  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 27
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  .  .  
+B  B  B  B  B  W  W  W  
+.  B  X  B  W  B  X  .  
+X  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 28
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  X  X  
+B  B  B  B  B  W  W  W  
+.  B  .  B  W  W  W  X  
+.  .  B  B  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 29
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  X  B  
+B  B  B  B  B  W  B  W  
+.  B  X  B  W  B  W  X  
+X  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 30
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  X  B  
+B  B  B  B  B  W  B  W  
+.  B  .  B  W  B  W  X  
+.  .  B  B  W  W  B  .  
+.  B  W  W  W  X  X  .  
+.  W  X  X  X  X  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 31
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  B  B  B  B  B  B  W  
+.  B  X  B  W  B  W  X  
+.  X  B  B  W  W  B  X  
+X  B  W  W  W  .  X  X  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 32
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  .  W  .  B  B  B  .  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  W  W  W  W  B  X  
+.  W  W  W  W  X  X  .  
+X  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 33
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  W  
+.  W  X  B  W  B  W  X  
+.  W  B  W  W  W  B  X  
+X  B  W  W  W  .  X  X  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 34
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  .  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  B  W  W  W  W  W  
+.  B  W  W  W  X  X  X  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 35
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  W  
+.  W  X  B  W  B  W  X  
+.  W  B  W  W  W  B  W  
+X  B  W  W  W  .  X  B  
+B  W  .  .  .  .  .  X  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 36
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  W  
+.  W  .  B  .  B  .  W  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  B  W  W  W  B  W  
+.  B  W  W  W  X  X  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 37
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  B  
+.  W  X  B  W  B  B  B  
+.  W  B  W  W  W  B  B  
+X  B  W  W  W  .  .  B  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 38
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  B  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  B  
+X  W  W  W  W  B  B  B  
+X  W  W  W  W  W  B  B  
+X  B  W  W  W  X  X  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 39
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  B  
+.  W  W  W  B  B  B  B  
+.  W  W  W  W  B  B  B  
+X  B  W  W  W  .  B  B  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 40
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  X  B  B  B  B  
+.  W  X  B  W  B  .  B  
+B  W  B  W  W  B  B  B  
+X  W  W  W  W  B  B  B  
+X  W  W  W  W  B  B  B  
+X  B  W  W  W  X  B  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 41
+Current player: 2
+Board: 
+.  B  .  W  .  B  X  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  B  B  X  B  
+B  W  B  W  B  B  B  B  
+X  B  W  W  B  B  B  B  
+.  W  B  W  B  B  B  B  
+X  B  W  B  B  X  B  B  
+B  W  .  X  B  X  .  X  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 42
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  B  
+X  W  .  B  B  B  .  B  
+B  W  B  W  B  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  W  B  B  
+X  B  W  B  B  X  W  B  
+B  W  X  .  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 43
+Current player: 2
+Board: 
+.  B  .  W  X  B  X  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  B  B  X  B  
+B  W  B  W  B  B  B  B  
+X  B  W  W  W  B  B  B  
+.  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 44
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+X  X  W  X  W  B  B  B  
+X  W  X  B  W  B  .  B  
+B  W  B  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 45
+Current player: 2
+Board: 
+.  B  .  W  W  B  X  B  
+X  B  W  X  W  B  B  B  
+X  B  X  B  W  B  X  B  
+B  B  B  W  W  B  B  B  
+X  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 46
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+.  B  W  X  W  B  B  B  
+.  B  W  W  W  B  .  B  
+B  B  W  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 47
+Current player: 2
+Board: 
+X  B  .  W  W  B  X  B  
+X  B  W  .  W  B  B  B  
+X  B  W  W  W  B  X  B  
+B  B  W  W  W  B  B  B  
+X  B  W  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 48
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+X  B  W  X  W  B  B  B  
+W  W  W  W  W  B  .  B  
+B  W  W  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+.  B  W  B  B  B  B  B  
+B  W  X  X  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 49
+Current player: 2
+Board: 
+X  B  B  B  B  B  X  B  
+.  B  B  X  W  B  B  B  
+W  W  B  W  W  B  X  B  
+B  W  B  W  W  B  B  B  
+X  B  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 50
+Current player: 1
+Board: 
+.  B  B  B  B  B  .  B  
+X  B  B  X  W  B  B  B  
+W  W  B  W  W  B  .  B  
+W  W  B  W  W  B  B  B  
+W  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 51
+Current player: 2
+Board: 
+X  B  B  B  B  B  X  B  
+B  B  B  X  W  B  B  B  
+B  B  B  W  W  B  X  B  
+B  W  B  W  W  B  B  B  
+B  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 52
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  W  B  .  B  
+B  W  B  W  W  B  B  B  
+B  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  X  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 53
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+B  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 54
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  .  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  B  B  W  B  B  
+B  W  X  X  B  X  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 55
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  B  B  B  B  B  
+B  W  X  X  B  B  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 56
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  .  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  W  B  B  B  B  
+B  W  X  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 57
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+B  B  B  B  B  B  B  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 58
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  W  W  W  B  
+B  W  B  B  W  W  W  B  
+B  W  B  W  W  B  W  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 59
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  B  B  B  B  B  
+B  B  B  B  B  W  W  B  
+B  B  B  B  W  B  W  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Starting game 2
+Turn number: 0
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  X  .  .  .  
+.  .  .  B  W  X  .  .  
+.  .  X  W  B  .  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 1
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  X  B  W  .  .  .  
+.  .  .  B  B  .  .  .  
+.  .  X  B  X  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 2
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  X  X  X  X  X  .  .  
+.  .  W  W  W  .  .  .  
+.  .  .  B  B  .  .  .  
+.  .  .  B  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 3
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  B  .  .  
+.  .  W  W  B  X  .  .  
+.  .  .  B  B  .  .  .  
+.  .  .  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 4
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  X  X  X  X  B  X  .  
+.  .  W  W  W  W  .  .  
+.  .  .  B  B  X  .  .  
+.  .  .  B  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 5
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  .  X  X  X  .  
+.  .  .  B  .  B  .  .  
+.  .  W  B  W  W  .  .  
+.  .  .  B  B  .  .  .  
+.  .  X  B  X  .  .  .  
+.  .  X  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 6
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  B  .  B  X  .  
+.  X  W  B  W  W  X  .  
+.  X  .  W  W  X  .  .  
+.  .  X  B  W  X  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 7
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  X  X  .  X  .  
+.  .  X  B  X  B  X  .  
+.  .  W  B  B  B  X  .  
+.  .  .  W  W  B  X  .  
+.  .  X  B  W  .  .  .  
+.  .  X  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 8
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  X  W  .  
+.  .  .  B  .  W  .  .  
+.  X  W  B  W  B  .  .  
+.  X  X  W  W  B  .  .  
+.  .  .  B  W  X  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 9
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  X  X  .  W  .  
+.  .  X  B  .  W  X  .  
+.  .  W  B  W  B  X  .  
+.  .  .  W  W  B  X  .  
+.  .  .  B  B  X  X  .  
+.  .  X  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 10
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  W  .  
+.  X  .  B  X  W  X  .  
+.  X  W  B  W  W  X  .  
+.  X  .  W  W  W  .  .  
+.  .  .  B  B  W  X  .  
+.  .  .  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 11
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  X  .  .  W  .  
+.  X  X  B  .  W  .  .  
+X  B  B  B  W  W  .  .  
+.  .  .  W  W  W  .  .  
+.  .  X  B  B  W  .  .  
+.  .  X  B  X  X  .  .  
+.  .  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 12
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  W  X  X  .  W  .  
+.  .  .  W  X  W  X  .  
+.  B  B  B  W  W  X  .  
+.  .  .  W  W  W  .  .  
+.  .  .  B  B  W  X  .  
+.  .  .  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 13
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  .  
+.  .  W  X  B  .  W  .  
+.  X  X  B  .  W  .  .  
+X  B  B  B  W  W  .  .  
+.  .  .  W  W  W  .  .  
+.  .  X  B  B  W  .  .  
+.  .  X  B  X  X  .  .  
+.  .  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 14
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  .  
+.  .  W  .  B  .  W  .  
+.  .  .  B  X  W  .  .  
+.  B  B  B  W  W  X  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  X  W  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 15
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  W  X  B  X  W  .  
+.  X  X  B  X  B  X  .  
+.  B  B  B  B  B  B  .  
+.  .  .  W  W  B  X  .  
+.  .  .  W  B  W  X  .  
+.  .  W  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 16
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  X  
+.  .  W  .  B  W  W  X  
+.  .  .  B  .  W  .  .  
+.  B  B  B  B  W  B  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  X  W  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 17
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  .  
+.  .  W  X  B  W  W  .  
+.  X  X  B  X  W  .  X  
+X  B  B  B  B  W  B  X  
+.  .  .  W  W  W  .  X  
+.  .  .  W  B  W  .  .  
+.  B  B  B  X  X  .  .  
+.  X  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 18
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  X  
+.  .  W  .  B  W  W  X  
+.  .  .  B  .  W  .  .  
+.  B  B  B  B  W  B  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  B  W  B  .  .  X  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 19
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  B  
+.  .  W  X  B  W  B  X  
+.  X  X  B  X  B  .  X  
+X  B  B  B  B  W  B  X  
+.  .  .  W  W  W  .  .  
+.  X  .  W  B  W  .  .  
+X  B  W  B  X  X  .  .  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 20
+Current player: 1
+Board: 
+.  X  .  .  .  X  .  B  
+.  .  W  .  B  W  B  .  
+.  .  .  B  .  B  .  X  
+.  B  B  B  B  W  W  W  
+.  .  .  W  W  W  .  X  
+.  .  X  W  B  W  X  .  
+.  B  W  B  .  X  X  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 21
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  B  
+.  .  W  X  B  W  B  X  
+.  X  X  B  X  B  .  .  
+X  B  B  B  B  W  W  W  
+.  .  .  W  W  B  X  .  
+.  X  .  W  B  B  B  X  
+X  B  W  B  X  X  X  X  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 22
+Current player: 1
+Board: 
+.  X  .  W  .  X  .  B  
+.  .  W  X  W  W  B  .  
+.  .  .  B  .  W  .  X  
+.  B  B  B  B  W  W  W  
+.  .  X  W  W  B  .  .  
+.  .  X  W  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 23
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  B  X  W  W  B  X  
+.  X  X  B  X  W  .  .  
+X  B  B  B  B  W  W  W  
+.  X  .  W  W  B  X  .  
+.  X  .  W  B  B  B  X  
+X  B  W  B  X  X  X  .  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 24
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  .  X  
+.  B  W  B  B  W  W  W  
+.  X  X  W  W  B  .  .  
+.  .  X  W  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 25
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  .  .  
+X  B  W  B  B  W  W  W  
+.  X  X  B  W  B  X  .  
+.  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 26
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  .  W  X  W  W  B  .  
+.  W  .  B  .  W  X  X  
+X  W  W  B  B  W  W  W  
+.  W  .  B  W  B  .  .  
+X  .  B  B  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 27
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  .  .  
+B  B  B  B  B  W  W  W  
+.  B  X  B  W  B  X  .  
+X  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 28
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  X  X  
+B  B  B  B  B  W  W  W  
+.  B  .  B  W  W  W  X  
+.  .  B  B  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 29
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  X  B  
+B  B  B  B  B  W  B  W  
+.  B  X  B  W  B  W  X  
+X  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 30
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  X  B  
+B  B  B  B  B  W  B  W  
+.  B  .  B  W  B  W  X  
+.  .  B  B  W  W  B  .  
+.  B  W  W  W  X  X  .  
+.  W  X  X  X  X  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 31
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  B  B  B  B  B  B  W  
+.  B  X  B  W  B  W  X  
+.  X  B  B  W  W  B  X  
+X  B  W  W  W  .  X  X  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 32
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  .  W  .  B  B  B  .  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  W  W  W  W  B  X  
+.  W  W  W  W  X  X  .  
+X  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 33
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  W  
+.  W  X  B  W  B  W  X  
+.  W  B  W  W  W  B  X  
+X  B  W  W  W  .  X  X  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 34
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  .  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  B  W  W  W  W  W  
+.  B  W  W  W  X  X  X  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 35
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  W  
+.  W  X  B  W  B  W  X  
+.  W  B  W  W  W  B  W  
+X  B  W  W  W  .  X  B  
+B  W  .  .  .  .  .  X  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 36
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  W  
+.  W  .  B  .  B  .  W  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  B  W  W  W  B  W  
+.  B  W  W  W  X  X  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 37
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  B  
+.  W  X  B  W  B  B  B  
+.  W  B  W  W  W  B  B  
+X  B  W  W  W  .  .  B  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 38
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  B  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  B  
+X  W  W  W  W  B  B  B  
+X  W  W  W  W  W  B  B  
+X  B  W  W  W  X  X  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 39
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  B  
+.  W  W  W  B  B  B  B  
+.  W  W  W  W  B  B  B  
+X  B  W  W  W  .  B  B  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 40
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  X  B  B  B  B  
+.  W  X  B  W  B  .  B  
+B  W  B  W  W  B  B  B  
+X  W  W  W  W  B  B  B  
+X  W  W  W  W  B  B  B  
+X  B  W  W  W  X  B  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 41
+Current player: 2
+Board: 
+.  B  .  W  .  B  X  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  B  B  X  B  
+B  W  B  W  B  B  B  B  
+X  B  W  W  B  B  B  B  
+.  W  B  W  B  B  B  B  
+X  B  W  B  B  X  B  B  
+B  W  .  X  B  X  .  X  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 42
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  B  
+X  W  .  B  B  B  .  B  
+B  W  B  W  B  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  W  B  B  
+X  B  W  B  B  X  W  B  
+B  W  X  .  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 43
+Current player: 2
+Board: 
+.  B  .  W  X  B  X  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  B  B  X  B  
+B  W  B  W  B  B  B  B  
+X  B  W  W  W  B  B  B  
+.  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 44
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+X  X  W  X  W  B  B  B  
+X  W  X  B  W  B  .  B  
+B  W  B  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 45
+Current player: 2
+Board: 
+.  B  .  W  W  B  X  B  
+X  B  W  X  W  B  B  B  
+X  B  X  B  W  B  X  B  
+B  B  B  W  W  B  B  B  
+X  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 46
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+.  B  W  X  W  B  B  B  
+.  B  W  W  W  B  .  B  
+B  B  W  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 47
+Current player: 2
+Board: 
+X  B  .  W  W  B  X  B  
+X  B  W  .  W  B  B  B  
+X  B  W  W  W  B  X  B  
+B  B  W  W  W  B  B  B  
+X  B  W  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 48
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+X  B  W  X  W  B  B  B  
+W  W  W  W  W  B  .  B  
+B  W  W  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+.  B  W  B  B  B  B  B  
+B  W  X  X  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 49
+Current player: 2
+Board: 
+X  B  B  B  B  B  X  B  
+.  B  B  X  W  B  B  B  
+W  W  B  W  W  B  X  B  
+B  W  B  W  W  B  B  B  
+X  B  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 50
+Current player: 1
+Board: 
+.  B  B  B  B  B  .  B  
+X  B  B  X  W  B  B  B  
+W  W  B  W  W  B  .  B  
+W  W  B  W  W  B  B  B  
+W  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 51
+Current player: 2
+Board: 
+X  B  B  B  B  B  X  B  
+B  B  B  X  W  B  B  B  
+B  B  B  W  W  B  X  B  
+B  W  B  W  W  B  B  B  
+B  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 52
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  W  B  .  B  
+B  W  B  W  W  B  B  B  
+B  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  X  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 53
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+B  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 54
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  .  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  B  B  W  B  B  
+B  W  X  X  B  X  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 55
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  B  B  B  B  B  
+B  W  X  X  B  B  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 56
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  .  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  W  B  B  B  B  
+B  W  X  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 57
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+B  B  B  B  B  B  B  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 58
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  W  W  W  B  
+B  W  B  B  W  W  W  B  
+B  W  B  W  W  B  W  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 59
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  B  B  B  B  B  
+B  B  B  B  B  W  W  B  
+B  B  B  B  W  B  W  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Starting game 3
+Turn number: 0
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  X  .  .  .  
+.  .  .  B  W  X  .  .  
+.  .  X  W  B  .  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 1
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  X  B  W  .  .  .  
+.  .  .  B  B  .  .  .  
+.  .  X  B  X  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 2
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  X  X  X  X  X  .  .  
+.  .  W  W  W  .  .  .  
+.  .  .  B  B  .  .  .  
+.  .  .  B  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 3
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  B  .  .  
+.  .  W  W  B  X  .  .  
+.  .  .  B  B  .  .  .  
+.  .  .  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 4
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  X  X  X  X  B  X  .  
+.  .  W  W  W  W  .  .  
+.  .  .  B  B  X  .  .  
+.  .  .  B  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 5
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  .  X  X  X  .  
+.  .  .  B  .  B  .  .  
+.  .  W  B  W  W  .  .  
+.  .  .  B  B  .  .  .  
+.  .  X  B  X  .  .  .  
+.  .  X  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 6
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  B  .  B  X  .  
+.  X  W  B  W  W  X  .  
+.  X  .  W  W  X  .  .  
+.  .  X  B  W  X  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 7
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  X  X  .  X  .  
+.  .  X  B  X  B  X  .  
+.  .  W  B  B  B  X  .  
+.  .  .  W  W  B  X  .  
+.  .  X  B  W  .  .  .  
+.  .  X  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 8
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  X  W  .  
+.  .  .  B  .  W  .  .  
+.  X  W  B  W  B  .  .  
+.  X  X  W  W  B  .  .  
+.  .  .  B  W  X  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 9
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  X  X  .  W  .  
+.  .  X  B  .  W  X  .  
+.  .  W  B  W  B  X  .  
+.  .  .  W  W  B  X  .  
+.  .  .  B  B  X  X  .  
+.  .  X  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 10
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  W  .  
+.  X  .  B  X  W  X  .  
+.  X  W  B  W  W  X  .  
+.  X  .  W  W  W  .  .  
+.  .  .  B  B  W  X  .  
+.  .  .  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 11
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  X  .  .  W  .  
+.  X  X  B  .  W  .  .  
+X  B  B  B  W  W  .  .  
+.  .  .  W  W  W  .  .  
+.  .  X  B  B  W  .  .  
+.  .  X  B  X  X  .  .  
+.  .  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 12
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  W  X  X  .  W  .  
+.  .  .  W  X  W  X  .  
+.  B  B  B  W  W  X  .  
+.  .  .  W  W  W  .  .  
+.  .  .  B  B  W  X  .  
+.  .  .  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 13
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  .  
+.  .  W  X  B  .  W  .  
+.  X  X  B  .  W  .  .  
+X  B  B  B  W  W  .  .  
+.  .  .  W  W  W  .  .  
+.  .  X  B  B  W  .  .  
+.  .  X  B  X  X  .  .  
+.  .  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 14
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  .  
+.  .  W  .  B  .  W  .  
+.  .  .  B  X  W  .  .  
+.  B  B  B  W  W  X  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  X  W  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 15
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  W  X  B  X  W  .  
+.  X  X  B  X  B  X  .  
+.  B  B  B  B  B  B  .  
+.  .  .  W  W  B  X  .  
+.  .  .  W  B  W  X  .  
+.  .  W  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 16
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  X  
+.  .  W  .  B  W  W  X  
+.  .  .  B  .  W  .  .  
+.  B  B  B  B  W  B  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  X  W  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 17
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  .  
+.  .  W  X  B  W  W  .  
+.  X  X  B  X  W  .  X  
+X  B  B  B  B  W  B  X  
+.  .  .  W  W  W  .  X  
+.  .  .  W  B  W  .  .  
+.  B  B  B  X  X  .  .  
+.  X  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 18
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  X  
+.  .  W  .  B  W  W  X  
+.  .  .  B  .  W  .  .  
+.  B  B  B  B  W  B  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  B  W  B  .  .  X  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 19
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  B  
+.  .  W  X  B  W  B  X  
+.  X  X  B  X  B  .  X  
+X  B  B  B  B  W  B  X  
+.  .  .  W  W  W  .  .  
+.  X  .  W  B  W  .  .  
+X  B  W  B  X  X  .  .  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 20
+Current player: 1
+Board: 
+.  X  .  .  .  X  .  B  
+.  .  W  .  B  W  B  .  
+.  .  .  B  .  B  .  X  
+.  B  B  B  B  W  W  W  
+.  .  .  W  W  W  .  X  
+.  .  X  W  B  W  X  .  
+.  B  W  B  .  X  X  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 21
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  B  
+.  .  W  X  B  W  B  X  
+.  X  X  B  X  B  .  .  
+X  B  B  B  B  W  W  W  
+.  .  .  W  W  B  X  .  
+.  X  .  W  B  B  B  X  
+X  B  W  B  X  X  X  X  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 22
+Current player: 1
+Board: 
+.  X  .  W  .  X  .  B  
+.  .  W  X  W  W  B  .  
+.  .  .  B  .  W  .  X  
+.  B  B  B  B  W  W  W  
+.  .  X  W  W  B  .  .  
+.  .  X  W  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 23
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  B  X  W  W  B  X  
+.  X  X  B  X  W  .  .  
+X  B  B  B  B  W  W  W  
+.  X  .  W  W  B  X  .  
+.  X  .  W  B  B  B  X  
+X  B  W  B  X  X  X  .  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 24
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  .  X  
+.  B  W  B  B  W  W  W  
+.  X  X  W  W  B  .  .  
+.  .  X  W  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 25
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  .  .  
+X  B  W  B  B  W  W  W  
+.  X  X  B  W  B  X  .  
+.  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 26
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  .  W  X  W  W  B  .  
+.  W  .  B  .  W  X  X  
+X  W  W  B  B  W  W  W  
+.  W  .  B  W  B  .  .  
+X  .  B  B  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 27
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  .  .  
+B  B  B  B  B  W  W  W  
+.  B  X  B  W  B  X  .  
+X  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 28
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  X  X  
+B  B  B  B  B  W  W  W  
+.  B  .  B  W  W  W  X  
+.  .  B  B  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 29
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  X  B  
+B  B  B  B  B  W  B  W  
+.  B  X  B  W  B  W  X  
+X  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 30
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  X  B  
+B  B  B  B  B  W  B  W  
+.  B  .  B  W  B  W  X  
+.  .  B  B  W  W  B  .  
+.  B  W  W  W  X  X  .  
+.  W  X  X  X  X  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 31
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  B  B  B  B  B  B  W  
+.  B  X  B  W  B  W  X  
+.  X  B  B  W  W  B  X  
+X  B  W  W  W  .  X  X  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 32
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  .  W  .  B  B  B  .  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  W  W  W  W  B  X  
+.  W  W  W  W  X  X  .  
+X  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 33
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  W  
+.  W  X  B  W  B  W  X  
+.  W  B  W  W  W  B  X  
+X  B  W  W  W  .  X  X  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 34
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  .  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  B  W  W  W  W  W  
+.  B  W  W  W  X  X  X  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 35
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  W  
+.  W  X  B  W  B  W  X  
+.  W  B  W  W  W  B  W  
+X  B  W  W  W  .  X  B  
+B  W  .  .  .  .  .  X  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 36
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  W  
+.  W  .  B  .  B  .  W  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  B  W  W  W  B  W  
+.  B  W  W  W  X  X  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 37
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  B  
+.  W  X  B  W  B  B  B  
+.  W  B  W  W  W  B  B  
+X  B  W  W  W  .  .  B  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 38
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  B  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  B  
+X  W  W  W  W  B  B  B  
+X  W  W  W  W  W  B  B  
+X  B  W  W  W  X  X  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 39
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  B  
+.  W  W  W  B  B  B  B  
+.  W  W  W  W  B  B  B  
+X  B  W  W  W  .  B  B  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 40
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  X  B  B  B  B  
+.  W  X  B  W  B  .  B  
+B  W  B  W  W  B  B  B  
+X  W  W  W  W  B  B  B  
+X  W  W  W  W  B  B  B  
+X  B  W  W  W  X  B  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 41
+Current player: 2
+Board: 
+.  B  .  W  .  B  X  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  B  B  X  B  
+B  W  B  W  B  B  B  B  
+X  B  W  W  B  B  B  B  
+.  W  B  W  B  B  B  B  
+X  B  W  B  B  X  B  B  
+B  W  .  X  B  X  .  X  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 42
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  B  
+X  W  .  B  B  B  .  B  
+B  W  B  W  B  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  W  B  B  
+X  B  W  B  B  X  W  B  
+B  W  X  .  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 43
+Current player: 2
+Board: 
+.  B  .  W  X  B  X  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  B  B  X  B  
+B  W  B  W  B  B  B  B  
+X  B  W  W  W  B  B  B  
+.  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 44
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+X  X  W  X  W  B  B  B  
+X  W  X  B  W  B  .  B  
+B  W  B  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 45
+Current player: 2
+Board: 
+.  B  .  W  W  B  X  B  
+X  B  W  X  W  B  B  B  
+X  B  X  B  W  B  X  B  
+B  B  B  W  W  B  B  B  
+X  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 46
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+.  B  W  X  W  B  B  B  
+.  B  W  W  W  B  .  B  
+B  B  W  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 47
+Current player: 2
+Board: 
+X  B  .  W  W  B  X  B  
+X  B  W  .  W  B  B  B  
+X  B  W  W  W  B  X  B  
+B  B  W  W  W  B  B  B  
+X  B  W  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 48
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+X  B  W  X  W  B  B  B  
+W  W  W  W  W  B  .  B  
+B  W  W  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+.  B  W  B  B  B  B  B  
+B  W  X  X  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 49
+Current player: 2
+Board: 
+X  B  B  B  B  B  X  B  
+.  B  B  X  W  B  B  B  
+W  W  B  W  W  B  X  B  
+B  W  B  W  W  B  B  B  
+X  B  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 50
+Current player: 1
+Board: 
+.  B  B  B  B  B  .  B  
+X  B  B  X  W  B  B  B  
+W  W  B  W  W  B  .  B  
+W  W  B  W  W  B  B  B  
+W  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 51
+Current player: 2
+Board: 
+X  B  B  B  B  B  X  B  
+B  B  B  X  W  B  B  B  
+B  B  B  W  W  B  X  B  
+B  W  B  W  W  B  B  B  
+B  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 52
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  W  B  .  B  
+B  W  B  W  W  B  B  B  
+B  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  X  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 53
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+B  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 54
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  .  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  B  B  W  B  B  
+B  W  X  X  B  X  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 55
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  B  B  B  B  B  
+B  W  X  X  B  B  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 56
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  .  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  W  B  B  B  B  
+B  W  X  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 57
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+B  B  B  B  B  B  B  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 58
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  W  W  W  B  
+B  W  B  B  W  W  W  B  
+B  W  B  W  W  B  W  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 59
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  B  B  B  B  B  
+B  B  B  B  B  W  W  B  
+B  B  B  B  W  B  W  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Starting game 4
+Turn number: 0
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  X  .  .  .  
+.  .  .  B  W  X  .  .  
+.  .  X  W  B  .  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 1
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  X  B  W  .  .  .  
+.  .  .  B  B  .  .  .  
+.  .  X  B  X  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 2
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  X  X  X  X  X  .  .  
+.  .  W  W  W  .  .  .  
+.  .  .  B  B  .  .  .  
+.  .  .  B  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 3
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  B  .  .  
+.  .  W  W  B  X  .  .  
+.  .  .  B  B  .  .  .  
+.  .  .  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 4
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  X  X  X  X  B  X  .  
+.  .  W  W  W  W  .  .  
+.  .  .  B  B  X  .  .  
+.  .  .  B  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 5
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  .  X  X  X  .  
+.  .  .  B  .  B  .  .  
+.  .  W  B  W  W  .  .  
+.  .  .  B  B  .  .  .  
+.  .  X  B  X  .  .  .  
+.  .  X  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 6
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  B  .  B  X  .  
+.  X  W  B  W  W  X  .  
+.  X  .  W  W  X  .  .  
+.  .  X  B  W  X  .  .  
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 7
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  X  X  .  X  .  
+.  .  X  B  X  B  X  .  
+.  .  W  B  B  B  X  .  
+.  .  .  W  W  B  X  .  
+.  .  X  B  W  .  .  .  
+.  .  X  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 8
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  X  W  .  
+.  .  .  B  .  W  .  .  
+.  X  W  B  W  B  .  .  
+.  X  X  W  W  B  .  .  
+.  .  .  B  W  X  .  .  
+.  .  .  X  .  .  .  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 9
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  X  X  .  W  .  
+.  .  X  B  .  W  X  .  
+.  .  W  B  W  B  X  .  
+.  .  .  W  W  B  X  .  
+.  .  .  B  B  X  X  .  
+.  .  X  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 10
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  .  .  .  .  W  .  
+.  X  .  B  X  W  X  .  
+.  X  W  B  W  W  X  .  
+.  X  .  W  W  W  .  .  
+.  .  .  B  B  W  X  .  
+.  .  .  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 11
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  X  X  .  .  W  .  
+.  X  X  B  .  W  .  .  
+X  B  B  B  W  W  .  .  
+.  .  .  W  W  W  .  .  
+.  .  X  B  B  W  .  .  
+.  .  X  B  X  X  .  .  
+.  .  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 12
+Current player: 1
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  W  X  X  .  W  .  
+.  .  .  W  X  W  X  .  
+.  B  B  B  W  W  X  .  
+.  .  .  W  W  W  .  .  
+.  .  .  B  B  W  X  .  
+.  .  .  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 13
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  .  
+.  .  W  X  B  .  W  .  
+.  X  X  B  .  W  .  .  
+X  B  B  B  W  W  .  .  
+.  .  .  W  W  W  .  .  
+.  .  X  B  B  W  .  .  
+.  .  X  B  X  X  .  .  
+.  .  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 14
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  .  
+.  .  W  .  B  .  W  .  
+.  .  .  B  X  W  .  .  
+.  B  B  B  W  W  X  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  X  W  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 15
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  .  
+.  .  W  X  B  X  W  .  
+.  X  X  B  X  B  X  .  
+.  B  B  B  B  B  B  .  
+.  .  .  W  W  B  X  .  
+.  .  .  W  B  W  X  .  
+.  .  W  B  X  X  .  .  
+.  .  .  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 16
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  X  
+.  .  W  .  B  W  W  X  
+.  .  .  B  .  W  .  .  
+.  B  B  B  B  W  B  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  X  W  B  .  .  X  .  
+.  .  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 17
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  .  
+.  .  W  X  B  W  W  .  
+.  X  X  B  X  W  .  X  
+X  B  B  B  B  W  B  X  
+.  .  .  W  W  W  .  X  
+.  .  .  W  B  W  .  .  
+.  B  B  B  X  X  .  .  
+.  X  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 18
+Current player: 1
+Board: 
+.  X  .  .  .  .  .  X  
+.  .  W  .  B  W  W  X  
+.  .  .  B  .  W  .  .  
+.  B  B  B  B  W  B  .  
+.  .  .  W  W  W  .  .  
+.  .  X  W  B  W  X  .  
+.  B  W  B  .  .  X  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 19
+Current player: 2
+Board: 
+.  .  .  .  .  .  .  B  
+.  .  W  X  B  W  B  X  
+.  X  X  B  X  B  .  X  
+X  B  B  B  B  W  B  X  
+.  .  .  W  W  W  .  .  
+.  X  .  W  B  W  .  .  
+X  B  W  B  X  X  .  .  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 20
+Current player: 1
+Board: 
+.  X  .  .  .  X  .  B  
+.  .  W  .  B  W  B  .  
+.  .  .  B  .  B  .  X  
+.  B  B  B  B  W  W  W  
+.  .  .  W  W  W  .  X  
+.  .  X  W  B  W  X  .  
+.  B  W  B  .  X  X  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 21
+Current player: 2
+Board: 
+.  .  .  X  .  .  .  B  
+.  .  W  X  B  W  B  X  
+.  X  X  B  X  B  .  .  
+X  B  B  B  B  W  W  W  
+.  .  .  W  W  B  X  .  
+.  X  .  W  B  B  B  X  
+X  B  W  B  X  X  X  X  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 22
+Current player: 1
+Board: 
+.  X  .  W  .  X  .  B  
+.  .  W  X  W  W  B  .  
+.  .  .  B  .  W  .  X  
+.  B  B  B  B  W  W  W  
+.  .  X  W  W  B  .  .  
+.  .  X  W  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 23
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  B  X  W  W  B  X  
+.  X  X  B  X  W  .  .  
+X  B  B  B  B  W  W  W  
+.  X  .  W  W  B  X  .  
+.  X  .  W  B  B  B  X  
+X  B  W  B  X  X  X  .  
+.  W  X  X  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 24
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  .  X  
+.  B  W  B  B  W  W  W  
+.  X  X  W  W  B  .  .  
+.  .  X  W  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 25
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  .  .  
+X  B  W  B  B  W  W  W  
+.  X  X  B  W  B  X  .  
+.  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 26
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  .  W  X  W  W  B  .  
+.  W  .  B  .  W  X  X  
+X  W  W  B  B  W  W  W  
+.  W  .  B  W  B  .  .  
+X  .  B  B  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 27
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  .  .  
+B  B  B  B  B  W  W  W  
+.  B  X  B  W  B  X  .  
+X  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 28
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  X  X  
+B  B  B  B  B  W  W  W  
+.  B  .  B  W  W  W  X  
+.  .  B  B  B  B  B  .  
+.  B  W  B  .  .  .  .  
+.  W  X  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 29
+Current player: 2
+Board: 
+.  B  .  W  .  .  .  B  
+.  .  W  .  W  W  B  X  
+.  W  X  B  X  W  X  B  
+B  B  B  B  B  W  B  W  
+.  B  X  B  W  B  W  X  
+X  X  B  B  B  B  B  .  
+X  B  W  B  X  X  X  X  
+X  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 30
+Current player: 1
+Board: 
+.  B  .  W  .  X  .  B  
+X  X  W  X  W  W  B  .  
+.  W  .  B  .  W  X  B  
+B  B  B  B  B  W  B  W  
+.  B  .  B  W  B  W  X  
+.  .  B  B  W  W  B  .  
+.  B  W  W  W  X  X  .  
+.  W  X  X  X  X  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 31
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  B  B  B  B  B  B  W  
+.  B  X  B  W  B  W  X  
+.  X  B  B  W  W  B  X  
+X  B  W  W  W  .  X  X  
+.  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 32
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  .  W  .  B  B  B  .  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  W  W  W  W  B  X  
+.  W  W  W  W  X  X  .  
+X  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 33
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  W  
+.  W  X  B  W  B  W  X  
+.  W  B  W  W  W  B  X  
+X  B  W  W  W  .  X  X  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 34
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  .  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  B  W  W  W  W  W  
+.  B  W  W  W  X  X  X  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 35
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  X  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  W  
+.  W  X  B  W  B  W  X  
+.  W  B  W  W  W  B  W  
+X  B  W  W  W  .  X  B  
+B  W  .  .  .  .  .  X  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 36
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  W  
+.  W  .  B  .  B  .  W  
+B  W  B  B  B  B  B  W  
+.  W  .  B  W  B  W  X  
+X  W  B  W  W  W  B  W  
+.  B  W  W  W  X  X  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 37
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  B  
+.  W  X  B  W  B  B  B  
+.  W  B  W  W  W  B  B  
+X  B  W  W  W  .  .  B  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 38
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  B  
+.  W  .  B  .  B  .  B  
+B  W  B  B  B  B  B  B  
+X  W  W  W  W  B  B  B  
+X  W  W  W  W  W  B  B  
+X  B  W  W  W  X  X  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 39
+Current player: 2
+Board: 
+.  B  .  W  .  B  .  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  X  B  X  B  
+B  W  B  B  B  B  B  B  
+.  W  W  W  B  B  B  B  
+.  W  W  W  W  B  B  B  
+X  B  W  W  W  .  B  B  
+B  W  .  .  .  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 40
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  X  B  B  B  B  
+.  W  X  B  W  B  .  B  
+B  W  B  W  W  B  B  B  
+X  W  W  W  W  B  B  B  
+X  W  W  W  W  B  B  B  
+X  B  W  W  W  X  B  B  
+B  W  X  X  X  .  .  .  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 41
+Current player: 2
+Board: 
+.  B  .  W  .  B  X  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  B  B  X  B  
+B  W  B  W  B  B  B  B  
+X  B  W  W  B  B  B  B  
+.  W  B  W  B  B  B  B  
+X  B  W  B  B  X  B  B  
+B  W  .  X  B  X  .  X  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 42
+Current player: 1
+Board: 
+.  B  .  W  .  B  .  B  
+X  X  W  .  B  B  B  B  
+X  W  .  B  B  B  .  B  
+B  W  B  W  B  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  W  B  B  
+X  B  W  B  B  X  W  B  
+B  W  X  .  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 43
+Current player: 2
+Board: 
+.  B  .  W  X  B  X  B  
+.  .  W  X  B  B  B  B  
+.  W  X  B  B  B  X  B  
+B  W  B  W  B  B  B  B  
+X  B  W  W  W  B  B  B  
+.  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 44
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+X  X  W  X  W  B  B  B  
+X  W  X  B  W  B  .  B  
+B  W  B  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 45
+Current player: 2
+Board: 
+.  B  .  W  W  B  X  B  
+X  B  W  X  W  B  B  B  
+X  B  X  B  W  B  X  B  
+B  B  B  W  W  B  B  B  
+X  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 46
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+.  B  W  X  W  B  B  B  
+.  B  W  W  W  B  .  B  
+B  B  W  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+X  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 47
+Current player: 2
+Board: 
+X  B  .  W  W  B  X  B  
+X  B  W  .  W  B  B  B  
+X  B  W  W  W  B  X  B  
+B  B  W  W  W  B  B  B  
+X  B  W  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 48
+Current player: 1
+Board: 
+.  B  X  W  W  B  .  B  
+X  B  W  X  W  B  B  B  
+W  W  W  W  W  B  .  B  
+B  W  W  W  W  B  B  B  
+.  B  W  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+.  B  W  B  B  B  B  B  
+B  W  X  X  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 49
+Current player: 2
+Board: 
+X  B  B  B  B  B  X  B  
+.  B  B  X  W  B  B  B  
+W  W  B  W  W  B  X  B  
+B  W  B  W  W  B  B  B  
+X  B  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 50
+Current player: 1
+Board: 
+.  B  B  B  B  B  .  B  
+X  B  B  X  W  B  B  B  
+W  W  B  W  W  B  .  B  
+W  W  B  W  W  B  B  B  
+W  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  .  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 51
+Current player: 2
+Board: 
+X  B  B  B  B  B  X  B  
+B  B  B  X  W  B  B  B  
+B  B  B  W  W  B  X  B  
+B  W  B  W  W  B  B  B  
+B  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 52
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  W  B  .  B  
+B  W  B  W  W  B  B  B  
+B  W  W  W  W  B  B  B  
+B  W  B  W  B  B  B  B  
+X  B  W  B  B  B  B  B  
+B  W  X  X  B  .  .  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 53
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+B  B  W  B  B  B  B  B  
+B  W  .  X  B  X  X  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 54
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  .  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  B  B  W  B  B  
+B  W  X  X  B  X  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 55
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  B  B  B  B  B  
+B  W  X  X  B  B  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 56
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  .  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  W  B  B  B  
+B  B  W  W  B  B  B  B  
+B  W  X  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 57
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  B  B  X  B  
+B  W  B  B  W  B  B  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  B  B  
+B  B  B  B  B  B  B  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 58
+Current player: 1
+Board: 
+W  B  B  B  B  B  .  B  
+B  W  B  X  W  B  B  B  
+B  B  W  W  W  W  W  B  
+B  W  B  B  W  W  W  B  
+B  W  B  W  W  B  W  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+
+Turn number: 59
+Current player: 2
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  B  B  B  B  B  
+B  B  B  B  B  W  W  B  
+B  B  B  B  W  B  W  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+No legal move on last turn: 0
+Game Over: 0
+Board: 
+W  B  B  B  B  B  X  B  
+B  W  B  B  B  B  B  B  
+B  B  B  B  B  W  W  B  
+B  B  B  B  W  B  W  B  
+B  W  B  W  W  B  B  B  
+B  B  B  W  B  B  W  B  
+B  B  B  B  B  B  W  B  
+B  B  B  W  W  W  W  W  
+
+
+Writing arena outcome to./temp/out.json

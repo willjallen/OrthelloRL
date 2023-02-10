@@ -67,9 +67,11 @@ class Coach():
             self.loadTrainExamples()
 
             # Ensure we have < maxlenOfQueue examples, delete the oldest ones for space
+            print('len hist', len(self.trainExamplesHistory))
             if(len(self.trainExamplesHistory) >= self.args.maxlenOfQueue):
                 difference = len(self.trainExamplesHistory) - self.args.maxlenOfQueue
                 del self.trainExamplesHistory[0:difference]
+                print('len hist', len(self.trainExamplesHistory))
 
 
             # Copy examples then shuffle them
@@ -87,26 +89,27 @@ class Coach():
             currCheckpoint += 1
             currModel =  str(currCheckpoint) + '.pth.tar'
             self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename=currModel)
+            self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename='best.pth.tar')
 
-            log.info('Calling arena subprocess')
-            subprocess.run(["./othello/build/othello",
-                            "arena",
-                            str(self.args.arenaGames),
-                            str(self.args.arenaMCTSSims),
-                            './dev/models/ABC123/' + bestModel + '.pt',
-                            './dev/models/ABC123/' + currModel +'.pt',
-                            './dev/models/ABC123/arena.json'])
+            # log.info('Calling arena subprocess')
+            # subprocess.run(["./othello/build/othello",
+            #                 "arena",
+            #                 str(self.args.arenaGames),
+            #                 str(self.args.arenaMCTSSims),
+            #                 './dev/models/ABC123/' + bestModel + '.pt',
+            #                 './dev/models/ABC123/' + currModel +'.pt',
+            #                 './dev/models/ABC123/arena.json'])
+            #
+            # bestWins, currWins, draws = self.loadArenaData()
 
-            bestWins, currWins, draws = self.loadArenaData()
-
-            log.info('BEST/CURR WINS : %d / %d ; DRAWS : %d' % (bestWins, currWins, draws))
-            if bestWins + currWins == 0 or float(currWins) / (bestWins + currWins) < self.args.updateThreshold:
-                log.info('Rejecting new model')
-                # self.nnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
-            else:
-                log.info('Accepting new model')
-                # self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
-                self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename=bestModel)
+            # log.info('BEST/CURR WINS : %d / %d ; DRAWS : %d' % (bestWins, currWins, draws))
+            # if bestWins + currWins == 0 or float(currWins) / (bestWins + currWins) < self.args.updateThreshold:
+            #     log.info('Rejecting new model')
+            #     # self.nnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
+            # else:
+            #     log.info('Accepting new model')
+            #     # self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
+            #     self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename=bestModel)
 
     def getCheckpointFile(self, iteration):
         return 'checkpoint_' + str(iteration) + '.pth.tar'
@@ -126,7 +129,6 @@ class Coach():
             with open(examplesFile, "rb") as f:
                 data = json.load(f)
                 examples = data['examples']
-                self.trainExamplesHistory = [] 
                 for example in examples:
                    self.trainExamplesHistory.append((example['contiguousGameState'], example['pi'], example['reward']))
                  

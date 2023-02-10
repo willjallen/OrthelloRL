@@ -165,6 +165,7 @@ class ComparableGameState
 
 
       bool noLegalMoveOnLastTurn;
+      bool legalMovePresent;
       bool gameOver;
 
       bool legalMovesCalulated;

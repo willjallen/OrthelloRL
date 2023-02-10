@@ -87,6 +87,31 @@ void saveTrainingExamples(std::vector<TrainingExample> examples, std::string out
   file.close();
 }
 
+
+std::pair<int, int> sampleDistribution(const std::vector<std::vector<float>>& dist) {
+    std::mt19937 rng(std::random_device{}());
+    std::uniform_real_distribution<float> uniform_dist(0, 1);
+
+    std::vector<float> cumulative_dist;
+    cumulative_dist.reserve(dist.size());
+    for (const auto& row : dist) {
+        float sum = 0;
+        for (float value : row) {
+            sum += value;
+        }
+        cumulative_dist.push_back(sum);
+    }
+
+    std::discrete_distribution<int> row_dist(cumulative_dist.begin(), cumulative_dist.end());
+    int row = row_dist(rng);
+
+    std::discrete_distribution<int> col_dist(dist[row].begin(), dist[row].end());
+    int col = col_dist(rng);
+
+    return {row, col};
+}
+
+
 void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputPath){ 
   
   printf("Executing self play with %d games and %d MCTS simulations\n", numGames, numMCTSsims);
@@ -129,8 +154,15 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputPath)
                                          improvedPolicy,
                                          0));
 
+      // Uniformly sample according to improved policy
+      std::pair<int, int> loc = sampleDistribution(improvedPolicy);
+
       // Play random move
-      actualGameState.playRandomMove();
+      if(actualGameState.legalMovePresent){
+        actualGameState.playMove(loc.first, loc.second);
+      }else{
+        actualGameState.pass();
+      }
 
 
     }
@@ -191,6 +223,7 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
       std::vector<std::vector<float>> improvedPolicy;
      
       actualGameState.calculateLegalMoves();
+
       
       if(actualGameState.gameOver){
         actualGameState.calculateWinner();
@@ -203,6 +236,11 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
         }
         break;
       }  
+
+      if(!actualGameState.legalMovePresent){
+        actualGameState.pass();
+        continue;
+      }
       
       if(actualGameState.currentPlayer == Othello::BLACK){
         for(int j = 0; j < numMCTSsims; j++){
@@ -234,6 +272,7 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
       }
 
       // Play move
+      std::cout << actualGameState << std::endl;
       actualGameState.playMove(chosenCoordinate.first, chosenCoordinate.second);
 
     }
