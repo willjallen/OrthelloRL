@@ -30,7 +30,8 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
   // auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
   // std::cout << "Construct board Runtime: " << duration.count() << "ms" << std::endl;
   std::vector<float> gameStateContiguousVec = gameState.getContiguousGameState();
-  torch::Tensor gameStateContiguousTensor= torch::from_blob(gameStateContiguousVec.data(), {gameStateContiguousVec.size()}, torch::dtype(torch::kFloat32));
+  size_t vecSize = gameStateContiguousVec.size();
+  torch::Tensor gameStateContiguousTensor= torch::from_blob(gameStateContiguousVec.data(), {vecSize}, torch::dtype(torch::kFloat32));
   // size_t vec_size = gameStateContiguousVec.size();
   //
   // std::vector<double> floatVec(vec_size);

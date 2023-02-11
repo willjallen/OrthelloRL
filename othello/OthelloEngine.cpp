@@ -134,7 +134,7 @@ void saveTrainingExamples(std::vector<TrainingExample> examples, std::string out
     auto boardSymmetries = findSymmetries(example.contiguousGameState);
     auto policySymmetries = findSymmetries(example.improvedPolicy);
 
-    for(auto i = 0; i < boardSymmetries.size(); i++){
+    for(size_t i = 0; i < boardSymmetries.size(); i++){
       exampleData["contiguousGameState"] = boardSymmetries[i];    
       exampleData["pi"] = policySymmetries[i]; 
       exampleData["reward"] = example.reward;

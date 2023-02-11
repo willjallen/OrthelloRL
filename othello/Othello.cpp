@@ -88,11 +88,22 @@ GameState::GameState()
     this->numBlackTiles = 0;
     this->numWhiteTiles = 0;
 
+    std::random_device rd;  
+    std::mt19937 engine(rd());  
+    std::uniform_int_distribution<> dist(0, 1);  // A uniform distribution of integers between 0 and 1.
+
+    int random_value = dist(engine);
+
+    // Pick either defualt board one or two depending on value
     for (int x = 0; x < 8; x++)
     {
         for (int y = 0; y < 8; y++)
         {
-            this->board[x][y] = DEFAULT_BOARD[x][y];
+          if(random_value == 1){
+              this->board[x][y] = DEFAULT_BOARD_ONE[x][y];
+          }else{
+              this->board[x][y] = DEFAULT_BOARD_TWO[x][y];
+          }
         }
     }
 
