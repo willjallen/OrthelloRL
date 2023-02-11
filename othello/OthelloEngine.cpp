@@ -16,11 +16,11 @@ using json = nlohmann::json;
 
 
 struct TrainingExample {
-  torch::Tensor contiguousGameState;
-  std::vector<std::vector<float>> pi;
+  std::vector<float> contiguousGameState;
+  std::vector<float> improvedPolicy;
   int reward;
 
-  TrainingExample(torch::Tensor contiguousGameState, std::vector<std::vector<float>> pi, int reward) : contiguousGameState(contiguousGameState), pi(pi), reward(reward) {
+  TrainingExample(std::vector<float> contiguousGameState, std::vector<float> improvedPolicy, int reward) : contiguousGameState(contiguousGameState), improvedPolicy(improvedPolicy), reward(reward) {
     // for(int i = 0; i < 8; i++){
     //   for(int j = 0; j < 8; j++){
     //     this->pi[i][j] = pi[i][j];
@@ -63,20 +63,8 @@ void saveTrainingExamples(std::vector<TrainingExample> examples, std::string out
   
   for (const auto &example : examples) {
     json exampleData;
-    auto contiguousGameStateData = example.contiguousGameState.data_ptr<float>();
-    exampleData["contiguousGameState"] = std::vector<float>(contiguousGameStateData, contiguousGameStateData + example.contiguousGameState.numel());
-    
-    
-  exampleData["pi"] = json::array();
-  int idx = 0;
-  for (const auto &piRow : example.pi) {
-    if(idx >= 8) break;
-    for (const auto &piVal : piRow) {
-      exampleData["pi"].push_back(piVal);
-    }
-    idx++;
-  }
-    
+    exampleData["contiguousGameState"] = example.contiguousGameState;    
+    exampleData["pi"] = example.improvedPolicy; 
     exampleData["reward"] = example.reward;
     serializedData["examples"].push_back(exampleData);
   }
@@ -88,27 +76,12 @@ void saveTrainingExamples(std::vector<TrainingExample> examples, std::string out
 }
 
 
-std::pair<int, int> sampleDistribution(const std::vector<std::vector<float>>& dist) {
-    std::mt19937 rng(std::random_device{}());
-    std::uniform_real_distribution<float> uniform_dist(0, 1);
-
-    std::vector<float> cumulative_dist;
-    cumulative_dist.reserve(dist.size());
-    for (const auto& row : dist) {
-        float sum = 0;
-        for (float value : row) {
-            sum += value;
-        }
-        cumulative_dist.push_back(sum);
-    }
-
-    std::discrete_distribution<int> row_dist(cumulative_dist.begin(), cumulative_dist.end());
-    int row = row_dist(rng);
-
-    std::discrete_distribution<int> col_dist(dist[row].begin(), dist[row].end());
-    int col = col_dist(rng);
-
-    return {row, col};
+std::pair<int, int> sampleDistribution(const std::vector<float> &dist) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::discrete_distribution<int> d(dist.begin(), dist.end());
+    int index = d(gen);
+    return {index / 8, index % 8};
 }
 
 
@@ -149,8 +122,8 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputPath)
   
       if(numSimsExecuted == 30) temperature = 0;
 
-      std::vector<std::vector<float>> improvedPolicy = mcts.getPolicy(actualGameState, temperature);
-      examples.push_back(TrainingExample(nnet->getContiguousGameState(actualGameState),
+      std::vector<float> improvedPolicy = mcts.getPolicy(actualGameState, temperature);
+      examples.push_back(TrainingExample(actualGameState.getContiguousGameState(),
                                          improvedPolicy,
                                          0));
 
@@ -221,7 +194,7 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
     float temperature = 1;
     while(true){
   
-      std::vector<std::vector<float>> improvedPolicy;
+      std::vector<float> improvedPolicy;
      
       actualGameState.calculateLegalMoves();
 

@@ -500,6 +500,40 @@ ComparableGameState GameState::getComparableGameState(){
 
 
 
+std::vector<float> GameState::getContiguousGameState() const {
+  std::vector<float> contiguousGameState(64, 0);
+  for(int i = 0; i < 8; i++){
+    for(int j = 0; j < 8; j++){
+      int boardValue = 0;
+      if(this->currentPlayer == BLACK){
+        if(this->board[i][j] == BLACK){
+          boardValue = 1;
+        }else if(this->board[i][j] == WHITE){
+          boardValue = -1;
+        }else{
+          boardValue = 0;
+        }
+        
+      }else{
+        if(this->board[i][j] == WHITE){
+          boardValue = 1;
+        }else if(this->board[i][j] == BLACK){
+          boardValue = -1;
+        }else{
+          boardValue = 0;
+        }
+        
+      }
+
+      contiguousGameState[i*8 + j] = boardValue;
+    }
+  }
+
+  return contiguousGameState;
+
+}
+
+
 // ComparableGameState::ComparableGameState(uint64_t whiteVec, uint64_t blackVec, int currentPlayer){
 //   this->whiteVec = whiteVec;
 //   this->blackVec = blackVec;

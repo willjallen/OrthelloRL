@@ -13,44 +13,12 @@ NNet::NNet(std::string modelPath){
   }
   catch (const c10::Error& e) {
     std::cerr << "Error loading the model\n";
-    // return -1;
   }
 
   std::cout << "Model loaded\n";
 }
 
-torch::Tensor NNet::getContiguousGameState(const Othello::GameState &gameState){
-   torch::Tensor gameStateContiguous = torch::zeros(64);
-  for(int i = 0; i < 8; i++){
-    for(int j = 0; j < 8; j++){
-      int boardValue = 0;
-      if(gameState.currentPlayer == Othello::BLACK){
-        if(gameState.board[i][j] == Othello::BLACK){
-          boardValue = 1;
-        }else if(gameState.board[i][j] == Othello::WHITE){
-          boardValue = -1;
-        }else{
-          boardValue = 0;
-        }
-        
-      }else{
-        if(gameState.board[i][j] == Othello::WHITE){
-          boardValue = 1;
-        }else if(gameState.board[i][j] == Othello::BLACK){
-          boardValue = -1;
-        }else{
-          boardValue = 0;
-        }
-        
-      }
 
-      gameStateContiguous[i*8 + j] = boardValue;
-    }
-  }
-
-  return gameStateContiguous;
-
-}
 
 std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &gameState){
 
@@ -61,17 +29,28 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
    // auto stop = std::chrono::high_resolution_clock::now();
   // auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
   // std::cout << "Construct board Runtime: " << duration.count() << "ms" << std::endl;
-  torch::Tensor gameStateContiguous = getContiguousGameState(gameState);
+  std::vector<float> gameStateContiguousVec = gameState.getContiguousGameState();
+  torch::Tensor gameStateContiguousTensor= torch::from_blob(gameStateContiguousVec.data(), {gameStateContiguousVec.size()}, torch::dtype(torch::kFloat32));
+  // size_t vec_size = gameStateContiguousVec.size();
+  //
+  // std::vector<double> floatVec(vec_size);
+  // std::transform(gameStateContiguousVec.begin(), gameStateContiguousVec.end(), floatVec.begin(), 
+  //     [](int i){ return static_cast<float>(i); });
+  //
+
+  // torch::Tensor gameStateContiguous = torch::from_blob(floatVec.data(), vec_size, torch::kFloat64);
   // Create a vector of inputs.
   std::vector<torch::jit::IValue> inputs;
   
   // Transform into 1x8x8
-  gameStateContiguous = gameStateContiguous.view({1, 8, 8});
+  gameStateContiguousTensor = gameStateContiguousTensor.view({1, 8, 8});
+  std::cout << gameStateContiguousTensor << std::endl;
   // start = std::chrono::high_resolution_clock::now();
 
 
   //https://stackoverflow.com/questions/53570334/documentation-for-pytorch-tocpu-or-tocuda
-  torch::Tensor gameStateContiguousCUDA = gameStateContiguous.to(at::kCUDA);
+  torch::Tensor gameStateContiguousCUDA = gameStateContiguousTensor.to(at::kCUDA);
+  std::cout << gameStateContiguousCUDA << std::endl;
   // stop = std::chrono::high_resolution_clock::now();
   // duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
   // std::cout << "Runtime copy: " << duration.count() << "ms" << std::endl;

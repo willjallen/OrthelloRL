@@ -18,8 +18,8 @@ namespace Othello {
 const unsigned int DEFAULT_BOARD[8][8] = {{0, 0, 0, 0, 0, 0, 0, 0},
                                               {0, 0, 0, 0, 0, 0, 0, 0},
                                               {0, 0, 0, 0, 0, 0, 0, 0},
-                                              {0, 0, 0, 1, 2, 0, 0, 0},
                                               {0, 0, 0, 2, 1, 0, 0, 0},
+                                              {0, 0, 0, 1, 2, 0, 0, 0},
                                               {0, 0, 0, 0, 0, 0, 0, 0},
                                               {0, 0, 0, 0, 0, 0, 0, 0},
                                               {0, 0, 0, 0, 0, 0, 0, 0,
@@ -159,7 +159,7 @@ class ComparableGameState
 
       std::vector<std::pair<unsigned int, unsigned int>> getLegalMoves();
       ComparableGameState getComparableGameState();
-
+      std::vector<float> getContiguousGameState() const;
       
       GameState& operator=(const GameState &src);
 

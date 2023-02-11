@@ -15,7 +15,7 @@ class MCTS {
    ~MCTS(); 
 
     float search(Othello::GameState &gameState);
-    std::vector<std::vector<float>> getPolicy(Othello::GameState &gameState, float temperature);
+    std::vector<float> getPolicy(Othello::GameState &gameState, float temperature);
 
     
     StateSearchTree *stateSearchTree;
