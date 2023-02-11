@@ -63,7 +63,7 @@ void saveTrainingExamples(std::vector<TrainingExample> examples, std::string out
   
   for (const auto &example : examples) {
     json exampleData;
-    auto contiguousGameStateData = example.contiguousGameState.data<float>();
+    auto contiguousGameStateData = example.contiguousGameState.data_ptr<float>();
     exampleData["contiguousGameState"] = std::vector<float>(contiguousGameStateData, contiguousGameStateData + example.contiguousGameState.numel());
     
     
@@ -130,7 +130,7 @@ void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputPath)
     // Create MCTS
     MCTS mcts(searchGameState, nnet);
     int numSimsExecuted = 0;
-    int temperature = 1;
+    float temperature = 1;
     while(true){
 
       actualGameState.calculateLegalMoves();
@@ -216,8 +216,9 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
     MCTS mctsTwo(searchGameStateTwo, nnetTwo);
 
 
-    // Temperature is set to 0 for evaluation
-    int temperature = 0;
+    // To encourage variety in the opening moves (instead of deterministic play), temperature is given as 
+    // temperature = max(0.65^(x-1), 0.01), where temperature = 0 if < 0.01.
+    float temperature = 1;
     while(true){
   
       std::vector<std::vector<float>> improvedPolicy;
@@ -227,6 +228,7 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
       
       if(actualGameState.gameOver){
         actualGameState.calculateWinner();
+        std::cout << actualGameState << std::endl;
         if(actualGameState.winner == Othello::BLACK){
           numP1Wins++;
         }else if(actualGameState.winner == Othello::WHITE){
@@ -256,24 +258,27 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
         }
     
         improvedPolicy = mctsTwo.getPolicy(actualGameState, temperature);
-      } 
-      // Get action
-      float maxVal = -9999;
-      std::pair<unsigned int, unsigned int> chosenCoordinate;
-      for(unsigned int i = 0; i < 8; i++){
-        for(unsigned int j = 0; j < 8; j++){
-          float val = improvedPolicy[i][j];
-          if(val > maxVal){
-            maxVal = val;
-            chosenCoordinate.first = i;
-            chosenCoordinate.second = j;
-          }
-        }
       }
 
       // Play move
       std::cout << actualGameState << std::endl;
-      actualGameState.playMove(chosenCoordinate.first, chosenCoordinate.second);
+
+      // Uniformly sample according to improved policy
+      // (pick the best action when temperature = 0)
+      std::pair<int, int> loc = sampleDistribution(improvedPolicy);
+
+      if(actualGameState.legalMovePresent){
+        actualGameState.playMove(loc.first, loc.second);
+      }else{
+        actualGameState.pass();
+      }
+
+      // Decrease temperature
+      if(temperature <= 0.01){
+        temperature = 0;
+      }else{
+        temperature = std::max(pow(0.65, actualGameState.turnNumber + 1), 0.01);
+      }
 
     }
 
