@@ -44,13 +44,13 @@ std::pair<torch::Tensor, torch::Tensor> NNet::predict(const Othello::GameState &
   
   // Transform into 1x8x8
   gameStateContiguousTensor = gameStateContiguousTensor.view({1, 8, 8});
-  std::cout << gameStateContiguousTensor << std::endl;
+  // std::cout << gameStateContiguousTensor << std::endl;
   // start = std::chrono::high_resolution_clock::now();
 
 
   //https://stackoverflow.com/questions/53570334/documentation-for-pytorch-tocpu-or-tocuda
   torch::Tensor gameStateContiguousCUDA = gameStateContiguousTensor.to(at::kCUDA);
-  std::cout << gameStateContiguousCUDA << std::endl;
+  // std::cout << gameStateContiguousCUDA << std::endl;
   // stop = std::chrono::high_resolution_clock::now();
   // duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
   // std::cout << "Runtime copy: " << duration.count() << "ms" << std::endl;

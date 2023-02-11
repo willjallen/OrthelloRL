@@ -10,7 +10,6 @@
 #include <iterator>
 #include <random>
 #include <vector>
-
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
@@ -53,6 +52,73 @@ void writeRewards(std::vector<TrainingExample> &examples, int winner){
 }
 
 
+
+
+
+
+const int N = 8;
+
+std::vector<std::vector<float>> findSymmetries(const std::vector<float> &board) {
+    std::vector<std::vector<float>> symmetries;
+
+    // Identity
+    symmetries.push_back(board);
+
+    // 90 degree rotation
+    std::vector<float> rotated(N * N);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            rotated[i + j * N] = board[(N - 1 - j) + i * N];
+        }
+    }
+    symmetries.push_back(rotated);
+
+    // 270 degree rotation
+    std::reverse(rotated.begin(), rotated.end());
+    symmetries.push_back(rotated);
+
+    // 180 degree rotation
+    rotated.clear();
+    rotated.resize(N * N);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            rotated[i + j * N] = board[(N - 1 - j) + i * N];
+        }
+    }
+    std::vector<float> rotated_copy(rotated);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            rotated[i + j * N] = rotated_copy[(N - 1 - j) + i * N];
+        }
+    }
+    symmetries.push_back(rotated);
+
+    // Vertical reflection
+    std::vector<float> reflected(N * N);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            reflected[i + (N - 1 - j) * N] = board[i + j * N];
+        }
+    }
+    symmetries.push_back(reflected);
+
+    // Horizontal reflection
+    std::reverse(reflected.begin(), reflected.end());
+    symmetries.push_back(reflected);
+
+    // Diagonal reflection
+    std::vector<float> diag_reflected(N * N);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            diag_reflected[j + i * N] = board[i + j * N];
+        }
+    }
+    symmetries.push_back(diag_reflected);
+
+    return symmetries;
+}
+
+
 void saveTrainingExamples(std::vector<TrainingExample> examples, std::string outputPath){
 
   std::cout << "Writing training examples to";
@@ -62,11 +128,20 @@ void saveTrainingExamples(std::vector<TrainingExample> examples, std::string out
   serializedData["examples"] = json::array();
   
   for (const auto &example : examples) {
+   // Identity
     json exampleData;
-    exampleData["contiguousGameState"] = example.contiguousGameState;    
-    exampleData["pi"] = example.improvedPolicy; 
-    exampleData["reward"] = example.reward;
-    serializedData["examples"].push_back(exampleData);
+
+    auto boardSymmetries = findSymmetries(example.contiguousGameState);
+    auto policySymmetries = findSymmetries(example.improvedPolicy);
+
+    for(auto i = 0; i < boardSymmetries.size(); i++){
+      exampleData["contiguousGameState"] = boardSymmetries[i];    
+      exampleData["pi"] = policySymmetries[i]; 
+      exampleData["reward"] = example.reward;
+      serializedData["examples"].push_back(exampleData);    
+    }
+
+
   }
   
   // Write the serialized data to a file
