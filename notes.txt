@@ -306,4 +306,7 @@ solution for determinism in arena is to used a shared MCTS. Someone pointed out 
 AlphaZero, they axed neural networks fighting and just continually updated. I think we will do this
 and keep arena for making elo later.
 
+====
 
+elo library on pip has not been ported to python3, use this guy's fork instead
+https://github.com/masfaraud/elo

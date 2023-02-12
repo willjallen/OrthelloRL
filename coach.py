@@ -6,7 +6,7 @@ from collections import deque
 from pickle import Pickler, Unpickler
 from random import shuffle
 import json
-
+from networks.NNet import args as nnargs
 import numpy as np
 from tqdm import tqdm
 
@@ -42,8 +42,8 @@ class Coach():
 
         # Write init of serialized network
         # TODO: Check if one exists or pick up where we left off
-        self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename= '0.pth.tar')
-        self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename='best.pth.tar')
+        self.nnet.save_checkpoint(folder=self.args.model_folder, filename= '0.pth.tar')
+        self.nnet.save_checkpoint(folder=self.args.model_folder, filename='best.pth.tar')
         bestCheckpoint = 0
         currCheckpoint = 0
         
@@ -52,15 +52,16 @@ class Coach():
         for i in range(1, self.args.numIters + 1):
             # bookkeeping
             log.info(f'Starting Iter #{i} ...')
-            
+            self.iteration = i 
+            self.saveModelInfo()
             # Always use the best model for generating examples
             log.info('Calling selfplay subprocess')
             subprocess.run(["./othello/build/othello",
                             "selfplay",
                             str(self.args.selfplayGames),
                             str(self.args.selfplayMCTSSims),
-                            './dev/models/ABC123/' + bestModel + '.pt',
-                            './dev/models/ABC123/examples.json'])
+                            self.args.model_folder + bestModel + '.pt',
+                            self.args.model_folder + '/examples.json'])
         
 
             log.info('Loading training examples')
@@ -88,17 +89,20 @@ class Coach():
             
             currCheckpoint += 1
             currModel =  str(currCheckpoint) + '.pth.tar'
-            self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename=currModel)
-            self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename='best.pth.tar')
+            self.nnet.save_checkpoint(folder=self.args.model_folder, filename=currModel)
+            self.nnet.save_checkpoint(folder=self.args.model_folder, filename='best.pth.tar')
+
+            
+            
 
             # log.info('Calling arena subprocess')
             # subprocess.run(["./othello/build/othello",
             #                 "arena",
             #                 str(self.args.arenaGames),
             #                 str(self.args.arenaMCTSSims),
-            #                 './dev/models/ABC123/' + bestModel + '.pt',
-            #                 './dev/models/ABC123/' + currModel +'.pt',
-            #                 './dev/models/ABC123/arena.json'])
+            #                 self.args.model_folder' + bestModel + '.pt',
+            #                 self.args.model_folder' + currModel +'.pt',
+            #                 self.args.model_folder/arena.json'])
             #
             # bestWins, currWins, draws = self.loadArenaData()
 
@@ -109,7 +113,7 @@ class Coach():
             # else:
             #     log.info('Accepting new model')
             #     # self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
-            #     self.nnet.save_checkpoint(folder='./dev/models/ABC123/', filename=bestModel)
+            #     self.nnet.save_checkpoint(folder=self.args.model_folder, filename=bestModel)
 
     def getCheckpointFile(self, iteration):
         return 'checkpoint_' + str(iteration) + '.pth.tar'
@@ -132,11 +136,8 @@ class Coach():
                 for example in examples:
                    self.trainExamplesHistory.append((example['contiguousGameState'], example['pi'], example['reward']))
                  
-                    
-
             log.info('Loading done!')
 
-            
             
             # examples based on the model were already collected (loaded)
             # self.skipFirstSelfPlay = True
@@ -144,7 +145,7 @@ class Coach():
     def loadArenaData(self):
         # modelFile = os.path.join(self.args.load_folder_file[0], self.args.load_folder_file[1])
         # examplesFile = modelFile + ".examples"
-        arenaFile = './dev/models/ABC123/arena.json'
+        arenaFile = self.args.model_folder + 'arena.json'
         if not os.path.isfile(arenaFile):
             log.warning(f'File "{arenaFile}" not found!')
             r = input("Continue? [y|n]")
@@ -159,3 +160,26 @@ class Coach():
             
             # examples based on the model were already collected (loaded)
             # self.skipFirstSelfPlay = True
+
+
+    def saveModelInfo(self):
+        modelFile = self.args.model_folder + 'model.json'
+        if not os.path.isfile(modelFile):
+            log.warning(f'File "{modelFile}" not found!')
+            log.info('Creating model.json')
+            
+            nnargs_dict = dict(nnargs)
+            modelargs_dict = dict(self.args)
+            modelInfo = {
+                    'nnargs': nnargs_dict,
+                    'modelargs': modelargs_dict,
+                    'iteration': self.iteration,
+                    'timeSpent': 0 
+                    }
+
+            with open(modelFile, "w") as file:
+                json.dump(modelInfo, file) 
+        else:
+           print('hi') 
+            
+                        

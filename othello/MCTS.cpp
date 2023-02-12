@@ -8,7 +8,7 @@
 #include "Othello.h"
 #include "MCTS.h"
 #include "NNet.h"
-
+#include "StateNode.h"
 #include "StateSearchTree.h"
 #include <iostream>
 #include <random>

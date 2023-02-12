@@ -1,4 +1,4 @@
-  
+#include "StateNode.h" 
 #include "StateSearchTree.h"
 #include "Othello.h"
 #include <iostream>

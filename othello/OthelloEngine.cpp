@@ -309,7 +309,7 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
       }
 
       // Play move
-      std::cout << actualGameState << std::endl;
+      // std::cout << actualGameState << std::endl;
 
       // Uniformly sample according to improved policy
       // (pick the best action when temperature = 0)
