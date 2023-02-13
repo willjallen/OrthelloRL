@@ -42,14 +42,14 @@ class Coach():
 
         # Write init of serialized network
         # TODO: Check if one exists or pick up where we left off
-        self.nnet.save_checkpoint(folder=self.args.model_folder, filename= '0.pth.tar')
-        self.nnet.save_checkpoint(folder=self.args.model_folder, filename='best.pth.tar')
-        bestCheckpoint = 0
-        currCheckpoint = 0
+        if(not self.args.load_model):
+            self.nnet.save_checkpoint(folder=self.args.model_folder, filename= '0.pth.tar')
+            self.nnet.save_checkpoint(folder=self.args.model_folder, filename='best.pth.tar')
+
         
         bestModel = 'best.pth.tar'
 
-        for i in range(1, self.args.numIters + 1):
+        for i in range(self.args.starting_itr, self.args.numIters + 1):
             # bookkeeping
             log.info(f'Starting Iter #{i} ...')
             self.iteration = i 
@@ -87,8 +87,8 @@ class Coach():
 
             self.nnet.train(trainExamples)
             
-            currCheckpoint += 1
-            currModel =  str(currCheckpoint) + '.pth.tar'
+
+            currModel =  str(i) + '.pth.tar'
             self.nnet.save_checkpoint(folder=self.args.model_folder, filename=currModel)
             self.nnet.save_checkpoint(folder=self.args.model_folder, filename='best.pth.tar')
 
@@ -138,25 +138,6 @@ class Coach():
                  
             log.info('Loading done!')
 
-            
-            # examples based on the model were already collected (loaded)
-            # self.skipFirstSelfPlay = True
-
-    def loadArenaData(self):
-        # modelFile = os.path.join(self.args.load_folder_file[0], self.args.load_folder_file[1])
-        # examplesFile = modelFile + ".examples"
-        arenaFile = self.args.model_folder + 'arena.json'
-        if not os.path.isfile(arenaFile):
-            log.warning(f'File "{arenaFile}" not found!')
-            r = input("Continue? [y|n]")
-            if r != "y":
-                sys.exit()
-        else:
-            log.info("Arena file found. Loading it...")
-            with open(arenaFile, "rb") as f:
-                data = json.load(f)
-                return data['numP1Wins'], data['numP2Wins'], data['numTies']
-            
             
             # examples based on the model were already collected (loaded)
             # self.skipFirstSelfPlay = True

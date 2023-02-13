@@ -20,7 +20,8 @@ args = dotdict({
     'cpuct': 1,
     'checkpoint': './temp/',
     'model_folder': './dev/models/ABC123/',
-    'load_model': False,
+    'load_model': True,
+    'starting_itr': 23,
     'load_folder_file': ('./dev/models/ABC123/','examples.json'),
     'numItersForTrainExamplesHistory': 20,
 
@@ -35,8 +36,8 @@ def main():
     nnet = nn()
 
     if args.load_model:
-        log.info('Loading checkpoint "%s/%s"...', args.load_folder_file[0], args.load_folder_file[1])
-        nnet.load_checkpoint(args.load_folder_file[0], args.load_folder_file[1])
+        log.info('Loading checkpoint "%s/%s"...', args.model_folder, 'best.pth.tar')
+        nnet.load_checkpoint(folder=args.model_folder, filename='best.pth.tar')
     else:
         log.warning('Not loading a checkpoint!')
 

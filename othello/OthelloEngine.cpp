@@ -276,7 +276,7 @@ void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::str
       
       if(actualGameState.gameOver){
         actualGameState.calculateWinner();
-        std::cout << actualGameState << std::endl;
+        // std::cout << actualGameState << std::endl;
         if(actualGameState.winner == Othello::BLACK){
           numP1Wins++;
         }else if(actualGameState.winner == Othello::WHITE){

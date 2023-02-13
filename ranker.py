@@ -12,18 +12,12 @@ log = logging.getLogger(__name__)
 
 coloredlogs.install(level='INFO')  # Change this to DEBUG to see more info.
 
-match = {
-            "PlayerOneID": "ABC123-7",
-            "PlayerTwoID": "ABC123-2",
-            "games": 40,
-            "playerOneWins": 21,
-            "playerTwoWins": 15,
-            "draws": 4,
-        }
 
 
 
-
+# TODO:
+# Check to make sure arena.json has all the models in it
+# Eventually only match up players around the same elo
 
 class Ranker():
     def __init__(self, args):
@@ -63,13 +57,15 @@ class Ranker():
                 modelsItr = [f for f in os.listdir(self.args.models_dir + model) if os.path.isfile(os.path.join(self.args.models_dir + model, f))]
                 for modelItr in modelsItr:
                     if(modelItr.endswith('.pt') and not 'best' in modelItr):
-                        modelPerformanceData = copy.copy(modelPerformanceTemplate)
-                        modelPerformanceData["path"] = os.path.join(self.args.models_dir + model, modelItr)
+                        # Take every 5th model
                         iteration = int(modelItr.split('.')[0])
-                        modelPerformanceData["Iteration"] = iteration
-                        modelPerformanceData["ID"] = model + '-' + str(iteration)
+                        if(iteration % 5 == 0):
+                            modelPerformanceData = copy.copy(modelPerformanceTemplate)
+                            modelPerformanceData["path"] = os.path.join(self.args.models_dir + model, modelItr)
+                            modelPerformanceData["Iteration"] = iteration
+                            modelPerformanceData["ID"] = model + '-' + str(iteration)
 
-                        arenaData.append(modelPerformanceData)
+                            arenaData.append(modelPerformanceData)
 
 
             with open(arenaFile, "w") as file:
@@ -115,12 +111,15 @@ class Ranker():
             # print(arenaData)
 
             # Choose a random fighter
-            chosenPlayers = random.sample(arenaData, 2)
-            playerOne = chosenPlayers[0]
-            playerTwo = chosenPlayers[1]
-
+            matchQuality = 0
+            while(matchQuality < 0.5):
+                chosenPlayers = random.sample(arenaData, 2)
+                playerOne = chosenPlayers[0]
+                playerTwo = chosenPlayers[1]
+                matchQuality = quality_1vs1(playerOne["ELO"], playerTwo["ELO"]) 
             log.info("Player 1 chosen: " + playerOne["ID"])
             log.info("Player 2 chosen: " + playerTwo["ID"])
+            log.info("Match quality: " + str(matchQuality))
             # Fight
             arenaResultsFile = self.args.arena_folder + 'out.json'
             subprocess.run(["./othello/build/othello",
@@ -133,6 +132,17 @@ class Ranker():
 
             # Load results
             playerOneWins, playerTwoWins, draws = self.loadArenaResults(arenaResultsFile)
+
+            match = {
+                "PlayerOneID": playerOne["ID"],
+                "PlayerTwoID": playerTwo["ID"],
+                "games": self.args.games_per_match,
+                "playerOneWins": playerOneWins,
+                "playerTwoWins": playerTwoWins,
+                "draws": draws,
+                "outcome": 0
+            }
+
             print(playerOneWins, playerTwoWins, draws)
             playerOneUpdatedRating = 0
             playerTwoUpdatedRating = 0
@@ -142,11 +152,13 @@ class Ranker():
                 new_ratings = rate_1vs1(Rating(playerOne["ELO"]), Rating(playerTwo["ELO"]), drawn=False)
                 playerOneUpdatedRating = new_ratings[0]
                 playerTwoUpdatedRating = new_ratings[1]
+                match["outcome"] = playerOne["ID"]
             elif(float(playerTwoWins / self.args.games_per_match) >= self.args.percent_win_threshold):
                 # P2 wins, P1 loses
                 new_ratings = rate_1vs1(Rating(playerTwo["ELO"]), Rating(playerOne["ELO"]), drawn=False)
                 playerOneUpdatedRating = new_ratings[1]
                 playerTwoUpdatedRating = new_ratings[0]
+                match["outcome"] = playerTwo["ID"]
             else:
                 new_ratings = rate_1vs1(Rating(playerOne["ELO"]), Rating(playerTwo["ELO"]), drawn=True)
                 playerOneUpdatedRating = new_ratings[0]
@@ -158,8 +170,10 @@ class Ranker():
             for model in arenaData:
                 if(model["ID"] == playerOne["ID"]):
                     model["ELO"] = playerOneUpdatedRating
+                    model["Matches"].append(match)
                 if(model["ID"] == playerTwo["ID"]):
                     model["ELO"] = playerTwoUpdatedRating
+                    model["Matches"].append(match)
 
             arenaFile = self.args.arena_folder + 'arena.json'
             with open(arenaFile, "w") as file:
