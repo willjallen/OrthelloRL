@@ -1,22 +1,199 @@
 from elo import *
+import os
+import logging
+import json
+import coloredlogs
+import copy
+import random
+from utils import dotdict
+import subprocess
 
-elo = Elo(K_FACTOR=32)
+log = logging.getLogger(__name__)
 
-# rate_1vs1(self, rating1, rating2, drawn=False):
+coloredlogs.install(level='INFO')  # Change this to DEBUG to see more info.
+
+match = {
+            "PlayerOneID": "ABC123-7",
+            "PlayerTwoID": "ABC123-2",
+            "games": 40,
+            "playerOneWins": 21,
+            "playerTwoWins": 15,
+            "draws": 4,
+        }
+
+
+
+
+
+class Ranker():
+    def __init__(self, args):
+        self.args = args
+        self.elo = Elo(k_factor=32)
+        self.initArenaData()
+        pass
+
+    '''
+        Initialize/update the models arena.json 
+    '''
+    def initArenaData(self):
+        arenaFile = self.args.arena_folder + 'arena.json'
+        if not os.path.isfile(arenaFile):
+            if not os.path.isdir('./arena/'):
+                os.mkdir('./arena/')
+            log.warning(f'File "{arenaFile}" not found!')
+            log.info('Creating area.json')
+
+            arenaData = []
+           
+            # Collect all models
+            models = []
+            models = [d for d in os.listdir(self.args.models_dir) if os.path.isdir(os.path.join(self.args.models_dir, d))]
+            
+            for model in models:
+                modelPerformanceTemplate = {
+                    "Model": model,
+                    "path": "./dev/models/ABC123/7.pth.tar",
+                    "Iteration": 0,
+                    "ID": "",
+                    "ELO": 1200,
+                    "Matches": []
+                }
+
+                modelsItr = []
+                modelsItr = [f for f in os.listdir(self.args.models_dir + model) if os.path.isfile(os.path.join(self.args.models_dir + model, f))]
+                for modelItr in modelsItr:
+                    if(modelItr.endswith('.pt') and not 'best' in modelItr):
+                        modelPerformanceData = copy.copy(modelPerformanceTemplate)
+                        modelPerformanceData["path"] = os.path.join(self.args.models_dir + model, modelItr)
+                        iteration = int(modelItr.split('.')[0])
+                        modelPerformanceData["Iteration"] = iteration
+                        modelPerformanceData["ID"] = model + '-' + str(iteration)
+
+                        arenaData.append(modelPerformanceData)
+
+
+            with open(arenaFile, "w") as file:
+                json.dump(arenaData, file, indent=4)
+
+        else:
+            log.info('arena.json found')
+
+
+    def loadArenaResults(self, arenaResultsFile):
+        # modelFile = os.path.join(self.args.load_folder_file[0], self.args.load_folder_file[1])
+        # examplesFile = modelFile + ".examples"
+        if not os.path.isfile(arenaResultsFile):
+            log.warning(f'File "{arenaResultsFile}" not found!')
+            r = input("Continue? [y|n]")
+            if r != "y":
+                sys.exit()
+        else:
+            log.info("Arena results file found. Loading it...")
+            with open(arenaResultsFile, "rb") as f:
+                data = json.load(f)
+                return data['numP1Wins'], data['numP2Wins'], data['numTies']
+            
+            
+            # examples based on the model were already collected (loaded)
+            # self.skipFirstSelfPlay = True
+
+
+
+    def run(self):
+
+        while(True):
+            arenaFile = self.args.arena_folder + 'arena.json'
+            if not os.path.isfile(arenaFile):
+                log.warning(f'File "{arenaFile}" not found!')
+                return  
+
+            # Load data
+            arenaData = None 
+            with open(arenaFile, 'rb') as file:
+                arenaData = json.load(file)
+            
+            # print(arenaData)
+
+            # Choose a random fighter
+            chosenPlayers = random.sample(arenaData, 2)
+            playerOne = chosenPlayers[0]
+            playerTwo = chosenPlayers[1]
+
+            log.info("Player 1 chosen: " + playerOne["ID"])
+            log.info("Player 2 chosen: " + playerTwo["ID"])
+            # Fight
+            arenaResultsFile = self.args.arena_folder + 'out.json'
+            subprocess.run(["./othello/build/othello",
+                                "arena",
+                                str(self.args.games_per_match),
+                                str(self.args.MCTSsims),
+                                playerOne['path'],
+                                playerTwo['path'],
+                                arenaResultsFile])
+
+            # Load results
+            playerOneWins, playerTwoWins, draws = self.loadArenaResults(arenaResultsFile)
+            print(playerOneWins, playerTwoWins, draws)
+            playerOneUpdatedRating = 0
+            playerTwoUpdatedRating = 0
+            new_ratings = None
+            if(float(playerOneWins / self.args.games_per_match) >= self.args.percent_win_threshold):
+                # P1 wins, P2 loses
+                new_ratings = rate_1vs1(Rating(playerOne["ELO"]), Rating(playerTwo["ELO"]), drawn=False)
+                playerOneUpdatedRating = new_ratings[0]
+                playerTwoUpdatedRating = new_ratings[1]
+            elif(float(playerTwoWins / self.args.games_per_match) >= self.args.percent_win_threshold):
+                # P2 wins, P1 loses
+                new_ratings = rate_1vs1(Rating(playerTwo["ELO"]), Rating(playerOne["ELO"]), drawn=False)
+                playerOneUpdatedRating = new_ratings[1]
+                playerTwoUpdatedRating = new_ratings[0]
+            else:
+                new_ratings = rate_1vs1(Rating(playerOne["ELO"]), Rating(playerTwo["ELO"]), drawn=True)
+                playerOneUpdatedRating = new_ratings[0]
+                playerTwoUpdatedRating = new_ratings[1]
+
+            log.info("P1 prev ELO: " + str(playerOne["ELO"]) + ", P2 prev ELO: " + str(playerTwo["ELO"]))
+            log.info("P1 new ELO: " + str(playerOneUpdatedRating) + ", P2 new ELO: " + str(playerTwoUpdatedRating))
+
+            for model in arenaData:
+                if(model["ID"] == playerOne["ID"]):
+                    model["ELO"] = playerOneUpdatedRating
+                if(model["ID"] == playerTwo["ID"]):
+                    model["ELO"] = playerTwoUpdatedRating
+
+            arenaFile = self.args.arena_folder + 'arena.json'
+            with open(arenaFile, "w") as file:
+                json.dump(arenaData, file, indent=4)
+
+
+
+        # rate_1vs1(self, rating1, rating2, drawn=False):
 # scores = (DRAW, DRAW) if drawn else (WIN, LOSS)
-new_ratings = elo.rate_1vs1(1200, 900)
+# new_ratings = elo.rate_1vs1(1200, 900)
+# 
 
-# Call arena with a list of directories, for each directory give iteration range, number of games each model should play
-# stuff like that
 
-# arena will return a json file with an array of matches
-# each match will give
-# who it played against
-# the outcome of the game
+args = dotdict({
+    'arena_folder': './arena/',
+    'models_dir': './dev/models/',
+    'selection_method': 'uniform',
+    'games_per_match': 20.0,
+    'MCTSsims': 50,
+    'percent_win_threshold': .6 
+})
 
-# maybe do it bracket style
-# this allows winner to shine
-# have a losers bracket too
 
-# tournament # of games say 20, needs to be some tradeoff between the cost of loading the model
-# whoever has higher win percent wins tourny
+ranker = Ranker(args)
+ranker.run()
+
+    # def run():
+    #     pass
+    #
+    # def startGames():
+    #     pass
+    #
+    # def evaluateResults():
+    #     pass
+    #
+    # def saveModelInfo(self):
+    #
