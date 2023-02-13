@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 coloredlogs.install(level='INFO')  # Change this to DEBUG to see more info.
 
 
-
+K_FACTOR = 32
 
 # TODO:
 # Check to make sure arena.json has all the models in it
@@ -31,42 +31,47 @@ class Ranker():
     '''
     def initArenaData(self):
         arenaFile = self.args.arena_folder + 'arena.json'
+        
+        arenaData = [] 
         if not os.path.isfile(arenaFile):
             if not os.path.isdir('./arena/'):
                 os.mkdir('./arena/')
             log.warning(f'File "{arenaFile}" not found!')
             log.info('Creating area.json')
+        else:
+            with open(arenaFile, 'rb') as file:
+                arenaData = json.load(file)
 
-            arenaData = []
-           
-            # Collect all models
-            models = []
-            models = [d for d in os.listdir(self.args.models_dir) if os.path.isdir(os.path.join(self.args.models_dir, d))]
-            
-            for model in models:
-                modelPerformanceTemplate = {
-                    "Model": model,
-                    "path": "./dev/models/ABC123/7.pth.tar",
-                    "Iteration": 0,
-                    "ID": "",
-                    "ELO": 1200,
-                    "Matches": []
-                }
+       
+        # Collect all models
+        models = []
+        models = [d for d in os.listdir(self.args.models_dir) if os.path.isdir(os.path.join(self.args.models_dir, d))]
+        
+        for model in models:
+            modelPerformanceTemplate = {
+                "Model": model,
+                "path": "./dev/models/ABC123/7.pth.tar",
+                "Iteration": 0,
+                "ID": "",
+                "ELO": 1200,
+                "Matches": []
+            }
 
-                modelsItr = []
-                modelsItr = [f for f in os.listdir(self.args.models_dir + model) if os.path.isfile(os.path.join(self.args.models_dir + model, f))]
-                for modelItr in modelsItr:
-                    if(modelItr.endswith('.pt') and not 'best' in modelItr):
-                        # Take every 5th model
-                        iteration = int(modelItr.split('.')[0])
-                        if(iteration % 5 == 0):
-                            modelPerformanceData = copy.copy(modelPerformanceTemplate)
-                            modelPerformanceData["path"] = os.path.join(self.args.models_dir + model, modelItr)
-                            modelPerformanceData["Iteration"] = iteration
-                            modelPerformanceData["ID"] = model + '-' + str(iteration)
+            modelsItr = []
+            modelsItr = [f for f in os.listdir(self.args.models_dir + model) if os.path.isfile(os.path.join(self.args.models_dir + model, f))]
+            for modelItr in modelsItr:
+                if(modelItr.endswith('.pt') and not 'best' in modelItr):
+                    # Take every 5th model
+                    iteration = int(modelItr.split('.')[0])
+                    if(iteration % 5 == 0):
+                        
+                        modelPerformanceData = copy.copy(modelPerformanceTemplate)
+                        modelPerformanceData["path"] = os.path.join(self.args.models_dir + model, modelItr)
+                        modelPerformanceData["Iteration"] = iteration
+                        modelPerformanceData["ID"] = model + '-' + str(iteration)
 
+                        if(not any(d['ID'] == modelPerformanceData["ID"] for d in arenaData)):
                             arenaData.append(modelPerformanceData)
-
 
             with open(arenaFile, "w") as file:
                 json.dump(arenaData, file, indent=4)
