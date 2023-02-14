@@ -148,7 +148,7 @@ class Ranker():
                 "outcome": 0
             }
 
-            print(playerOneWins, playerTwoWins, draws)
+            # print(playerOneWins, playerTwoWins, draws)
             playerOneUpdatedRating = 0
             playerTwoUpdatedRating = 0
             new_ratings = None
@@ -169,8 +169,8 @@ class Ranker():
                 playerOneUpdatedRating = new_ratings[0]
                 playerTwoUpdatedRating = new_ratings[1]
 
-            log.info("P1 prev ELO: " + str(playerOne["ELO"]) + ", P2 prev ELO: " + str(playerTwo["ELO"]))
-            log.info("P1 new ELO: " + str(playerOneUpdatedRating) + ", P2 new ELO: " + str(playerTwoUpdatedRating))
+            log.info(playerOne["ID"] + " new ELO: " + str(playerOneUpdatedRating) + ", (prev ELO: " + str(playerOne["ELO"]))
+            log.info(playerTwo["ID"] + " new ELO: " + str(playerTwoUpdatedRating) + ", (prev ELO: " + str(playerTwo["ELO"]))
 
             for model in arenaData:
                 if(model["ID"] == playerOne["ID"]):
