@@ -115,12 +115,18 @@ class Ranker():
             
             # print(arenaData)
 
-            # Choose a random fighter
+            # Choose model with least number of matches
+            numMatches = float('inf') 
+            playerOne = None
+            for model in arenaData:
+                if(len(model["Matches"]) < numMatches):
+                    playerOne = model
+                    numMatches = len(model["Matches"])
+
             matchQuality = 0
-            while(matchQuality < 0.5):
-                chosenPlayers = random.sample(arenaData, 2)
-                playerOne = chosenPlayers[0]
-                playerTwo = chosenPlayers[1]
+            playerTwo = random.choice(arenaData)
+            while(matchQuality < 0.5 and playerOne["ID"] != playerTwo["ID"]):
+                playerTwo = random.choice(arenaData)
                 matchQuality = quality_1vs1(playerOne["ELO"], playerTwo["ELO"]) 
             log.info("Player 1 chosen: " + playerOne["ID"])
             log.info("Player 2 chosen: " + playerTwo["ID"])
