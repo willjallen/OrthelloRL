@@ -198,14 +198,14 @@ class Ranker():
     def savePlots(self):
         with open('./arena/arena.json', 'rb') as file:
             arenaData = json.load(file)
-            # Extract the data
-            iterations = []
-            elos = []
-            models = []
-            for model_data in arenaData:
-                iterations.extend([model_data["Iteration"]])
-                elos.extend([model_data["ELO"]])
-                models.extend([model_data["Model"]])
+        # Extract the data
+        iterations = []
+        elos = []
+        models = []
+        for model_data in arenaData:
+            iterations.extend([model_data["Iteration"]])
+            elos.extend([model_data["ELO"]])
+            models.extend([model_data["Model"]])
 
         # Create a dictionary to map unique model names to unique colors
         unique_models = np.unique(models)
