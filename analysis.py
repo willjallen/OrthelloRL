@@ -34,4 +34,6 @@ legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=model,
                    for model in unique_models]
 plt.legend(handles=legend_elements, loc='best')
 
-plt.show()
+# Save the plot with a filename that includes the current date and time
+filename = f".data/elo_plot_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.png"
+plt.savefig(filename)

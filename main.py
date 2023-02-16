@@ -21,7 +21,7 @@ args = dotdict({
     'checkpoint': './temp/',
     'model_folder': './dev/models/ABC123/',
     'load_model': True,
-    'starting_itr': 23,
+    'starting_itr': 89,
     'load_folder_file': ('./dev/models/ABC123/','examples.json'),
     'numItersForTrainExamplesHistory': 20,
 
