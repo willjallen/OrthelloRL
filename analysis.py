@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 import json
 import numpy as np
-
+import datetime
 with open('./arena/arena.json', 'rb') as file:
     arenaData = json.load(file)
 
@@ -35,5 +35,5 @@ legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=model,
 plt.legend(handles=legend_elements, loc='best')
 
 # Save the plot with a filename that includes the current date and time
-filename = f".data/elo_plot_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.png"
+filename = f"./data/elo_plot_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.png"
 plt.savefig(filename)

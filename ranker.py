@@ -7,7 +7,9 @@ import copy
 import random
 from utils import dotdict
 import subprocess
-
+import numpy as np
+import matplotlib.pyplot as plt
+import datetime
 log = logging.getLogger(__name__)
 
 coloredlogs.install(level='INFO')  # Change this to DEBUG to see more info.
@@ -225,7 +227,7 @@ class Ranker():
         plt.legend(handles=legend_elements, loc='best')
 
         # Save the plot with a filename that includes the current date and time
-        filename = f".data/elo_plot_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.png"
+        filename = f"./data/elo_plot_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.png"
         plt.savefig(filename)
 
 
