@@ -219,16 +219,22 @@ class Ranker():
         plt.ylabel("ELO")
         plt.title("ELO vs Iteration for all models")
 
+        # Set y-axis ticks and labels
+        min_elo = min(elos)
+        max_elo = max(elos)
+        yticks = np.arange(min_elo - min_elo % 25, max_elo + 25, 25)
+        plt.yticks(yticks)
 
         # Add legend to the plot
         legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=model, 
                                       markerfacecolor=model_color_dict[model], markersize=10) 
                            for model in unique_models]
-        plt.legend(handles=legend_elements, loc='best')
+        plt.legend(handles=legend_elements, loc='upper left')
 
         # Save the plot with a filename that includes the current date and time
         filename = f"./data/elo_plot_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.png"
         plt.savefig(filename)
+        plt.clf()
 
 
         # rate_1vs1(self, rating1, rating2, drawn=False):
@@ -244,7 +250,7 @@ args = dotdict({
     'games_per_match': 20.0,
     'MCTSsims': 50,
     'percent_win_threshold': .6, 
-    'match_quality': .8
+    'match_quality': .75
 })
 
 

@@ -310,3 +310,8 @@ and keep arena for making elo later.
 
 elo library on pip has not been ported to python3, use this guy's fork instead
 https://github.com/masfaraud/elo
+
+
+Goonie Sharon
+
+traxing 

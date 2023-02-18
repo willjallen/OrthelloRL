@@ -10,6 +10,7 @@
 
 generate_tests.py
 
+data/
 dev/
 temp/
 build/
