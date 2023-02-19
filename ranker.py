@@ -1,4 +1,6 @@
-from elo import *
+import elo
+from elo import Rating
+
 import os
 import logging
 import json
@@ -24,25 +26,30 @@ K_FACTOR = 32
 class Ranker():
     def __init__(self, args):
         self.args = args
-        self.elo = Elo(k_factor=32)
+        self.elo = elo.Elo(k_factor=self.args.k_factor)
+        self.arenaIteration = 0
         self.initArenaData()
-        pass
+
 
     '''
-        Initialize/update the models arena.json 
+        Initialize/update the models recent.json 
     '''
     def initArenaData(self):
-        arenaFile = self.args.arena_folder + 'arena.json'
+        arenaFile = self.args.arena_folder + self.args.arena_file 
         
-        arenaData = [] 
+        arenaData = {}
         if not os.path.isfile(arenaFile):
             if not os.path.isdir('./arena/'):
                 os.mkdir('./arena/')
             log.warning(f'File "{arenaFile}" not found!')
-            log.info('Creating area.json')
+            log.info('Creating recent.json')
+
+            arenaData['arenaIteration'] = self.arenaIteration
+            arenaData['models'] = []
         else:
             with open(arenaFile, 'rb') as file:
                 arenaData = json.load(file)
+                self.arenaIteration = arenaData['arenaIteration'] + 1
 
        
         # Collect all models
@@ -51,35 +58,34 @@ class Ranker():
         
         for model in models:
             modelPerformanceTemplate = {
-                "Model": model,
-                "path": "./dev/models/ABC123/7.pth.tar",
-                "Iteration": 0,
+                "model": model,
+                "path": "",
+                "iteration": 0,
                 "ID": "",
                 "ELO": 1200,
-                "Matches": []
+                "matches": []
             }
 
             modelsItr = []
             modelsItr = [f for f in os.listdir(self.args.models_dir + model) if os.path.isfile(os.path.join(self.args.models_dir + model, f))]
             for modelItr in modelsItr:
                 if(modelItr.endswith('.pt') and not 'best' in modelItr):
-                    # Take every 5th model
+                    # Take every 10th model
                     iteration = int(modelItr.split('.')[0])
-                    if(iteration % 5 == 0):
+                    if(iteration % 10 == 0):
                         
                         modelPerformanceData = copy.copy(modelPerformanceTemplate)
                         modelPerformanceData["path"] = os.path.join(self.args.models_dir + model, modelItr)
-                        modelPerformanceData["Iteration"] = iteration
+                        modelPerformanceData["iteration"] = iteration
                         modelPerformanceData["ID"] = model + '-' + str(iteration)
 
-                        if(not any(d['ID'] == modelPerformanceData["ID"] for d in arenaData)):
-                            arenaData.append(modelPerformanceData)
+                        if(not any(d['ID'] == modelPerformanceData["ID"] for d in arenaData['models'])):
+                            arenaData['models'].append(modelPerformanceData)
 
             with open(arenaFile, "w") as file:
                 json.dump(arenaData, file, indent=4)
 
-        else:
-            log.info('arena.json found')
+
 
 
     def loadArenaResults(self, arenaResultsFile):
@@ -87,9 +93,7 @@ class Ranker():
         # examplesFile = modelFile + ".examples"
         if not os.path.isfile(arenaResultsFile):
             log.warning(f'File "{arenaResultsFile}" not found!')
-            r = input("Continue? [y|n]")
-            if r != "y":
-                sys.exit()
+            sys.exit()
         else:
             log.info("Arena results file found. Loading it...")
             with open(arenaResultsFile, "rb") as f:
@@ -105,7 +109,7 @@ class Ranker():
     def run(self):
 
         while(True):
-            arenaFile = self.args.arena_folder + 'arena.json'
+            arenaFile = self.args.arena_folder + self.args.arena_file 
             if not os.path.isfile(arenaFile):
                 log.warning(f'File "{arenaFile}" not found!')
                 return  
@@ -115,23 +119,24 @@ class Ranker():
             with open(arenaFile, 'rb') as file:
                 arenaData = json.load(file)
             
-            # print(arenaData)
+
 
             # Choose model with least number of matches
             numMatches = float('inf') 
-            playerOne = None
-            for model in arenaData:
-                if(len(model["Matches"]) < numMatches):
-                    playerOne = model
-                    numMatches = len(model["Matches"])
-
+            modelOne = None
+            for model in arenaData['models']:
+                if(len(model["matches"]) < numMatches):
+                    modelOne = model
+                    numMatches = len(model["matches"])
+            
+            # Choose the second model randmoly, so long as the match quality > args.match_quality
             matchQuality = 0
-            playerTwo = random.choice(arenaData)
-            while(matchQuality < args.match_quality and playerOne["ID"] != playerTwo["ID"]):
-                playerTwo = random.choice(arenaData)
-                matchQuality = quality_1vs1(playerOne["ELO"], playerTwo["ELO"]) 
-            log.info("Player 1 chosen: " + playerOne["ID"])
-            log.info("Player 2 chosen: " + playerTwo["ID"])
+            modelTwo = random.choice(arenaData['models'])
+            while(matchQuality < args.match_quality and modelOne["ID"] != modelTwo["ID"]):
+                modelTwo = random.choice(arenaData['models'])
+                matchQuality = self.elo.quality_1vs1(modelOne["ELO"], modelTwo["ELO"]) 
+            log.info("Model 1 chosen: " + modelOne["ID"] + " (ELO: " + str(modelOne["ELO"])+ ")")
+            log.info("Model 2 chosen: " + modelTwo["ID"] + " (ELO: " + str(modelTwo["ELO"]) + ")")
             log.info("Match quality: " + str(matchQuality))
             # Fight
             arenaResultsFile = self.args.arena_folder + 'out.json'
@@ -139,78 +144,98 @@ class Ranker():
                                 "arena",
                                 str(self.args.games_per_match),
                                 str(self.args.MCTSsims),
-                                playerOne['path'],
-                                playerTwo['path'],
+                                modelOne['path'],
+                                modelTwo['path'],
                                 arenaResultsFile])
 
             # Load results
-            playerOneWins, playerTwoWins, draws = self.loadArenaResults(arenaResultsFile)
+            modelOneWins, modelTwoWins, draws = self.loadArenaResults(arenaResultsFile)
+            log.info("Model 1 wins: " + str(modelOneWins) + ", Models 2 wins: " + str(modelTwoWins) + ", Draws: " + str(draws)) 
+            
+            # Calculate new ELOs
+            modelOneOriginalELO = modelOne["ELO"]
+            modelTwoOriginalELO = modelTwo["ELO"]
 
+            modelOneUpdatedELO = 0
+            modelTwoUpdatedELO = 0
+
+            # ELO calculation is abelian
+            
+            modelOneOutcomes = []
+            modelTwoOutcomes = []
+            for _ in range(0, modelOneWins):
+                modelOneOutcomes.append((1, modelTwoOriginalELO))
+                modelTwoOutcomes.append((0, modelOneOriginalELO))
+            for _ in range(0, modelTwoWins):
+                modelOneOutcomes.append((0, modelTwoOriginalELO))
+                modelTwoOutcomes.append((1, modelOneOriginalELO))
+            for _ in range(0, draws):
+                modelOneOutcomes.append((0.5, modelTwoOriginalELO))
+                modelTwoOutcomes.append((0.5, modelOneOriginalELO))
+
+            modelOneUpdatedELO = self.elo.rate(Rating(modelOneOriginalELO), modelOneOutcomes)
+            modelTwoUpdatedELO = self.elo.rate(Rating(modelTwoOriginalELO), modelTwoOutcomes)
+            
+            # Save match
             match = {
-                "PlayerOneID": playerOne["ID"],
-                "PlayerTwoID": playerTwo["ID"],
-                "games": self.args.games_per_match,
-                "playerOneWins": playerOneWins,
-                "playerTwoWins": playerTwoWins,
+                "arenaIteration": self.arenaIteration,
+                "modelOneID": modelOne["ID"],
+                "modelTwoID": modelTwo["ID"],
+                "numGames": self.args.games_per_match,
+                "modelOneWins": modelOneWins,
+                "modelTwoWins": modelTwoWins,
                 "draws": draws,
-                "outcome": 0
+                "modelOnePreviousELO": modelOneOriginalELO,
+                "modelOneNewELO": modelOneUpdatedELO,
+                "modelTwoPreviousElo": modelTwoOriginalELO,
+                "modelTwoNewELO": modelTwoUpdatedELO,
             }
 
-            # print(playerOneWins, playerTwoWins, draws)
-            playerOneUpdatedRating = 0
-            playerTwoUpdatedRating = 0
-            new_ratings = None
-            if(float(playerOneWins / self.args.games_per_match) >= self.args.percent_win_threshold):
-                # P1 wins, P2 loses
-                new_ratings = rate_1vs1(Rating(playerOne["ELO"]), Rating(playerTwo["ELO"]), drawn=False)
-                playerOneUpdatedRating = new_ratings[0]
-                playerTwoUpdatedRating = new_ratings[1]
-                match["outcome"] = playerOne["ID"]
-            elif(float(playerTwoWins / self.args.games_per_match) >= self.args.percent_win_threshold):
-                # P2 wins, P1 loses
-                new_ratings = rate_1vs1(Rating(playerTwo["ELO"]), Rating(playerOne["ELO"]), drawn=False)
-                playerOneUpdatedRating = new_ratings[1]
-                playerTwoUpdatedRating = new_ratings[0]
-                match["outcome"] = playerTwo["ID"]
-            else:
-                new_ratings = rate_1vs1(Rating(playerOne["ELO"]), Rating(playerTwo["ELO"]), drawn=True)
-                playerOneUpdatedRating = new_ratings[0]
-                playerTwoUpdatedRating = new_ratings[1]
+            log.info(modelOne["ID"] + " new ELO: " + str(modelOneUpdatedELO) + ", (prev ELO: " + str(modelOneOriginalELO) + ")")
+            log.info(modelTwo["ID"] + " new ELO: " + str(modelTwoUpdatedELO) + ", (prev ELO: " + str(modelTwoOriginalELO) + ")")
+            
+            # Update data
+            for model in arenaData['models']:
+                if(model["ID"] == modelOne["ID"]):
+                    model["ELO"] = modelOneUpdatedELO
+                    model["matches"].append(match)
+                if(model["ID"] == modelTwo["ID"]):
+                    model["ELO"] = modelTwoUpdatedELO
+                    model["matches"].append(match)
 
-            log.info(playerOne["ID"] + " new ELO: " + str(playerOneUpdatedRating) + ", (prev ELO: " + str(playerOne["ELO"]))
-            log.info(playerTwo["ID"] + " new ELO: " + str(playerTwoUpdatedRating) + ", (prev ELO: " + str(playerTwo["ELO"]))
+            # Write new data to file
+            arenaFileRecent = self.args.arena_folder + self.args.arena_file
+            arenaFileSave = self.args.arena_folder + 'arena-' + str(self.arenaIteration) + '.json'
 
-            for model in arenaData:
-                if(model["ID"] == playerOne["ID"]):
-                    model["ELO"] = playerOneUpdatedRating
-                    model["Matches"].append(match)
-                if(model["ID"] == playerTwo["ID"]):
-                    model["ELO"] = playerTwoUpdatedRating
-                    model["Matches"].append(match)
+            arenaData['arenaIteration'] = self.arenaIteration
 
-            arenaFile = self.args.arena_folder + 'arena.json'
             with open(arenaFile, "w") as file:
+                json.dump(arenaData, file, indent=4)
+            with open(arenaFileSave, "w") as file:
                 json.dump(arenaData, file, indent=4)
 
             # Save plots
             self.savePlots()
 
+            # Next iteration
+            self.arenaIteration += 1
+
     def savePlots(self):
-        with open('./arena/arena.json', 'rb') as file:
+        arenaFile = self.args.arena_folder + self.args.arena_file
+        with open(arenaFile, 'rb') as file:
             arenaData = json.load(file)
         # Extract the data
         iterations = []
         elos = []
         models = []
-        for model_data in arenaData:
-            iterations.extend([model_data["Iteration"]])
+        for model_data in arenaData['models']:
+            iterations.extend([model_data["iteration"]])
             elos.extend([model_data["ELO"]])
-            models.extend([model_data["Model"]])
+            models.extend([model_data["model"]])
 
         # Create a dictionary to map unique model names to unique colors
         unique_models = np.unique(models)
-        colors = plt.cm.get_cmap('tab20c', len(unique_models))
-        model_color_dict = dict(zip(unique_models, colors(range(len(unique_models)))))
+        model_color_dict = {'A1': 'navy', 'A2': 'slateblue', 'B1': 'maroon'} 
 
         # Create the scatter plot with colored points
         model_colors = [model_color_dict[model] for model in models]
@@ -232,7 +257,7 @@ class Ranker():
         plt.legend(handles=legend_elements, loc='upper left')
 
         # Save the plot with a filename that includes the current date and time
-        filename = f"./data/elo_plot_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.png"
+        filename = f"./data/generated/elo_plot_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.png"
         plt.savefig(filename)
         plt.clf()
 
@@ -245,12 +270,13 @@ class Ranker():
 
 args = dotdict({
     'arena_folder': './arena/',
+    'arena_file': 'recent.json',
     'models_dir': './dev/models/',
     'selection_method': 'uniform',
-    'games_per_match': 20.0,
+    'k_factor': 30,
+    'games_per_match': 10.0,
     'MCTSsims': 50,
-    'percent_win_threshold': .6, 
-    'match_quality': .75
+    'match_quality': .50
 })
 
 
