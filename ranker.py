@@ -132,9 +132,16 @@ class Ranker():
             # Choose the second model randmoly, so long as the match quality > args.match_quality
             matchQuality = 0
             modelTwo = random.choice(arenaData['models'])
-            while(matchQuality < args.match_quality and modelOne["ID"] != modelTwo["ID"]):
+            searchIterations = 0
+            while(matchQuality < args.match_quality or modelOne["ID"] == modelTwo["ID"]):
+                # We're stuck on a model that has no potential partners, pick a random one
+                if(searchIterations >= 400):
+                    modelOne = random.choice(arenaData['models'])
+                    searchIterations = 0
+
                 modelTwo = random.choice(arenaData['models'])
                 matchQuality = self.elo.quality_1vs1(modelOne["ELO"], modelTwo["ELO"]) 
+                searchIterations += 1
             log.info("Model 1 chosen: " + modelOne["ID"] + " (ELO: " + str(modelOne["ELO"])+ ")")
             log.info("Model 2 chosen: " + modelTwo["ID"] + " (ELO: " + str(modelTwo["ELO"]) + ")")
             log.info("Match quality: " + str(matchQuality))
@@ -247,7 +254,8 @@ class Ranker():
         # Set y-axis ticks and labels
         min_elo = min(elos)
         max_elo = max(elos)
-        yticks = np.arange(min_elo - min_elo % 25, max_elo + 25, 25)
+        tick_step = round((max_elo - min_elo) / 7.0 / 25.0) * 25  # round to nearest 25
+        yticks = np.arange(min_elo - min_elo % tick_step, max_elo + tick_step, tick_step)
         plt.yticks(yticks)
 
         # Add legend to the plot

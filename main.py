@@ -19,10 +19,9 @@ args = dotdict({
     'arenaMCTSSims': 50,         # Number of games moves for MCTS to simulate for arena.
     'cpuct': 1,
     'checkpoint': './temp/',
-    'model_folder': './dev/models/B1/',
-    'load_model': False,
-    'starting_itr': 0,
-    'load_folder_file': ('./dev/models/ABC123/','examples.json'),
+    'model_folder': './dev/models/A1/',
+    'load_model': True,
+    'starting_itr': 99,
     'numItersForTrainExamplesHistory': 20,
 
 })
