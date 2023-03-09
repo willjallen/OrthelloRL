@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 coloredlogs.install(level='INFO')  # Change this to DEBUG to see more info.
 
 
-K_FACTOR = 32
+
 
 # TODO:
 # Check to make sure arena.json has all the models in it
@@ -72,7 +72,7 @@ class Ranker():
                 if(modelItr.endswith('.pt') and not 'best' in modelItr):
                     # Take every 10th model
                     iteration = int(modelItr.split('.')[0])
-                    if(iteration % 10 == 0):
+                    if(iteration % 10 == 0 and iteration <= 230):
                         
                         modelPerformanceData = copy.copy(modelPerformanceTemplate)
                         modelPerformanceData["path"] = os.path.join(self.args.models_dir + model, modelItr)
@@ -228,44 +228,44 @@ class Ranker():
             self.arenaIteration += 1
 
     def savePlots(self):
-        arenaFile = self.args.arena_folder + self.args.arena_file
-        with open(arenaFile, 'rb') as file:
-            arenaData = json.load(file)
-        # Extract the data
+        arenafile = self.args.arena_folder + self.args.arena_file
+        with open(arenafile, 'rb') as file:
+            arenadata = json.load(file)
+        # extract the data
         iterations = []
         elos = []
         models = []
-        for model_data in arenaData['models']:
+        for model_data in arenadata['models']:
             iterations.extend([model_data["iteration"]])
             elos.extend([model_data["ELO"]])
             models.extend([model_data["model"]])
 
-        # Create a dictionary to map unique model names to unique colors
+        # create a dictionary to map unique model names to unique colors
         unique_models = np.unique(models)
         model_color_dict = {'A1': 'navy', 'A2': 'slateblue', 'B1': 'maroon'} 
 
-        # Create the scatter plot with colored points
+        # create the scatter plot with colored points
         model_colors = [model_color_dict[model] for model in models]
         plt.scatter(iterations, elos, c=model_colors)
         plt.xlabel("Iteration")
         plt.ylabel("ELO")
-        plt.title("ELO vs Iteration for all models")
+        plt.title("ELO vs iteration for all models")
 
-        # Set y-axis ticks and labels
+        # set y-axis ticks and labels
         min_elo = min(elos)
         max_elo = max(elos)
         tick_step = round((max_elo - min_elo) / 7.0 / 25.0) * 25  # round to nearest 25
         yticks = np.arange(min_elo - min_elo % tick_step, max_elo + tick_step, tick_step)
         plt.yticks(yticks)
 
-        # Add legend to the plot
+        # add legend to the plot
         legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=model, 
                                       markerfacecolor=model_color_dict[model], markersize=10) 
                            for model in unique_models]
         plt.legend(handles=legend_elements, loc='upper left')
 
-        # Save the plot with a filename that includes the current date and time
-        filename = f"./data/generated/elo_plot_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.png"
+        # save the plot with a filename that includes the current date and time
+        filename = f"./data/generated/elo_plot_{datetime.datetime.now().strftime('%y-%m-%d_%h-%m-%s')}.png"
         plt.savefig(filename)
         plt.clf()
 
@@ -284,7 +284,7 @@ args = dotdict({
     'k_factor': 30,
     'games_per_match': 10.0,
     'MCTSsims': 50,
-    'match_quality': .50
+    'match_quality': .0
 })
 
 
