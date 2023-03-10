@@ -26,6 +26,7 @@ add_executable(othello
   Othello.cpp
   MCTS.cpp
   StateSearchTree.cpp
+  StateNode.cpp
   NNet.cpp
   OthelloEngine.cpp
 )

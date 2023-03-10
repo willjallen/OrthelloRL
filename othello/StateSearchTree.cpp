@@ -1,6 +1,7 @@
 #include "StateNode.h" 
 #include "StateSearchTree.h"
 #include "Othello.h"
+#include "NNet.h"
 #include <iostream>
 StateSearchTree::StateSearchTree(Othello::GameState &gameState, NNet *nnet) {
 

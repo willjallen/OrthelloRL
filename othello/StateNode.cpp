@@ -1,5 +1,5 @@
 #include "StateNode.h"
-
+#include "NNet.h"
 StateNode::StateNode(Othello::GameState &gameState, NNet *nnet){
     this->comparableGameState = gameState.getComparableGameState(); 
     // Initialize Q and N for all potential actions to 0

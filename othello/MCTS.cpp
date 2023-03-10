@@ -2,18 +2,21 @@
  * Implementation of a monte-carlo tree search for Othello
  */
 
-#include <algorithm>
-#include <vector>
+
 
 #include "Othello.h"
 #include "MCTS.h"
 #include "NNet.h"
 #include "StateNode.h"
 #include "StateSearchTree.h"
+
 #include <iostream>
 #include <random>
 #include <cstddef>
 #include <cmath>
+#include <algorithm>
+#include <vector>
+
 
 // 1 if BLACK won, -1 if WHITE won
 float getGameOverReward(const Othello::GameState &gameState){
