@@ -1,15 +1,45 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
 *.obj
-*.dll
-*.exp
-*.lib
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
 *.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
 *.pt
-*.json
-*.examples
-*.tar
 
-generate_tests.py
+.vscode
 
+notes.txt
+
+arena/
+figures/
+plots/
 data/
 dev/
 temp/
