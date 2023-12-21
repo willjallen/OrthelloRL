@@ -11,13 +11,12 @@
 class MCTS {
   
   public:
-    MCTS(Othello::GameState &initialState, NNet *nnet);
+    MCTS(Othello::GameState &initialState, ThreadSafeQueue &inferenceQueue);
    ~MCTS(); 
 
     float search(Othello::GameState &gameState);
     std::vector<float> getPolicy(Othello::GameState &gameState, float temperature);
 
-    
     StateSearchTree *stateSearchTree;
   private:
 

@@ -13,7 +13,7 @@ class StateSearchTree {
   
   public:
     StateSearchTree();
-    StateSearchTree(Othello::GameState &gameState, NNet *nnet);
+    StateSearchTree(Othello::GameState &gameState, ThreadSafeQueue &inferenceQueue);
     ~StateSearchTree();
 
     StateNode* add(Othello::GameState &gameState);
@@ -21,13 +21,10 @@ class StateSearchTree {
 
     void printTree();
     void printTree(const std::string &prefix, const StateNode *stateNode, bool isLeft);
-  
-
-    NNet *nnet;
     
   private:
     StateNode *root;
-
+    ThreadSafeQueue &inferenceQueue_;
     void deleteTree(StateNode *stateNode);
 };
 

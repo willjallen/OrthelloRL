@@ -2,6 +2,10 @@
 #include "MCTS.h"
 #include "Othello.h"
 #include "NNet.h"
+
+#include "SelfPlayEngine.h"
+
+
 #include <iostream>
 #include <torch/script.h> // One-stop header.
 #include <algorithm>
@@ -10,113 +14,9 @@
 #include <iterator>
 #include <random>
 #include <vector>
+#include <assert.h>
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
-
-
-struct TrainingExample {
-  std::vector<float> contiguousGameState;
-  std::vector<float> improvedPolicy;
-  int reward;
-
-  TrainingExample(std::vector<float> contiguousGameState, std::vector<float> improvedPolicy, int reward) : contiguousGameState(contiguousGameState), improvedPolicy(improvedPolicy), reward(reward) {
-    // for(int i = 0; i < 8; i++){
-    //   for(int j = 0; j < 8; j++){
-    //     this->pi[i][j] = pi[i][j];
-    //   }
-    // }
-  }
-};
-
-void writeRewards(std::vector<TrainingExample> &examples, int winner){
-  
-  // Tie
-  if(winner == 0){
-    return;
-  }
-
-  int player = Othello::BLACK;
-  for(auto &example : examples){
-    if(winner == player){
-    example.reward = 1;
-    }else{
-      example.reward = -1;
-    }
-    
-    if(player == Othello::BLACK){
-      player = Othello::WHITE;
-    }else{
-      player = Othello::BLACK;
-    }
-  }
-}
-
-
-
-
-
-
-const int N = 8;
-
-std::vector<std::vector<float>> findSymmetries(const std::vector<float> &board) {
-    std::vector<std::vector<float>> symmetries;
-
-    // Identity
-    symmetries.push_back(board);
-
-    // 90 degree rotation
-    std::vector<float> rotated(N * N);
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            rotated[i + j * N] = board[(N - 1 - j) + i * N];
-        }
-    }
-    symmetries.push_back(rotated);
-
-    // 270 degree rotation
-    std::reverse(rotated.begin(), rotated.end());
-    symmetries.push_back(rotated);
-
-    // 180 degree rotation
-    rotated.clear();
-    rotated.resize(N * N);
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            rotated[i + j * N] = board[(N - 1 - j) + i * N];
-        }
-    }
-    std::vector<float> rotated_copy(rotated);
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            rotated[i + j * N] = rotated_copy[(N - 1 - j) + i * N];
-        }
-    }
-    symmetries.push_back(rotated);
-
-    // Vertical reflection
-    std::vector<float> reflected(N * N);
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            reflected[i + (N - 1 - j) * N] = board[i + j * N];
-        }
-    }
-    symmetries.push_back(reflected);
-
-    // Horizontal reflection
-    std::reverse(reflected.begin(), reflected.end());
-    symmetries.push_back(reflected);
-
-    // Diagonal reflection
-    std::vector<float> diag_reflected(N * N);
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            diag_reflected[j + i * N] = board[i + j * N];
-        }
-    }
-    symmetries.push_back(diag_reflected);
-
-    return symmetries;
-}
 
 
 void saveTrainingExamples(std::vector<TrainingExample> examples, std::string outputPath){
@@ -126,17 +26,16 @@ void saveTrainingExamples(std::vector<TrainingExample> examples, std::string out
   // Create a JSON object to hold the serialized data
   json serializedData;
   serializedData["examples"] = json::array();
-  
+ 
   for (const auto &example : examples) {
-   // Identity
     json exampleData;
 
-    auto boardSymmetries = findSymmetries(example.contiguousGameState);
-    auto policySymmetries = findSymmetries(example.improvedPolicy);
+    assert(example.boardSymmetries.size() == example.policySymmetries.size());
 
-    for(size_t i = 0; i < boardSymmetries.size(); i++){
-      exampleData["contiguousGameState"] = boardSymmetries[i];    
-      exampleData["pi"] = policySymmetries[i]; 
+   // Write symmetries 
+    for(size_t i = 0; i < example.boardSymmetries.size(); i++){
+      exampleData["contiguousGameState"] = example.boardSymmetries[i];    
+      exampleData["pi"] = example.policySymmetries[i]; 
       exampleData["reward"] = example.reward;
       serializedData["examples"].push_back(exampleData);    
     }
@@ -151,79 +50,8 @@ void saveTrainingExamples(std::vector<TrainingExample> examples, std::string out
 }
 
 
-std::pair<int, int> sampleDistribution(const std::vector<float> &dist) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::discrete_distribution<int> d(dist.begin(), dist.end());
-    int index = d(gen);
-    return {index / 8, index % 8};
-}
 
-
-void selfPlay(int numGames, int numMCTSsims, NNet *nnet, std::string outputPath){ 
-  
-  printf("Executing self play with %d games and %d MCTS simulations\n", numGames, numMCTSsims);
-   
-  
-
-  std::vector<TrainingExample> fullExamples;
-
-  for(int i = 0; i < numGames; i++){
-    std::vector<TrainingExample> examples;
-    printf("Starting game %d\n", i);
-
-    // Set up the game
-    Othello::GameState actualGameState;
-    Othello::GameState searchGameState;
-    // Create MCTS
-    MCTS mcts(searchGameState, nnet);
-    int numSimsExecuted = 0;
-    float temperature = 1;
-    while(true){
-
-      actualGameState.calculateLegalMoves();
-      if(actualGameState.gameOver){
-        actualGameState.calculateWinner();
-        writeRewards(examples, actualGameState.winner);
-        fullExamples.insert(fullExamples.end(), examples.begin(), examples.end());
-        break;
-      }
-
-      for(int j = 0; j < numMCTSsims; j++){
-        searchGameState = actualGameState;
-        mcts.search(searchGameState);
-        numSimsExecuted++;
-      }
-  
-      if(numSimsExecuted == 30) temperature = 0;
-
-      std::vector<float> improvedPolicy = mcts.getPolicy(actualGameState, temperature);
-      examples.push_back(TrainingExample(actualGameState.getContiguousGameState(),
-                                         improvedPolicy,
-                                         0));
-
-      // Uniformly sample according to improved policy
-      std::pair<int, int> loc = sampleDistribution(improvedPolicy);
-
-      // Play random move
-      if(actualGameState.legalMovePresent){
-        actualGameState.playMove(loc.first, loc.second);
-      }else{
-        actualGameState.pass();
-      }
-
-
-    }
-
-  }
-
-
-  saveTrainingExamples(fullExamples, outputPath);
-
-}
-
-
-void saveOutcome(int numGames, int numP1Wins, int numP2Wins, int numTies, std::string outputPath){
+void saveArenaOutcome(int numGames, int numP1Wins, int numP2Wins, int numTies, std::string outputPath){
   std::cout << "Writing arena outcome to";
   std::cout << outputPath << "\n";
   // Create a JSON object to hold the serialized data
@@ -243,134 +71,70 @@ void saveOutcome(int numGames, int numP1Wins, int numP2Wins, int numTies, std::s
 }
 
 
-void arena(int numGames, int numMCTSsims, NNet *nnetOne, NNet *nnetTwo, std::string outputPath){
-  printf("Executing arena with %d games and %d MCTS simulations\n", numGames, numMCTSsims);
-  
-  float numP1Wins = 0;
-  float numP2Wins = 0;
-  float numTies = 0;
+void selfPlayWorkerThread(int threadId, int numMCTSSims, ThreadSafeQueue &inferenceQueue, std::vector<TrainingExample> &examples){
+  SelfPlayEngine engine(threadId, numMCTSSims);
+  engine.run(inferenceQueue, examples);
+}
 
-  for(int i = 0; i < numGames; i++){
-    printf("Starting game %d\n", i);
+void nnetInferenceThread(NNet *nnet, std::atomic<bool> &stopFlag, ThreadSafeQueue &inferenceQueue){
+  nnet->run(stopFlag, inferenceQueue);
+}
 
-    // Set up the game
-    Othello::GameState actualGameState;
+void selfPlay(int numGames, int numThreads, int numMCTSSims, NNet *nnet, std::string outputPath){
 
-    Othello::GameState searchGameStateOne;
-    Othello::GameState searchGameStateTwo;
+  std::cout << "Starting selfPlay engine\n";
 
-    // Create a MCTS for each player 
-    MCTS mctsOne(searchGameStateOne, nnetOne);
-    MCTS mctsTwo(searchGameStateTwo, nnetTwo);
+  // Construct shared inference queue
+  ThreadSafeQueue sharedInferenceQueue;
 
+  std::atomic<bool> stopFlag{false};
 
-    // To encourage variety in the opening moves (instead of deterministic play), temperature is given as 
-    // temperature = max(0.65^(x-1), 0.01), where temperature = 0 if < 0.01.
-    float temperature = 1;
-    while(true){
-  
-      std::vector<float> improvedPolicy;
-     
-      actualGameState.calculateLegalMoves();
+  // Create inference thread
+  std::thread inferenceThread(nnetInferenceThread, nnet, std::ref(stopFlag), std::ref(sharedInferenceQueue));
 
-      
-      if(actualGameState.gameOver){
-        actualGameState.calculateWinner();
-        // std::cout << actualGameState << std::endl;
-        if(actualGameState.winner == Othello::BLACK){
-          numP1Wins++;
-        }else if(actualGameState.winner == Othello::WHITE){
-          numP2Wins++;
-        }else{
-          numTies++;
-        }
-        break;
-      }  
+  // Create a pool of threads and execute them
+  std::vector<std::thread> threads;
+  std::vector<std::vector<TrainingExample>> trainingExamples;
 
-      if(!actualGameState.legalMovePresent){
-        actualGameState.pass();
-        continue;
-      }
-      
-      if(actualGameState.currentPlayer == Othello::BLACK){
-        for(int j = 0; j < numMCTSsims; j++){
-          searchGameStateOne = actualGameState;
-          mctsOne.search(searchGameStateOne);
-        }
-    
-        improvedPolicy = mctsOne.getPolicy(actualGameState, temperature);
-      }else{
-        for(int j = 0; j < numMCTSsims; j++){
-          searchGameStateTwo = actualGameState;
-          mctsTwo.search(searchGameStateTwo);
-        }
-    
-        improvedPolicy = mctsTwo.getPolicy(actualGameState, temperature);
-      }
+  trainingExamples.reserve(numThreads);
 
-      // Play move
-      // std::cout << actualGameState << std::endl;
+  for(int i = 0; i < numThreads; ++i){
+    trainingExamples.emplace_back(std::vector<TrainingExample>());
+    trainingExamples[i].reserve(64);
+  }
 
-      // Uniformly sample according to improved policy
-      // (pick the best action when temperature = 0)
-      std::pair<int, int> loc = sampleDistribution(improvedPolicy);
-
-      if(actualGameState.legalMovePresent){
-        actualGameState.playMove(loc.first, loc.second);
-      }else{
-        actualGameState.pass();
-      }
-
-      // Decrease temperature
-      if(temperature <= 0.01){
-        temperature = 0;
-      }else{
-        temperature = std::max(pow(0.65, actualGameState.turnNumber + 1), 0.01);
-      }
-
-    }
-
+  for(int i = 0; i < numThreads; ++i) {
+      threads.push_back(std::thread(selfPlayWorkerThread, i, numMCTSSims, std::ref(sharedInferenceQueue), std::ref(trainingExamples[i])));
   }
 
 
-  saveOutcome(numGames, numP1Wins, numP2Wins, numTies, outputPath);
+  // Wait for threads to finish
+  for(auto& thread : threads){
+    thread.join();
+  }
 
-}
+  std::cout << "Worker threads finished\n";
 
-void testRandomvsRandom(int numGames){
+  // Stop inference thread
+  stopFlag = true;
+  inferenceThread.join();
 
+  std::cout << "Inference thread finished\n";
 
-  float blackWins = 0;
-  float whiteWins = 0;
-  float ties = 0;
-  // Set up the game
-  
-  for(int i = 0; i < numGames; i++){
-    Othello::GameState actualGameState;
-    while(true){
-      actualGameState.calculateLegalMoves();
-      if(actualGameState.gameOver){
-        actualGameState.calculateWinner();
-        if(actualGameState.winner == Othello::BLACK){
-          blackWins++;
-        }else if(actualGameState.winner == Othello::WHITE){
-          whiteWins++;
-        }else{
-          ties++;
-        }
-        break;
-      }
-      actualGameState.playRandomMove();
+  // Write training examples to file
+
+  std::vector<TrainingExample> allExamples;
+
+  for(auto& trainingExampleVec : trainingExamples){
+    for(auto& trainingExample : trainingExampleVec){
+      allExamples.push_back(trainingExample);
     }
   }
-  // mcts.stateSearchTree->printTree();
-  std::cout << "Black win %: " << (blackWins/numGames) << std::endl;
-  std::cout << "White win %: " << (whiteWins/numGames) << std::endl;
-  std::cout << "Tie %: " << (ties/numGames) << std::endl;
 
+  std::cout << "Saving training example\n";
+  saveTrainingExamples(allExamples, outputPath);
 
 }
-
 
 
 int main(int argc, const char* argv[]){
@@ -405,7 +169,7 @@ int main(int argc, const char* argv[]){
 
       NNet *nnet = new NNet(modelPathOne);
 
-      selfPlay(numGames, MCTSsims, nnet, outputPath);
+      selfPlay(numGames, 64, MCTSsims, nnet, outputPath);
 
       delete nnet;
     }
@@ -423,7 +187,7 @@ int main(int argc, const char* argv[]){
       NNet *nnetOne = new NNet(modelPathOne);
       NNet *nnetTwo = new NNet(modelPathTwo);
 
-      arena(numGames, MCTSsims, nnetOne, nnetTwo, outputPath);
+      // arena(numGames, MCTSsims, nnetOne, nnetTwo, outputPath);
     }
   }
 

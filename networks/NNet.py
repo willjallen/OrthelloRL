@@ -11,9 +11,9 @@ from utils import *
 import torch
 import torch.optim as optim
 
-from .OthelloNNet import OthelloNNet as onnet
 
 args = dotdict({
+    'model': "A1",
     'lr': 0.001,
     'dropout': 0.3,
     'epochs': 10,
@@ -25,7 +25,19 @@ args = dotdict({
 
 class NNetWrapper():
     def __init__(self):
-        self.nnet = onnet(args)
+        if args.model == "A1":
+            from .OthelloNNetA1 import OthelloNNetA1 as onnet
+            self.nnet = onnet(args)
+        elif args.model == "A2":
+            from .OthelloNNetA2 import OthelloNNetA2 as onnet
+            self.nnet = onnet(args)
+        elif args.model == "B1":
+            from .OthelloNNetB1 import OthelloNNetB1 as onnet
+            self.nnet = onnet(args)
+        elif args.model == "B2":
+            from .OthelloNNetB2 import OthelloNNetB2 as onnet
+            self.nnet = onnet(args)
+            
         self.board_x = self.board_y = 8
         self.action_size = 64 
 
@@ -102,7 +114,7 @@ class NNetWrapper():
         filepath = os.path.join(folder, filename)
         if not os.path.exists(folder):
             print("Checkpoint Directory does not exist! Making directory {}".format(folder))
-            os.mkdir(folder)
+            os.makedirs(folder)
         else:
             print("Checkpoint Directory exists! ")
         torch.save({

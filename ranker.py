@@ -17,7 +17,10 @@ log = logging.getLogger(__name__)
 coloredlogs.install(level='INFO')  # Change this to DEBUG to see more info.
 
 
-
+'''
+ This class relies on each model iteration being saved, as the ranker would determine the ELO of each one. This functionality
+ has been disabled in this release version. Thus, this class is obsolete.
+'''
 
 # TODO:
 # Check to make sure arena.json has all the models in it
@@ -287,18 +290,6 @@ args = dotdict({
     'match_quality': .0
 })
 
-
-ranker = Ranker(args)
-ranker.run()
-
-    # def run():
-    #     pass
-    #
-    # def startGames():
-    #     pass
-    #
-    # def evaluateResults():
-    #     pass
-    #
-    # def saveModelInfo(self):
-    #
+if __name__ == "__main__":
+    ranker = Ranker(args)
+    ranker.run()

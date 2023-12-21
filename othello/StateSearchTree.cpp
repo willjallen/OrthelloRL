@@ -3,24 +3,13 @@
 #include "Othello.h"
 #include "NNet.h"
 #include <iostream>
-StateSearchTree::StateSearchTree(Othello::GameState &gameState, NNet *nnet) {
-
-  
-  this->root = new StateNode(gameState, nnet);
-  this->nnet = nnet;
+StateSearchTree::StateSearchTree(Othello::GameState &gameState, ThreadSafeQueue &inferenceQueue) : inferenceQueue_(inferenceQueue){
+  this->root = new StateNode(gameState, inferenceQueue);
 }
-
-StateSearchTree::StateSearchTree(){
-  
-}
-
-
-
 
 StateSearchTree::~StateSearchTree() {
   this->deleteTree(this->root);
 }
-
 
 // Delete inorder
 void StateSearchTree::deleteTree(StateNode *stateNode){
@@ -30,8 +19,6 @@ void StateSearchTree::deleteTree(StateNode *stateNode){
 
   delete stateNode;
 }
-
-
 
 StateNode* StateSearchTree::add(Othello::GameState &gameState){
 
@@ -51,7 +38,7 @@ StateNode* StateSearchTree::add(Othello::GameState &gameState){
       StateNode *newCursor = cursor->left;
       
       if(newCursor == nullptr){
-        cursor->left = new StateNode(gameState, this->nnet);
+        cursor->left = new StateNode(gameState, this->inferenceQueue_);
         return cursor->left;
       }else{
         cursor = newCursor;
@@ -64,7 +51,7 @@ StateNode* StateSearchTree::add(Othello::GameState &gameState){
       StateNode *newCursor = cursor->right;
       
       if(newCursor == nullptr){
-        cursor->right = new StateNode(gameState, this->nnet);
+        cursor->right = new StateNode(gameState, this->inferenceQueue_);
         return cursor->right;
       }else{
         cursor = newCursor;

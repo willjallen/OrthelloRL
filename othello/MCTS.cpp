@@ -27,9 +27,8 @@ float getGameOverReward(const Othello::GameState &gameState){
   }
 }
 
-MCTS::MCTS(Othello::GameState &initialState, NNet *nnet){
-
-  this->stateSearchTree = new StateSearchTree(initialState, nnet);
+MCTS::MCTS(Othello::GameState &initialState, ThreadSafeQueue &inferenceQueue){
+  this->stateSearchTree = new StateSearchTree(initialState, inferenceQueue);
 }
 
 MCTS::~MCTS(){

@@ -3,6 +3,7 @@
 
 #include "Othello.h"
 #include "NNet.h"
+#include "ThreadSafeQueue.h"
 
 // (s,a)
 struct ActionValues {
@@ -26,7 +27,7 @@ class StateNode{
   
   public:
     Othello::ComparableGameState comparableGameState;
-    StateNode(Othello::GameState &gameState, NNet *nnet);
+    StateNode(Othello::GameState &gameState, ThreadSafeQueue &inferenceQueue);
     // v
     float value;
 
@@ -37,6 +38,9 @@ class StateNode{
 
     StateNode *left = nullptr;
     StateNode *right = nullptr;
+
+  private:
+    std::pair<std::vector<float>, float> getPrediction(std::vector<float> contiguousGameState, ThreadSafeQueue &inferenceQueue);
 };
 
 #endif

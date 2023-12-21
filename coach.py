@@ -1,4 +1,3 @@
-
 import logging
 import os
 import sys
@@ -11,6 +10,7 @@ import numpy as np
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import subprocess
+import platform
 
 log = logging.getLogger(__name__)
 
@@ -45,18 +45,27 @@ class Coach():
         if(not self.args.load_model):
             self.nnet.save_checkpoint(folder=self.args.model_folder, filename= '0.pth.tar')
             self.nnet.save_checkpoint(folder=self.args.model_folder, filename='best.pth.tar')
+        else:
+            self.nnet.load_checkpoint(folder=self.args.model_folder, filename='best.pth.tar')
 
         
         bestModel = 'best.pth.tar'
 
-        for i in range(self.args.starting_itr, self.args.numIters + 1):
+        for i in range(0, self.args.numIters + 1):
             # bookkeeping
             log.info(f'Starting Iter #{i} ...')
             self.iteration = i 
             self.saveModelInfo()
             # Always use the best model for generating examples
             log.info('Calling selfplay subprocess')
-            subprocess.run(["./othello/build/othello",
+            
+            # Determine the extension based on the operating system
+            extension = '.exe' if platform.system() == 'Windows' else ''
+
+            # Construct the path to the executable
+            executable_path = os.path.join('othello', 'build', 'Release', 'othello' + extension)
+ 
+            subprocess.run([executable_path,
                             "selfplay",
                             str(self.args.selfplayGames),
                             str(self.args.selfplayMCTSSims),
@@ -81,39 +90,13 @@ class Coach():
                 trainExamples.append(e)
             shuffle(trainExamples)
 
-            # training new network, keeping a copy of the old one
-            # self.nnet.save_checkpoint(folder='./temp/', filename='old.pth.tar')
-            # self.pnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
-
             self.nnet.train(trainExamples)
             
-
-            currModel =  str(i) + '.pth.tar'
-            self.nnet.save_checkpoint(folder=self.args.model_folder, filename=currModel)
+            # currModel =  str(i) + '.pth.tar'
+            # self.nnet.save_checkpoint(folder=self.args.model_folder, filename=currModel)
             self.nnet.save_checkpoint(folder=self.args.model_folder, filename='best.pth.tar')
 
             
-            
-
-            # log.info('Calling arena subprocess')
-            # subprocess.run(["./othello/build/othello",
-            #                 "arena",
-            #                 str(self.args.arenaGames),
-            #                 str(self.args.arenaMCTSSims),
-            #                 self.args.model_folder' + bestModel + '.pt',
-            #                 self.args.model_folder' + currModel +'.pt',
-            #                 self.args.model_folder/arena.json'])
-            #
-            # bestWins, currWins, draws = self.loadArenaData()
-
-            # log.info('BEST/CURR WINS : %d / %d ; DRAWS : %d' % (bestWins, currWins, draws))
-            # if bestWins + currWins == 0 or float(currWins) / (bestWins + currWins) < self.args.updateThreshold:
-            #     log.info('Rejecting new model')
-            #     # self.nnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
-            # else:
-            #     log.info('Accepting new model')
-            #     # self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
-            #     self.nnet.save_checkpoint(folder=self.args.model_folder, filename=bestModel)
 
     def getCheckpointFile(self, iteration):
         return 'checkpoint_' + str(iteration) + '.pth.tar'
@@ -159,5 +142,5 @@ class Coach():
             with open(modelFile, "w") as file:
                 json.dump(modelInfo, file) 
         else:
-           print('hi') 
+            log.info('Found model.json')
             

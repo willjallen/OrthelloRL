@@ -20,10 +20,9 @@ args = dotdict({
     'cpuct': 1,
     'checkpoint': './temp/',
     'model_folder': './dev/models/A1/',
-    'load_model': True,
-    'starting_itr': 99,
+    'load_model': False,
+    'starting_itr': 0,
     'numItersForTrainExamplesHistory': 20,
-
 })
 
 
@@ -47,7 +46,7 @@ def main():
         log.info("Loading 'trainExamples' from file...")
         c.loadTrainExamples()
 
-    log.info('Starting the learning process 🎉')
+    log.info('Starting the learning process')
     c.learn()
 
 

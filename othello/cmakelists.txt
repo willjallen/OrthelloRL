@@ -15,24 +15,22 @@ if(UNIX)
   add_compile_options(-g -fPIC -Wall -Wextra -pedantic)
 endif()
 
-# -Werror
-
-
 find_package(Torch REQUIRED)
 
 include_directories("include")
 
 add_executable(othello
-  Othello.cpp
   MCTS.cpp
-  StateSearchTree.cpp
-  StateNode.cpp
   NNet.cpp
+  Othello.cpp
   OthelloEngine.cpp
+  SelfPlayEngine.cpp 
+  StateNode.cpp
+  StateSearchTree.cpp
+  ThreadSafeQueue.cpp
 )
 
 target_link_libraries(othello "${TORCH_LIBRARIES}")
-set_property(TARGET othello PROPERTY CXX_STANDARD 14)
 
 if (MSVC)
   file(GLOB TORCH_DLLS "${TORCH_INSTALL_PREFIX}/lib/*.dll")
